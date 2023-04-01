@@ -1,44 +1,82 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace 'jt.projects.perfectday'
-    compileSdk 33
+    compileSdk = Config.compile_sdk
+    namespace = Config.namespaceApp
+
+    buildToolsVersion = "30.0.3"
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    lint {
+        // Turns off checks for the issue IDs you specify.
+        disable += "Instantiatable"
+    }
 
     defaultConfig {
-        applicationId "jt.projects.perfectday"
-        minSdk 29
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = Config.application_id
+        minSdk = Config.min_sdk
+        targetSdk = Config.target_sdk
+        versionCode = Releases.version_code
+        versionName = Releases.version_name
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //  isMinifyEnabled = Config.isMinifyEnabled
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = Config.java_version
+        targetCompatibility = Config.java_version
+
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = Config.jvmTarget_version
     }
 }
 
 dependencies {
+    // PROJECTS
+//    implementation(project(Modules.core))
+//    implementation(project(Modules.model))
+    implementation(project(Modules.utils))
+//    implementation(project(Modules.repository))
+//    implementation(project(Modules.tests))
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // AndroidX
+    implementation(Design.appcompat)
+
+    // Design
+    implementation(Design.material)
+
+    // Kotlin
+    implementation(Kotlin.core)
+    implementation(Kotlin.stdlib)
+
+    // КОРУТИНЫ
+    implementation(Kotlin.coroutines_core)
+    implementation(Kotlin.coroutines_android)
+
+    // Koin for Android
+    implementation(Koin.core)
+    implementation(Koin.viewmodel)
+    implementation(Koin.compat)
+    testImplementation(Koin.test)
+    testImplementation(Koin.junit4Test)
+
+    // ** TESTS **
+    androidTestImplementation(TestImpl.runner)
+    androidTestImplementation(TestImpl.espresso)
+    androidTestImplementation(TestImpl.extjunit)
+    androidTestImplementation(TestImpl.uiAutomator)
 }

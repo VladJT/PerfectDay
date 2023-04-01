@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/menu_action_today"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Сегодня"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_action_notes"
+        android:icon="@android:drawable/ic_menu_week"
+        android:title="Напоминания о ДР"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_action_solar"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Календарь"
+        app:showAsAction="always" />
+
+</menu>
