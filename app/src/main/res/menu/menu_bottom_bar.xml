@@ -6,19 +6,19 @@
     <item
         android:id="@+id/menu_action_today"
         android:icon="@android:drawable/ic_menu_view"
-        android:title="Сегодня"
+        android:title="@string/fragment_today"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_action_reminder"
         android:icon="@android:drawable/ic_menu_week"
-        android:title="Напоминания о ДР"
+        android:title="@string/fragment_reminder"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_action_calendar"
         android:icon="@android:drawable/ic_menu_my_calendar"
-        android:title="Календарь"
+        android:title="@string/fragment_calendar"
         app:showAsAction="always" />
 
 </menu>

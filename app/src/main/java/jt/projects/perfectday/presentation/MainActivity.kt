@@ -1,9 +1,9 @@
 package jt.projects.perfectday.presentation
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
@@ -23,28 +23,38 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(TodayFragment.newInstance())
         }
 
-        with(binding.toolbar) {
-            navigationIcon =
-                ContextCompat.getDrawable(
-                    this@MainActivity,
-                    R.drawable.baseline_settings_24
-                )
-        }
+        initToolBar()
+        initBottomNavView()
+    }
 
+    private fun initToolBar() {
+        binding.toolbar.title = getString(R.string.app_name)
+        setSupportActionBar(binding.toolbar)
+    }
+
+    private fun initBottomNavView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             onOptionsItemSelected(item)
             true
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
             R.id.menu_action_today -> {
                 replaceFragment(TodayFragment.newInstance())
             }
+
             R.id.menu_action_reminder -> {
                 replaceFragment(ReminderFragment.newInstance())
             }
+
             R.id.menu_action_calendar -> {
                 replaceFragment(CalendarFragment.newInstance())
             }

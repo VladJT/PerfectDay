@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import jt.projects.perfectday.databinding.FragmentTodayBinding
 
-class TodayFragment : Fragment(){
+class TodayFragment : Fragment() {
     private var _binding: FragmentTodayBinding? = null
     private val binding get() = _binding!!
 

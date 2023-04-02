@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.databinding.FragmentReminderBinding
-import jt.projects.perfectday.databinding.FragmentTodayBinding
 
-class ReminderFragment : Fragment(){
+class ReminderFragment : Fragment() {
     private var _binding: FragmentReminderBinding? = null
     private val binding get() = _binding!!
 

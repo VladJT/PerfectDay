@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Perfect Day</string>
+    <string name="fragment_today">Сегодня</string>
+    <string name="fragment_reminder">Напоминания о Днях Рождения</string>
+    <string name="fragment_calendar">Календарь</string>
 </resources>

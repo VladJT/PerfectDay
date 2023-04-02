@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
-import jt.projects.perfectday.databinding.FragmentTodayBinding
 
-class CalendarFragment : Fragment(){
+class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
 
