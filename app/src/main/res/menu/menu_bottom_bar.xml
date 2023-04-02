@@ -10,13 +10,13 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_action_notes"
+        android:id="@+id/menu_action_reminder"
         android:icon="@android:drawable/ic_menu_week"
         android:title="Напоминания о ДР"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_action_solar"
+        android:id="@+id/menu_action_calendar"
         android:icon="@android:drawable/ic_menu_my_calendar"
         android:title="Календарь"
         app:showAsAction="always" />
