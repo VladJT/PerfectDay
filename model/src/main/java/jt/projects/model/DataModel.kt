@@ -29,7 +29,7 @@ sealed class DataModel {
         val type: String,
         val description: String?,
         val photoUrl: String?
-    )
+    ) : DataModel()
 }
 
 
