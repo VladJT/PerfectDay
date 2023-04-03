@@ -30,6 +30,12 @@ sealed class DataModel {
         val description: String?,
         val photoUrl: String?
     ) : DataModel()
+
+    data class ScheduledEvent(
+        val name: String,
+        val date: LocalDate,
+        val description: String,
+    ) : DataModel()
 }
 
 
