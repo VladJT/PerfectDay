@@ -64,6 +64,10 @@ object Versions {
     const val espressoCore = "3.5.1"
     const val extjUnit = "1.1.5"
     const val uiAutomator = "2.2.0"
+
+    // RxJava
+    const val rxandroid = "3.0.0"
+    const val rxjava = "3.0.0"
 }
 
 object Design {
@@ -126,4 +130,9 @@ object TestImpl {
     const val runner = "androidx.test:runner:${Versions.runner}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
     const val uiAutomator = "androidx.test.uiautomator:uiautomator:${Versions.uiAutomator}"
+}
+
+object RxJava {
+    const val rxandroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxandroid}"
+    const val rxjava = "io.reactivex.rxjava3:rxjava:${Versions.rxjava}"
 }

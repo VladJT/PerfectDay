@@ -1,4 +1,4 @@
-package jt.projects.utils
+package jt.projects.utils.ui
 
 import android.content.Context
 import android.os.Build
@@ -9,6 +9,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.load
+import jt.projects.utils.R
 
 class CoilImageLoader {
     fun addExtendedDecoders(context: Context) {
