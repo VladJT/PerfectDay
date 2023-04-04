@@ -1,6 +1,5 @@
 package jt.projects.perfectday.presentation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,12 +10,9 @@ import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
-import jt.projects.utils.NETWORK_SERVICE
-import jt.projects.utils.network.INetworkStatus
+import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.showSnackbar
-import jt.projects.utils.showToast
 import org.koin.android.ext.android.getKoin
-import org.koin.core.qualifier.named
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -32,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         initToolBar()
         initBottomNavView()
-        initNetworkStatusAlertSnackBar()
+        subscribeToNetworkStatusChange()
     }
 
     private fun initToolBar() {
@@ -47,12 +43,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("CheckResult")
-    private fun initNetworkStatusAlertSnackBar() {
+    private fun subscribeToNetworkStatusChange() {
         getKoin()
-            .get<INetworkStatus>(named(NETWORK_SERVICE))
-            .isOnlineObservable()
-            .subscribe { isOnline ->
+            .get<OnlineStatusLiveData>()
+            .observe(this@MainActivity) { isOnline ->
                 this@MainActivity.showSnackbar("Internet: $isOnline")
             }
     }

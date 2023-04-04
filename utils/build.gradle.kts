@@ -43,10 +43,6 @@ dependencies {
     // Koin for Android
     implementation(Koin.core)
 
-    // RxJava
-    implementation(RxJava.rxjava)
-    implementation(RxJava.rxandroid)
-
     // Coil
     implementation(Coil.coil)
     implementation(Coil.coilGif)

@@ -74,10 +74,6 @@ dependencies {
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
 
-    // RxJava
-    implementation(RxJava.rxjava)
-    implementation(RxJava.rxandroid)
-
     // ** TESTS **
     androidTestImplementation(TestImpl.runner)
     androidTestImplementation(TestImpl.espresso)
