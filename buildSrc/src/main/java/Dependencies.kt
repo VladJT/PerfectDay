@@ -5,6 +5,7 @@ object Config {
     const val namespaceApp = "jt.projects.perfectday"
     const val namespaceUtils = "jt.projects.utils"
     const val namespaceModel = "jt.projects.model"
+    const val namespaceRepository = "jt.projects.repository"
     const val compile_sdk = 33
     const val min_sdk = 29
     const val target_sdk = 33
