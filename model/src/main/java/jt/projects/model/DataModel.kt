@@ -19,7 +19,8 @@ sealed class DataModel {
         val photoUrl: String?
     ) : DataModel()
 
-    data class Fact(
+    data class SimpleNotice(
+        val name: String,
         val description: String
     ) : DataModel()
 
@@ -32,6 +33,7 @@ sealed class DataModel {
     ) : DataModel()
 
     data class ScheduledEvent(
+        val id: Int,
         val name: String,
         val date: LocalDate,
         val description: String,
