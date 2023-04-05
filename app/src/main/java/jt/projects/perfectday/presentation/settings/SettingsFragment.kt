@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
+import jt.projects.perfectday.presentation.MainActivity
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -18,6 +19,10 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.vkLogin.setOnClickListener {
+            (requireActivity() as MainActivity).launcherVk.launch(listOf())
+        }
     }
 
     override fun onDestroyView() {
