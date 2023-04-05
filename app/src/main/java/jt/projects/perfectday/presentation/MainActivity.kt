@@ -9,6 +9,7 @@ import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
+import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.showSnackbar
@@ -69,6 +70,10 @@ class MainActivity : AppCompatActivity() {
 
             R.id.menu_action_calendar -> {
                 replaceFragment(CalendarFragment.newInstance())
+            }
+
+            R.id.menu_action_settings -> {
+                replaceFragment(SettingsFragment())
             }
 
         }
