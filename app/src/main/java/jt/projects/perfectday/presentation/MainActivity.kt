@@ -1,10 +1,13 @@
 package jt.projects.perfectday.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKAuthenticationResult
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
@@ -18,6 +21,17 @@ import org.koin.android.ext.android.getKoin
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    val launcherVk = VK.login(this) { result ->
+        when (result) {
+            is VKAuthenticationResult.Success -> {
+                Log.d("TAG", "res =${result.token.accessToken}")
+            }
+            else -> {
+
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -26,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             replaceFragment(TodayFragment.newInstance())
         }
-
         initToolBar()
         initBottomNavView()
         subscribeToNetworkStatusChange()
