@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import jt.projects.utils.R
+import jt.projects.utils.shared_preferences.SimpleSharedPref
+import org.koin.java.KoinJavaComponent
 
 
 /**
@@ -26,7 +28,6 @@ fun Activity.showToast(text: String) {
         Toast.LENGTH_SHORT
     ).show()
 }
-
 
 /**
  * FRAGMENT EXTENSIONS
