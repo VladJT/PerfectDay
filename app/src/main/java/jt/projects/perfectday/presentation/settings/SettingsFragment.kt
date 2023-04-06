@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKScope
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,7 +28,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.vkLogin.setOnClickListener {
-            launcherVk.launch(listOf())
+            launcherVk.launch(listOf(VKScope.FRIENDS))
         }
     }
 
