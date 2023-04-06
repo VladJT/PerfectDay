@@ -39,5 +39,3 @@ sealed class DataModel {
         val description: String,
     ) : DataModel()
 }
-
-

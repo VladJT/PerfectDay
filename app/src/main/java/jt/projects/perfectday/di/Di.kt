@@ -2,11 +2,17 @@ package jt.projects.perfectday.di
 
 import android.content.Context
 import jt.projects.perfectday.App
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.presentation.today.TodayViewModel
+import jt.projects.utils.NETWORK_SERVICE
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.android.ext.koin.androidApplication
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -32,6 +38,16 @@ val application = module {
             )
         )
     }
+}
+
+//зависимости конкретного экрана
+val todayFragment = module {
+    viewModel { TodayViewModel(get(), get()) }
+}
+
+val interactors = module {
+    single { BirthdayFromPhoneInteractorImpl() }
+    single { SimpleNoticeInteractorImpl() }
 }
 
 val viewModelModule = module {

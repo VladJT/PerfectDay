@@ -3,6 +3,8 @@ package jt.projects.perfectday.presentation
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import jt.projects.perfectday.R
@@ -28,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
         initToolBar()
         initBottomNavView()
-        subscribeToNetworkStatusChange()
+    //    subscribeToNetworkStatusChange()
     }
 
     private fun initToolBar() {
@@ -85,5 +87,17 @@ class MainActivity : AppCompatActivity() {
             //.setCustomAnimations(R.animator.std_left, R.animator.std_right)
             .replace(binding.fragmentContainer.id, fragment)
             .commitNow()
+    }
+
+    fun showLoadingFrame(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingFrameLayout.visibility = View.VISIBLE
+        } else {
+            binding.loadingFrameLayout.visibility = View.GONE
+        }
+    }
+
+    fun showProgress(progress: Int) {
+        findViewById<ProgressBar>(R.id.progress_bar_horizontal).progress  = progress
     }
 }
