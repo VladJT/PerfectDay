@@ -3,4 +3,9 @@
     <string name="fragment_today">Сегодня</string>
     <string name="fragment_reminder">Напоминания о Днях Рождения</string>
     <string name="fragment_calendar">Календарь</string>
+
+    <string name="vk_error_auth_text">Ошибка авторизации. Попробуйте позже.</string>
+
+    <!--Нужно для нормальной работы - это id нашего приложения, которое зарегистрировано в VK-->
+    <integer name="com_vk_sdk_AppId">51605520</integer>
 </resources>
