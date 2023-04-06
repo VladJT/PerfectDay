@@ -6,6 +6,7 @@ import jt.projects.perfectday.interactors.*
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
 import jt.projects.utils.network.OnlineStatusLiveData
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.android.ext.koin.androidApplication
@@ -26,7 +27,7 @@ val application = module {
     single { CoilImageLoader() }
 
     // локальные настройки
-    single {
+    single<SimpleSettingsPreferences> {
         SimpleSharedPref(
             get<App>().getSharedPreferences(
                 SimpleSharedPref.SP_DB_NAME,
