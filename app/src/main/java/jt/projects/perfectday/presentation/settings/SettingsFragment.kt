@@ -1,13 +1,15 @@
 package jt.projects.perfectday.presentation.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.*
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
+import jt.projects.utils.showSnackbar
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
@@ -26,7 +28,24 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeError()
+        setOnVkAuthListener()
+    }
 
+    private fun observeError() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errorFlow.collect(::displayError)
+            }
+        }
+    }
+
+    private fun displayError(@StringRes resource: Int) {
+        val text = getString(resource)
+        requireActivity().showSnackbar(text)
+    }
+
+    private fun setOnVkAuthListener() {
         binding.vkLogin.setOnClickListener {
             launcherVk.launch(listOf(VKScope.FRIENDS))
         }
