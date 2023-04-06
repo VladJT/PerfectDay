@@ -3,6 +3,8 @@ package jt.projects.utils.shared_preferences
 import android.content.SharedPreferences
 import jt.projects.utils.extensions.emptyString
 
+const val VK_AUTH_TOKEN = "vk_authorization_token"
+
 class SimpleSharedPref(
     private val sharedPreferences: SharedPreferences
 ): SimpleSettingsPreferences {
