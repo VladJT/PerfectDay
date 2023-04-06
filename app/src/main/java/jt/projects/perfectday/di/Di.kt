@@ -40,11 +40,6 @@ val application = module {
     }
 }
 
-//зависимости конкретного экрана
-val todayFragment = module {
-    viewModel { TodayViewModel(get(), get()) }
-}
-
 val interactors = module {
     single { BirthdayFromPhoneInteractorImpl() }
     single { SimpleNoticeInteractorImpl() }
@@ -52,4 +47,5 @@ val interactors = module {
 
 val viewModelModule = module {
     viewModel { SettingsViewModel() }
+    viewModel { TodayViewModel(birthdayFromPhoneInteractor = get(), simpleNoticeInteractorImpl = get()) }
 }
