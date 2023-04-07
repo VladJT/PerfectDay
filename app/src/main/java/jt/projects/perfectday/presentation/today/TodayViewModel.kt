@@ -59,7 +59,7 @@ class TodayViewModel(
     }
 
     private suspend fun loadFriendsFromVk(): List<DataModel> {
-        if (vkToken == null) return emptyList()
+        if (vkToken == null || vkToken!!.isEmpty()) return emptyList()
         return getFriendsFromVkUseCase.getFriends(vkToken!!)
     }
 
