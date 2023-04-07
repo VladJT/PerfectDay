@@ -48,9 +48,9 @@ android {
 dependencies {
     // PROJECTS
 //    implementation(project(Modules.core))
-//    implementation(project(Modules.model))
+    implementation(project(Modules.model))
     implementation(project(Modules.utils))
-//    implementation(project(Modules.repository))
+    implementation(project(Modules.repository))
 //    implementation(project(Modules.tests))
 
     // AndroidX
@@ -74,9 +74,18 @@ dependencies {
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
 
+    implementation("com.vk:android-sdk-core:3.5.1")
+    implementation("com.vk:android-sdk-api:3.5.1")
+
+    // Coil
+    implementation(Coil.coil)
+
     // ** TESTS **
     androidTestImplementation(TestImpl.runner)
     androidTestImplementation(TestImpl.espresso)
     androidTestImplementation(TestImpl.extjunit)
     androidTestImplementation(TestImpl.uiAutomator)
+
+    //CrunchyCalendar
+    implementation(CrunchyCalendar.crunchycalendar)
 }

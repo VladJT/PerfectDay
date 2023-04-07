@@ -4,6 +4,8 @@ object Config {
     const val application_id = "jt.projects.perfectday"
     const val namespaceApp = "jt.projects.perfectday"
     const val namespaceUtils = "jt.projects.utils"
+    const val namespaceModel = "jt.projects.model"
+    const val namespaceRepository = "jt.projects.repository"
     const val compile_sdk = 33
     const val min_sdk = 29
     const val target_sdk = 33
@@ -63,6 +65,13 @@ object Versions {
     const val espressoCore = "3.5.1"
     const val extjUnit = "1.1.5"
     const val uiAutomator = "2.2.0"
+
+    // RxJava
+    const val rxandroid = "3.0.0"
+    const val rxjava = "3.0.0"
+
+    //CrunchyCalendar
+    const val crunchycalendar = "2.4.0"
 }
 
 object Design {
@@ -125,4 +134,13 @@ object TestImpl {
     const val runner = "androidx.test:runner:${Versions.runner}"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
     const val uiAutomator = "androidx.test.uiautomator:uiautomator:${Versions.uiAutomator}"
+}
+
+object RxJava {
+    const val rxandroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxandroid}"
+    const val rxjava = "io.reactivex.rxjava3:rxjava:${Versions.rxjava}"
+}
+
+object CrunchyCalendar {
+    const val crunchycalendar = "ru.cleverpumpkin:crunchycalendar:${Versions.crunchycalendar}"
 }

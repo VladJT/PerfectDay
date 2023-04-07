@@ -29,8 +29,7 @@
                 android:id="@+id/logo_csl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#7A87E1"></androidx.constraintlayout.widget.ConstraintLayout>
-
+                android:background="?attr/colorPrimaryInverse" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -46,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:src="@android:drawable/ic_search_category_default"
+        android:src="@drawable/baseline_notification_add_24"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 

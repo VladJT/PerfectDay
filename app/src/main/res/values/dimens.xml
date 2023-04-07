@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //Margins
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_large">12dp</dimen>
+
+    //PADDING
+    <dimen name="padding_small">4dp</dimen>
+
+    //Text size
+    <dimen name="text_size_tip">10sp</dimen>
+    <dimen name="text_size_standard">16sp</dimen>
+    <dimen name="text_size_standard_header">18sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_large_header">22sp</dimen>
+
+    //Corner radius
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
+</resources>

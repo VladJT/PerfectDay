@@ -40,6 +40,9 @@ dependencies {
     implementation(Kotlin.core)
     implementation(Kotlin.stdlib)
 
+    // Koin for Android
+    implementation(Koin.core)
+
     // Coil
     implementation(Coil.coil)
     implementation(Coil.coilGif)

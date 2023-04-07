@@ -3,13 +3,19 @@ package jt.projects.perfectday.presentation
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
+import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
+import jt.projects.utils.network.OnlineStatusLiveData
+import jt.projects.utils.showSnackbar
+import org.koin.android.ext.android.getKoin
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -22,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             replaceFragment(TodayFragment.newInstance())
         }
-
         initToolBar()
         initBottomNavView()
+        //    subscribeToNetworkStatusChange()
     }
 
     private fun initToolBar() {
@@ -37,6 +43,14 @@ class MainActivity : AppCompatActivity() {
             onOptionsItemSelected(item)
             true
         }
+    }
+
+    private fun subscribeToNetworkStatusChange() {
+        getKoin()
+            .get<OnlineStatusLiveData>()
+            .observe(this@MainActivity) { isOnline ->
+                this@MainActivity.showSnackbar("Internet: $isOnline")
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -59,6 +73,10 @@ class MainActivity : AppCompatActivity() {
                 replaceFragment(CalendarFragment.newInstance())
             }
 
+            R.id.menu_action_settings -> {
+                replaceFragment(SettingsFragment())
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
@@ -69,5 +87,9 @@ class MainActivity : AppCompatActivity() {
             //.setCustomAnimations(R.animator.std_left, R.animator.std_right)
             .replace(binding.fragmentContainer.id, fragment)
             .commitNow()
+    }
+
+    fun showProgress(progress: Int) {
+        findViewById<ProgressBar>(R.id.progress_bar_horizontal).progress = progress
     }
 }
