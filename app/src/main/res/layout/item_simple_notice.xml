@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
-    android:backgroundTint="#AEB6DA"
-    android:elevation="8dp"
-    app:cardCornerRadius="4dp">
+    android:elevation="@dimen/card_elevation"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,18 +13,15 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/sn_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
+            android:id="@+id/card_header"
+            style="@style/CardHeaderStyle"
             android:text="Header"
-            android:textStyle="bold" />
+            android:textColor="?attr/colorOnTertiaryContainer"
+            android:background="?attr/colorTertiaryContainer"/>
 
         <TextView
-            android:id="@+id/sn_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
+            android:id="@+id/description"
+            style="@style/BaseTextStyle"
             android:text="Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
     </LinearLayout>
