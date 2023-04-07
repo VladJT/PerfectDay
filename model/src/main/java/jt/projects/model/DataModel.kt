@@ -8,8 +8,8 @@ sealed class DataModel {
     data class BirthdayFromVk(
         val name: String,
         val birthDate: LocalDate,
-        val age: Int?,
-        val photoUrl: String?
+        val age: Int,
+        val photoUrl: String
     ) : DataModel()
 
     data class BirthdayFromPhone(
