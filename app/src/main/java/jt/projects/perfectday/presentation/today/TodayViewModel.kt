@@ -1,12 +1,13 @@
 package jt.projects.perfectday.presentation.today
 
+import androidx.lifecycle.viewModelScope
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.utils.FACTS_COUNT
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -18,19 +19,31 @@ class TodayViewModel(
 
     private val currentDate = LocalDate.now()
 
+    /* В дальнейшем хорошо бы делать логику асинхронно, сейчас у нас в коррутине запрос
+    * дергается один за другим, тем самым данные могут подгружаться дольше.*/
     fun loadData() {
         liveData.value = AppState.Loading(0)
 
-        viewModelCoroutineScope.launch {
+        viewModelScope.launch {
             val data = mutableListOf<DataModel>()
 
-            data.addAll(birthdayFromPhoneInteractor.getDataByDate(currentDate))
-            liveData.value = AppState.Loading(50)
+            try {
+                val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
+                liveData.value = AppState.Loading(50)
+                val factsByDate =
+                    simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
 
-            data.addAll(simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT))
-            liveData.value = AppState.Loading(100)
+                data.addAll(dataByDate)
+                data.addAll(factsByDate)
 
-            handleResponse(AppState.Success(data))
+                liveData.value = AppState.Loading(100)
+                liveData.postValue(AppState.Success(data))
+
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                liveData.postValue(AppState.Error(e))
+            }
         }
 
     }
