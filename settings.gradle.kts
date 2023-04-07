@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Perfect Day"
-include ':app'
-include ':utils'
-include ':model'
-include ':repository'
+include(":app")
+include(":utils")
+include(":model")
+include(":repository")

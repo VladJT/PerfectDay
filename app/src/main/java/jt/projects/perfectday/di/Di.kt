@@ -3,6 +3,7 @@ package jt.projects.perfectday.di
 import android.content.Context
 import jt.projects.perfectday.App
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
@@ -49,6 +50,7 @@ val repoModule = module {
 val interactorsModule = module {
     single { BirthdayFromPhoneInteractorImpl() }
     single { SimpleNoticeInteractorImpl(repository = get()) }
+    single { GetFriendsFromVkUseCase(vkNetworkRepository = get()) }
 }
 
 
@@ -59,8 +61,10 @@ val viewModelModule = module {
 
     viewModel {
         TodayViewModel(
+            settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
-            simpleNoticeInteractorImpl = get()
+            simpleNoticeInteractorImpl = get(),
+            getFriendsFromVkUseCase = get()
         )
     }
 }
