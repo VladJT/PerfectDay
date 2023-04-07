@@ -63,17 +63,6 @@ class TodayViewModel(
         return getFriendsFromVkUseCase.getFriends(vkToken!!)
     }
 
-    // Список данных получен
-    override fun handleResponse(response: AppState) {
-        liveData.postValue(response)
-    }
-
-    // Обрабатываем ошибки
-    override fun handleError(error: Throwable) {
-        liveData.postValue(AppState.Error(error))
-        cancelJob()
-    }
-
     override fun onCleared() {
         liveData.value = AppState.Success(null)
         super.onCleared()
