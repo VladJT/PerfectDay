@@ -27,4 +27,8 @@ val networkModule = module {
             .addConverterFactory(get<GsonConverterFactory>())
             .build()
     }
+
+    single<VkNetworkRepository> {
+        VkNetworkRepositoryImpl(retrofit = get())
+    }
 }
