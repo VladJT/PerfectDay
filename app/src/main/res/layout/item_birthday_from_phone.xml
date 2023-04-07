@@ -4,50 +4,81 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
-    android:elevation="8dp"
-    app:cardCornerRadius="4dp">
+    android:elevation="@dimen/card_elevation"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@drawable/ic_no_photo_vector"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/card_header"
+            style="@style/CardHeaderStyle"
+            android:background="?attr/colorSurfaceVariant"
+            android:text="@string/birthday"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Иванов Иван"
-            android:textStyle="bold"
-            android:textSize="@dimen/rv_item_text_size"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toTopOf="@+id/iv_avatar" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_birthday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="20.12.1991"
-            android:textSize="@dimen/rv_item_text_size"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_margin="@dimen/margin_small"
+                android:src="@drawable/default_avatar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/HeaderTextStyle"
+                android:text="Иванов Иван"
+                app:layout_constraintStart_toStartOf="@+id/guideline1"
+                app:layout_constraintTop_toTopOf="@+id/iv_avatar" />
+
+            <TextView
+                android:id="@+id/tv_birthday"
+                style="@style/BaseTextStyle"
+                android:text="20.12.1991"
+                app:layout_constraintStart_toStartOf="@+id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="80dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="271dp" />
+
+            <TextView
+                android:id="@+id/tv_age_label"
+                style="@style/BaseTextStyle"
+                android:text="@string/age"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_avatar" />
+
+            <TextView
+                android:id="@+id/tv_age"
+                style="@style/HeaderTextStyle"
+                android:text="30"
+                app:layout_constraintEnd_toEndOf="@+id/tv_age_label"
+                app:layout_constraintStart_toStartOf="@+id/tv_age_label"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="80dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

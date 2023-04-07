@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
         initToolBar()
         initBottomNavView()
-    //    subscribeToNetworkStatusChange()
+        //    subscribeToNetworkStatusChange()
     }
 
     private fun initToolBar() {
@@ -89,15 +89,7 @@ class MainActivity : AppCompatActivity() {
             .commitNow()
     }
 
-    fun showLoadingFrame(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingFrameLayout.visibility = View.VISIBLE
-        } else {
-            binding.loadingFrameLayout.visibility = View.GONE
-        }
-    }
-
     fun showProgress(progress: Int) {
-        findViewById<ProgressBar>(R.id.progress_bar_horizontal).progress  = progress
+        findViewById<ProgressBar>(R.id.progress_bar_horizontal).progress = progress
     }
 }

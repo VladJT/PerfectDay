@@ -5,6 +5,7 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.utils.FACTS_COUNT
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -23,12 +24,11 @@ class TodayViewModel(
         viewModelCoroutineScope.launch {
             val data = mutableListOf<DataModel>()
 
-            delay(500)
             data.addAll(birthdayFromPhoneInteractor.getDataByDate(currentDate))
             liveData.value = AppState.Loading(50)
 
-            delay(500)
-            data.addAll(simpleNoticeInteractorImpl.getData())
+            data.addAll(simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT))
+            liveData.value = AppState.Loading(100)
 
             handleResponse(AppState.Success(data))
         }

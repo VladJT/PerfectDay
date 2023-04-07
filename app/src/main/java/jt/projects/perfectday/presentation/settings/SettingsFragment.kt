@@ -17,11 +17,16 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SettingsViewModel by viewModel()
-    private val launcherVk = registerForActivityResult(VK.getVKAuthActivityResultContract()) { result ->
-        viewModel.checkVkResult(result)
-    }
+    private val launcherVk =
+        registerForActivityResult(VK.getVKAuthActivityResultContract()) { result ->
+            viewModel.checkVkResult(result)
+        }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedState: Bundle?
+    ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }

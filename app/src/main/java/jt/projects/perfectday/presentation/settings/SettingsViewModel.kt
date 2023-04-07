@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 
 class SettingsViewModel(
     private val settingsPref: SimpleSettingsPreferences
-): ViewModel() {
+) : ViewModel() {
     private val _errorFlow = createMutableSingleEventFlow<Int>()
     val errorFlow get() = _errorFlow.asSharedFlow()
 

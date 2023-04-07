@@ -2,9 +2,12 @@ package jt.projects.perfectday.di
 
 import android.content.Context
 import jt.projects.perfectday.App
-import jt.projects.perfectday.interactors.*
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
+import jt.projects.repository.retrofit.facts.FactsRepoImpl
+import jt.projects.repository.retrofit.facts.FactsRepository
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
@@ -21,7 +24,7 @@ val application = module {
     single<App> { androidApplication().applicationContext as App }
 
     // статус сети
-    single { OnlineStatusLiveData(get()) }
+    single { OnlineStatusLiveData(context = get()) }
 
     // загрузчик изображений
     single { CoilImageLoader() }
@@ -37,10 +40,17 @@ val application = module {
     }
 }
 
-val interactors = module {
-    single { BirthdayFromPhoneInteractorImpl() }
-    single { SimpleNoticeInteractorImpl() }
+
+val repoModule = module {
+    single<FactsRepository> { FactsRepoImpl() }
 }
+
+
+val interactorsModule = module {
+    single { BirthdayFromPhoneInteractorImpl() }
+    single { SimpleNoticeInteractorImpl(repository = get()) }
+}
+
 
 val viewModelModule = module {
     viewModel {
