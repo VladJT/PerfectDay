@@ -8,11 +8,11 @@
         android:id="@+id/vk_login"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_load_error_vector"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@null" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

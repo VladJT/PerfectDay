@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
         initToolBar()
         initBottomNavView()
-    //    subscribeToNetworkStatusChange()
+        //    subscribeToNetworkStatusChange()
     }
 
     private fun initToolBar() {
@@ -98,6 +98,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showProgress(progress: Int) {
-        findViewById<ProgressBar>(R.id.progress_bar_horizontal).progress  = progress
+        findViewById<ProgressBar>(R.id.progress_bar_horizontal).progress = progress
     }
 }

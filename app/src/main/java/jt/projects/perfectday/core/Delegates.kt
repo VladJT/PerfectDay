@@ -1,6 +1,5 @@
 package jt.projects.perfectday.core
 
-import android.app.Activity
 import androidx.fragment.app.Fragment
 import jt.projects.perfectday.presentation.MainActivity
 

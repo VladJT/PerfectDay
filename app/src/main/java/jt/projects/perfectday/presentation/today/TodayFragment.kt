@@ -66,7 +66,7 @@ class TodayFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 showLoadingFrame(false)
-                val data = appState.data?.let { data->
+                val data = appState.data?.let { data ->
                     todayAdapter.setData(data)
                 }
             }
