@@ -16,7 +16,7 @@ internal fun VkFriendResponse.toVkFriend(): VkFriend = this.run {
     VkFriend(
         id = id,
         bdate = bdate,
-        photo200_Orig = photo200_Orig,
+        photoUrl = photo200_Orig,
         firstName = firstName,
         lastName = lastName,
         canAccessClosed = canAccessClosed,
