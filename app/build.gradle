@@ -27,10 +27,17 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
+        def apikey_holiday = properties.getProperty("holiday_api_key","")
+        it.buildConfigField "String", "HOLIDAY_API_KEY", apikey_holiday
+    }
     buildTypes {
         release {
             //  isMinifyEnabled = Config.isMinifyEnabled
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
         }
     }
 

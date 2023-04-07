@@ -4,6 +4,7 @@ package jt.projects.utils
  * URLS
  */
 const val FACTS_BASE_URL_LOCATIONS = "http://numbersapi.com/"
+const val HOLIDAY_BASE_URL_LOCATION = "https://holidays.abstractapi.com/"
 
 /**
  * COMMON SETTINGS
