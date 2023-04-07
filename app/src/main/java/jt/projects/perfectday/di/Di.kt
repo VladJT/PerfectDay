@@ -61,8 +61,10 @@ val viewModelModule = module {
 
     viewModel {
         TodayViewModel(
+            settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
-            simpleNoticeInteractorImpl = get()
+            simpleNoticeInteractorImpl = get(),
+            getFriendsFromVkUseCase = get()
         )
     }
 }
