@@ -7,11 +7,11 @@ import java.time.*
 import java.time.format.*
 
 class GetFriendsFromVkUseCase(
-    private val vkNetworkApi: VkNetworkRepository
+    private val vkNetworkRepository: VkNetworkRepository
 ) {
 
     suspend fun getFriends(userToken: String): List<DataModel.BirthdayFromVk> {
-        val vkInfo = vkNetworkApi.getUserFriends(userToken)
+        val vkInfo = vkNetworkRepository.getUserFriends(userToken)
         return createBirthdayFromVkList(vkInfo.friends)
     }
 
