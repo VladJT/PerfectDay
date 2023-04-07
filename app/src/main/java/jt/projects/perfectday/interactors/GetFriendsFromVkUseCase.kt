@@ -42,7 +42,7 @@ class GetFriendsFromVkUseCase(
         birthDate: LocalDate
     ): DataModel.BirthdayFromVk = friend.run {
         DataModel.BirthdayFromVk(
-            name = lastName + firstName,
+            name = "$lastName $firstName",
             birthDate = birthDate,
             age = getAge(birthDate),
             photoUrl = photoUrl ?: emptyString()
