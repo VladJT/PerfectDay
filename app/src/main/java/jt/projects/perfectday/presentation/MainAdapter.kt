@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
+import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
 import jt.projects.perfectday.databinding.ItemSimpleNoticeBinding
+import jt.projects.utils.ui.CoilImageLoader
+import org.koin.java.KoinJavaComponent.getKoin
 
 
 class MainAdapter(
@@ -86,6 +89,10 @@ class MainAdapter(
                 with(binding) {
                     tvName.text = data.name
                     tvBirthday.text = data.birthDate.toString()
+                    tvAge.text = data.age.toString()
+
+                    getKoin().get<CoilImageLoader>()
+                        .loadToCircleView(ivAvatar, R.drawable.default_avatar)
                     root.setOnClickListener { listItemClicked(data) }
                 }
             }
@@ -99,9 +106,9 @@ class MainAdapter(
             val data = dataModel as DataModel.SimpleNotice
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 with(binding) {
-                    snName.text = data.name
-                    snDescription.text = data.description
-                    root.setOnClickListener { listItemClicked(data) }
+                    cardHeader.text = data.name
+                    description.text = data.description
+                    //    root.setOnClickListener { listItemClicked(data) }
                 }
             }
         }

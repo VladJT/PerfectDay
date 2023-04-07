@@ -57,6 +57,19 @@ class CoilImageLoader {
         }
     }
 
+    fun loadToCircleView(imageView: ImageView, resId: Int) {
+        imageView.load(resId) {
+            crossfade(1500)
+            target(
+                onStart = { imageView.setImageResource(R.drawable.ic_no_photo_vector) },
+                onError = { imageView.setImageResource(R.drawable.ic_load_error_vector) },
+                onSuccess = {
+                    imageView.setImageDrawable(it)
+                })
+            transformations(coil.transform.CircleCropTransformation())
+        }
+    }
+
     fun cleanCache() {
 
     }
