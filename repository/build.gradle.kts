@@ -51,8 +51,6 @@ dependencies {
 
     // Koin for Android
     implementation(Koin.core)
-    implementation(Koin.viewmodel)
-    implementation(Koin.compat)
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
 }
