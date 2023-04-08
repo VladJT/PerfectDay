@@ -54,6 +54,7 @@
             app:layout_constraintTop_toBottomOf="@+id/search_input_layout_event_description" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -61,7 +62,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_choose_date">
 
-              <com.google.android.material.button.MaterialButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cancel"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"

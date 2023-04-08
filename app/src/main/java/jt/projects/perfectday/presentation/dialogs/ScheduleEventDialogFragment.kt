@@ -2,17 +2,22 @@ package jt.projects.perfectday.presentation.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.DialogScheduleEventBinding
-import jt.projects.utils.toStdFormat
+import jt.projects.repository.room.LocalRepository
+import jt.projects.utils.showToast
+import jt.projects.utils.toStdFormatString
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -20,7 +25,8 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
     private var _binding: DialogScheduleEventBinding? = null
     private val binding get() = _binding!!
 
-    private var scheduledEvent : DataModel.ScheduledEvent? = null
+    private var scheduledEvent: DataModel.ScheduledEvent? = null
+    private val interactor by inject<LocalRepository>()
 
     companion object {
         const val TAG = "ScheduleEventDialogFragment"
@@ -54,22 +60,20 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
             .create()
     }
 
-    private fun getDataFromBundle(): DataModel.ScheduledEvent? {
-        val args = arguments?.getParcelable(BUNDLE_KEY) as? DataModel.ScheduledEvent
-        return args
-    }
+    private fun getDataFromBundle(): DataModel.ScheduledEvent? =
+        arguments?.getParcelable(BUNDLE_KEY) as? DataModel.ScheduledEvent
 
     private fun setDataFromBundle() {
         scheduledEvent = getDataFromBundle()
-        if(scheduledEvent==null){
-            scheduledEvent = DataModel.ScheduledEvent(-1,"", LocalDate.now(), "")
+        if (scheduledEvent == null) {
+            scheduledEvent = DataModel.ScheduledEvent(-1, "", LocalDate.now(), "")
         }
         renderData()
     }
 
-    private fun renderData(){
+    private fun renderData() {
         scheduledEvent?.let { data ->
-            binding.btnChooseDate.text = data.date.toStdFormat()
+            binding.btnChooseDate.text = data.date.toStdFormatString()
             binding.scheduledEventHeader.setText(data.name)
             binding.scheduledEventDescription.setText(data.description)
         }
@@ -77,7 +81,8 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
 
     private fun setButtonChooseDateListener() {
         binding.btnChooseDate.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder.datePicker().build()
+            val datePicker = MaterialDatePicker.Builder
+                .datePicker().build()
             datePicker.show(requireActivity().supportFragmentManager, DATE_PICKER_TAG)
 
             datePicker.addOnPositiveButtonClickListener {
@@ -92,6 +97,20 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
 
     private fun setButtonSaveListener() {
         binding.btnSave.setOnClickListener {
+            try {
+
+                CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
+                    scheduledEvent?.let {
+                        if (it.id == -1) {
+                            interactor.insert(it)
+                        } else {
+                            interactor.update(it)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                requireActivity().showToast(e.message.toString())
+            }
             this.dismiss()
         }
     }

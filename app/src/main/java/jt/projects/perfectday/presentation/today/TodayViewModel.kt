@@ -7,6 +7,7 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.utils.FACTS_COUNT
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
@@ -19,7 +20,8 @@ class TodayViewModel(
     private val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
-    private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase
+    private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
+    private val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : BaseViewModel<AppState>() {
     private val currentDate = LocalDate.now()
     private val vkToken: String? by lazy { settingsPreferences.getSettings(VK_AUTH_TOKEN) }
@@ -39,15 +41,24 @@ class TodayViewModel(
                 Log.d("TAG", "friendsVk= $friendsFromVk")
 
                 val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
-                liveData.value = AppState.Loading(50)
+                data.addAll(dataByDate)
+                liveData.value = AppState.Loading(20)
+
+
                 val factsByDate =
                     simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
-
-                data.addAll(dataByDate)
                 data.addAll(factsByDate)
+                liveData.value = AppState.Loading(40)
 
-                liveData.value = AppState.Loading(100)
+                val scheduledEvents = scheduledEventInteractorImpl.getAll()
+                data.addAll(scheduledEvents)
+                liveData.value = AppState.Loading(60)
+
+
+                liveData.value = AppState.Loading(80)
+
                 liveData.postValue(AppState.Success(data))
+                liveData.value = AppState.Loading(100)
 
             } catch (e: CancellationException) {
                 throw e

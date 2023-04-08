@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private fun initFab() {
         binding.fabTop.setOnClickListener {
             ScheduleEventDialogFragment
-                .newInstance(DataModel.ScheduledEvent(-1,"ddd", LocalDate.now(),"3434"))
+                .newInstance(data = null)
                 .show(supportFragmentManager, ScheduleEventDialogFragment.TAG)
         }
     }

@@ -34,42 +34,4 @@
     <style name="Theme.GBSplashScreenTheme" parent="Theme.PerfectDay">
         <item name="android:windowBackground">@drawable/bg_2</item>
     </style>-->
-
-    <style name="BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:drawableTint">?attr/colorSecondary</item>
-    </style>
-
-    <style name="BaseTextStyle" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">?attr/colorSecondary</item>
-        <item name="android:textSize">@dimen/text_size_standard</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/padding_small</item>
-    </style>
-
-    <style name="CardHeaderStyle" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textSize">@dimen/text_size_standard</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/padding_small</item>
-    </style>
-
-    <style name="HeaderTextStyle" parent="BaseTextStyle">
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:textSize">@dimen/text_size_standard_header</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="HeaderTextSecondStyle" parent="HeaderTextStyle">
-        <item name="android:textColor">?attr/colorSecondary</item>
-    </style>
-
-    <style name="BaseEditTextStyle">
-        <item name="android:background">@null</item>
-        <item name="android:imeOptions">actionNext</item>
-        <item name="android:textSize">@dimen/text_size_standard</item>
-        <item name="android:inputType">text</item>
-    </style>
 </resources>
