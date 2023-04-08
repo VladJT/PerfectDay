@@ -49,20 +49,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Сменить дату"
+            android:text="02.20.2023"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_input_layout_event_description" />
-
-        <TextView
-            android:id="@+id/current_date"
-            style="@style/BaseTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="12.12.2023"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_choose_date"
-            app:layout_constraintStart_toEndOf="@+id/btn_choose_date"
-            app:layout_constraintTop_toTopOf="@+id/btn_choose_date" />
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -72,19 +61,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_choose_date">
 
+              <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отмена" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Сохранить" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_cancel"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Отмена" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

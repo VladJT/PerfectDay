@@ -38,7 +38,7 @@ sealed class DataModel {
     data class ScheduledEvent(
         val id: Int,
         val name: String,
-        val date: LocalDate,
+        var date: LocalDate,
         val description: String,
     ) : DataModel(), Parcelable
 }
