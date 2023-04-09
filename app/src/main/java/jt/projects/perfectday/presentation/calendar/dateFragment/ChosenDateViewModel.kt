@@ -1,4 +1,4 @@
-package jt.projects.perfectday.presentation.calendar
+package jt.projects.perfectday.presentation.calendar.dateFragment
 
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
@@ -6,7 +6,7 @@ import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import kotlinx.coroutines.launch
 
-class CalendarViewModel(
+class ChosenDateViewModel(
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl
 ) : BaseViewModel<AppState>() {
 
@@ -23,13 +23,13 @@ class CalendarViewModel(
         }
     }
 
-    override fun handleResponse(response: AppState) {
-        liveData.postValue(response)
-    }
-
     override fun handleError(error: Throwable) {
         liveData.postValue(AppState.Error(error))
         cancelJob()
+    }
+
+    override fun handleResponse(response: AppState) {
+        liveData.postValue(response)
     }
 
     override fun onCleared() {

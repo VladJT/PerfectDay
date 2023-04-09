@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
-import jt.projects.perfectday.presentation.today.CalendarViewModel
+import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
 import jt.projects.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
@@ -23,7 +22,7 @@ class CalendarFragment : Fragment() {
     private val binding get() = _binding!!
     private val calendar = Calendar.getInstance()
 
-    val indicatorsList: MutableList<CalendarView.DateIndicator> = mutableListOf()
+    private val indicatorsList: MutableList<CalendarView.DateIndicator> = mutableListOf()
 
     companion object {
         fun newInstance() = CalendarFragment()
@@ -44,8 +43,6 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initCalendarViewModel()
-
-//
     }
 
     private fun initCalendarViewModel() {
@@ -59,7 +56,7 @@ class CalendarFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 showLoadingFrame(false)
-                val data = appState.data?.let { data ->
+                appState.data?.let { data ->
                     initCalendarView(data)
                 }
             }
@@ -83,10 +80,11 @@ class CalendarFragment : Fragment() {
                 showYearSelectionView = true
             )
             initBirthdayList(data)
+
             datesIndicators = indicatorsList
 
             onDateClickListener = { date ->
-                Toast.makeText(context, "$date", Toast.LENGTH_SHORT).show()
+                showChosenDateDialogFragmentDialog(date)
             }
 
             onDateLongClickListener = { date ->
@@ -94,6 +92,14 @@ class CalendarFragment : Fragment() {
                 datesIndicators = indicatorsList
             }
         }
+    }
+
+    private fun showChosenDateDialogFragmentDialog(date: CalendarDate) {
+        val chosenDateDialogFragment = ChosenDateDialogFragment(date)
+        chosenDateDialogFragment.show(
+            requireActivity().supportFragmentManager,
+            "CHOSEN_DATE_DIALOG_FRAGMENT"
+        )
     }
 
     private fun showLoadingFrame(isLoading: Boolean) {
