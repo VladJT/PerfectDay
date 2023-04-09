@@ -3,12 +3,14 @@ package jt.projects.perfectday.presentation.settings
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
 import jt.projects.utils.showSnackbar
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,6 +37,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeError()
         setOnVkAuthListener()
+        setVisibleProfile()
     }
 
     private fun observeError() {
@@ -54,6 +57,28 @@ class SettingsFragment : Fragment() {
         binding.tvVkLogin.setOnClickListener {
             launcherVk.launch(listOf(VKScope.FRIENDS))
         }
+    }
+
+    private fun setVisibleProfile() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoadingProfile
+                    .combine(viewModel.isAuthorized) { isLoading, isAuthorized -> isLoading to isAuthorized}
+                    .collect { (isLoading, isAuthorized) ->
+                        setVisibleLoading(isLoading)
+                        setVisibleAuthorized(isAuthorized)
+                    }
+            }
+        }
+    }
+
+    private fun setVisibleLoading(isLoading: Boolean) {
+        binding.pbLoadingProfile.isVisible = isLoading
+    }
+
+    private fun setVisibleAuthorized(isAuthorized: Boolean) {
+        binding.tvVkLogin.isVisible = !isAuthorized
+        binding.headerVkUserInfo.root.isVisible = isAuthorized
     }
 
     override fun onDestroyView() {
