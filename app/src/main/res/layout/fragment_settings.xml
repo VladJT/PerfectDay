@@ -20,7 +20,7 @@
             android:id="@+id/tv_vk_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Авторизация VK"
+            android:text="@string/vk_auth_text"
             android:visibility="gone"
             app:drawableStartCompat="@drawable/ic_user_settings" />
 
@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Настройка push-уведомлений"
+        android:text="@string/push_settings_text"
         app:drawableStartCompat="@drawable/ic_push"
         app:layout_constraintEnd_toEndOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="@+id/frameLayout"
