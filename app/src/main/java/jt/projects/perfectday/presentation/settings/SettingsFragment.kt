@@ -51,7 +51,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setOnVkAuthListener() {
-        binding.vkLogin.setOnClickListener {
+        binding.tvVkLogin.setOnClickListener {
             launcherVk.launch(listOf(VKScope.FRIENDS))
         }
     }

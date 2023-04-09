@@ -2,17 +2,67 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F6F6F6"
+    android:paddingHorizontal="16dp">
 
-    <ImageView
-        android:id="@+id/vk_login"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_load_error_vector"
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/tv_vk_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_setting"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="20dp"
+            android:drawablePadding="8dp"
+            android:text="Авторизация VK"
+            android:textColor="#03424F"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:drawableStartCompat="@drawable/ic_user_settings" />
+
+        <include
+            android:id="@+id/header_vk_user_info"
+            layout="@layout/layout_vk_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:paddingVertical="12dp"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_setting"
+        android:gravity="center_vertical"
+        android:layout_marginTop="15dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="20dp"
+        android:text="Настройка push-уведомлений"
+        android:textColor="#03424F"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:drawableStartCompat="@drawable/ic_push"
+        android:drawablePadding="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/frameLayout"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
