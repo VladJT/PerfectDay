@@ -16,17 +16,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            style="@style/PerfectDay.SettingsItemStyle"
             android:id="@+id/tv_vk_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_setting"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="20dp"
-            android:drawablePadding="8dp"
             android:text="Авторизация VK"
-            android:textColor="#03424F"
-            android:textSize="16sp"
             android:visibility="gone"
             app:drawableStartCompat="@drawable/ic_user_settings" />
 
@@ -48,20 +42,12 @@
     </FrameLayout>
 
     <TextView
-
+        style="@style/PerfectDay.SettingsItemStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_setting"
-        android:gravity="center_vertical"
         android:layout_marginTop="15dp"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="20dp"
         android:text="Настройка push-уведомлений"
-        android:textColor="#03424F"
-        android:textSize="16sp"
-        android:visibility="visible"
         app:drawableStartCompat="@drawable/ic_push"
-        android:drawablePadding="8dp"
         app:layout_constraintEnd_toEndOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
