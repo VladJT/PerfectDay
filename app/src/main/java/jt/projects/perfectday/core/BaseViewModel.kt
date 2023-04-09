@@ -80,11 +80,6 @@ abstract class BaseViewModel(
 
     abstract suspend fun loadScheduledEvents()
 
-    private suspend fun reloadScheduledEvents() {
-        data.removeAll { it is DataModel.ScheduledEvent }
-        loadScheduledEvents()
-    }
-
     suspend fun loadFriendsFromVk(): List<DataModel> {
         if (vkToken == null || vkToken!!.isEmpty()) return emptyList()
         return getFriendsFromVkUseCase.getFriends(vkToken!!)
@@ -98,7 +93,7 @@ abstract class BaseViewModel(
     fun deleteScheduledEvent(id: Int) {
         viewModelScope.launch {
             scheduledEventInteractorImpl.deleteScheduledEventById(id)
-            reloadScheduledEvents()
+            data.removeAll { it is DataModel.ScheduledEvent && it.id == id }
         }
     }
 }
