@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                 .show(supportFragmentManager, ScheduleEventDialogFragment.TAG)
         }
     }
-
     private fun subscribeToNetworkStatusChange() {
         getKoin()
             .get<OnlineStatusLiveData>()

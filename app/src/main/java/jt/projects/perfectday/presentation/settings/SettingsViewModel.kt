@@ -1,5 +1,25 @@
 package jt.projects.perfectday.presentation.settings
 
+<<<<<<< HEAD
+import androidx.lifecycle.ViewModel
+import com.vk.api.sdk.auth.VKAuthenticationResult
+import jt.projects.perfectday.R
+import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
+import kotlinx.coroutines.flow.asSharedFlow
+
+class SettingsViewModel(
+    private val settingsPref: SimpleSettingsPreferences
+) : ViewModel() {
+    private val _errorFlow = createMutableSingleEventFlow<Int>()
+    val errorFlow get() = _errorFlow.asSharedFlow()
+
+    fun checkVkResult(vkResult: VKAuthenticationResult) {
+        when (vkResult) {
+            is VKAuthenticationResult.Success ->
+                settingsPref.saveSettings(VK_AUTH_TOKEN, vkResult.token.accessToken)
+=======
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -66,14 +86,18 @@ class SettingsViewModel(
                 settingsPref.saveSettings(VK_AUTH_TOKEN, vkResult.token.accessToken)
                 checkAuthorizedUser()
             }
+>>>>>>> eacebb512b34ed4adb003fc3f9bb1cb2cd3963d1
             else ->
                 _errorFlow.tryEmit(R.string.vk_error_auth_text)
         }
     }
+<<<<<<< HEAD
+=======
 
     fun onClickButtonLogOut() {
         VK.logout()
         settingsPref.saveSettings(VK_AUTH_TOKEN, emptyString())
         _isAuthorized.tryEmit(false)
     }
+>>>>>>> eacebb512b34ed4adb003fc3f9bb1cb2cd3963d1
 }
