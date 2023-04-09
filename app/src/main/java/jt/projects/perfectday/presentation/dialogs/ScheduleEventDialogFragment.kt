@@ -8,14 +8,9 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.DialogScheduleEventBinding
-import jt.projects.repository.room.LocalRepository
 import jt.projects.utils.showToast
 import jt.projects.utils.toStdFormatString
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -24,9 +19,7 @@ import java.util.*
 class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
     private var _binding: DialogScheduleEventBinding? = null
     private val binding get() = _binding!!
-
-    private var scheduledEvent: DataModel.ScheduledEvent? = null
-    private val interactor by inject<LocalRepository>()
+    private val viewModel: ScheduleEventViewModel by viewModel()
 
     companion object {
         const val TAG = "ScheduleEventDialogFragment"
@@ -46,7 +39,7 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogScheduleEventBinding.inflate(requireActivity().layoutInflater, null, false)
 
-        setDataFromBundle()
+        initViewModel()
         setButtonChooseDateListener()
         setButtonSaveListener()
         setButtonCloseListener()
@@ -63,20 +56,27 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
     private fun getDataFromBundle(): DataModel.ScheduledEvent? =
         arguments?.getParcelable(BUNDLE_KEY) as? DataModel.ScheduledEvent
 
-    private fun setDataFromBundle() {
-        scheduledEvent = getDataFromBundle()
-        if (scheduledEvent == null) {
-            scheduledEvent = DataModel.ScheduledEvent(-1, "", LocalDate.now(), "")
+    private fun initViewModel() {
+        viewModel.liveDataForViewToObserve.observe(this@ScheduleEventDialogFragment) {
+            renderData(it)
         }
-        renderData()
+
+        var data = getDataFromBundle()
+        if (data == null) {
+            data = DataModel.ScheduledEvent(
+                id = 0,
+                name = "",
+                date = LocalDate.now(),
+                description = ""
+            )
+        }
+        viewModel.setData(data)
     }
 
-    private fun renderData() {
-        scheduledEvent?.let { data ->
-            binding.btnChooseDate.text = data.date.toStdFormatString()
-            binding.scheduledEventHeader.setText(data.name)
-            binding.scheduledEventDescription.setText(data.description)
-        }
+    private fun renderData(data: DataModel.ScheduledEvent) {
+        binding.btnChooseDate.text = data.date.toStdFormatString()
+        binding.scheduledEventHeader.setText(data.name)
+        binding.scheduledEventDescription.setText(data.description)
     }
 
     private fun setButtonChooseDateListener() {
@@ -88,26 +88,24 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
             datePicker.addOnPositiveButtonClickListener {
                 val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
                 val date = dateFormatter.format(Date(it))
-                scheduledEvent?.date = LocalDate.parse(date)
-                renderData()
+                val newDate = LocalDate.parse(date)
+                viewModel.updateData(
+                    date = newDate,
+                    name = binding.scheduledEventHeader.text.toString(),
+                    description = binding.scheduledEventDescription.text.toString()
+                )
             }
         }
     }
 
-
     private fun setButtonSaveListener() {
         binding.btnSave.setOnClickListener {
             try {
-
-                CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
-                    scheduledEvent?.let {
-                        if (it.id == -1) {
-                            interactor.insert(it)
-                        } else {
-                            interactor.update(it)
-                        }
-                    }
-                }
+                viewModel.updateData(
+                    name = binding.scheduledEventHeader.text.toString(),
+                    description = binding.scheduledEventDescription.text.toString()
+                )
+                viewModel.saveData()
             } catch (e: Exception) {
                 requireActivity().showToast(e.message.toString())
             }

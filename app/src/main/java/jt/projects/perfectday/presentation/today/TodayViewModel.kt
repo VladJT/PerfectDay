@@ -10,6 +10,7 @@ import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.utils.FACTS_COUNT
+import jt.projects.utils.LOG_TAG
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 import kotlinx.coroutines.CancellationException
@@ -26,40 +27,33 @@ class TodayViewModel(
     private val currentDate = LocalDate.now()
     private val vkToken: String? by lazy { settingsPreferences.getSettings(VK_AUTH_TOKEN) }
 
+    private val data = mutableListOf<DataModel>()
+
     /* В дальнейшем хорошо бы делать логику асинхронно, сейчас у нас в коррутине запрос
     * дергается один за другим, тем самым данные могут подгружаться дольше.
     * или если один из запросов упадет, то остальные не выполнятся*/
     fun loadData() {
         liveData.value = AppState.Loading(0)
+        data.clear()
 
         viewModelScope.launch {
-            val data = mutableListOf<DataModel>()
-
             try {
-                //Пока не добавил в адаптер
-                val friendsFromVk = loadFriendsFromVk()
-                Log.d("TAG", "friendsVk= $friendsFromVk")
-
-                val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
-                data.addAll(dataByDate)
+                loadBirthdaysFromVk()
                 liveData.value = AppState.Loading(20)
 
-
-                val factsByDate =
-                    simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
-                data.addAll(factsByDate)
+                loadBirthdaysFromPhone()
                 liveData.value = AppState.Loading(40)
 
-                val scheduledEvents = scheduledEventInteractorImpl.getAll()
-                data.addAll(scheduledEvents)
+                loadInterestingFacts()
                 liveData.value = AppState.Loading(60)
 
-
+                loadHolidays()
                 liveData.value = AppState.Loading(80)
 
-                liveData.postValue(AppState.Success(data))
+                loadScheduledEvents()
                 liveData.value = AppState.Loading(100)
 
+                liveData.postValue(AppState.Success(data))
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -67,6 +61,66 @@ class TodayViewModel(
             }
         }
 
+    }
+
+    private fun loadBirthdaysFromPhone() {
+        try {
+            val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
+            data.addAll(dataByDate)
+        } catch (e: Exception) {
+            handleError(e)
+        }
+    }
+
+    private suspend fun loadBirthdaysFromVk() {
+        try {
+            //Пока не добавил в адаптер
+            val friendsFromVk = loadFriendsFromVk()
+            Log.d("TAG", "friendsVk= $friendsFromVk")
+        } catch (e: Exception) {
+            handleError(e)
+        }
+    }
+
+    private suspend fun loadInterestingFacts() {
+        try {
+            val factsByDate =
+                simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
+            data.addAll(factsByDate)
+        } catch (e: Exception) {
+            handleError(e)
+        }
+
+    }
+
+    private suspend fun loadHolidays() {
+        try {
+            throw Exception("some error")
+        } catch (e: Exception) {
+            handleError(e)
+        }
+    }
+
+    private suspend fun loadScheduledEvents() {
+        try {
+            val scheduledEvents = scheduledEventInteractorImpl.getScheduledEventsByDate(currentDate)
+            data.addAll(scheduledEvents)
+        } catch (e: Exception) {
+            handleError(e)
+        }
+    }
+
+    private suspend fun reloadScheduledEvents() {
+        data.removeAll { it is DataModel.ScheduledEvent }
+        loadScheduledEvents()
+    }
+
+
+    fun deleteScheduledEvent(id: Int) {
+        viewModelScope.launch {
+            scheduledEventInteractorImpl.deleteScheduledEventById(id)
+            reloadScheduledEvents()
+        }
     }
 
     private suspend fun loadFriendsFromVk(): List<DataModel> {

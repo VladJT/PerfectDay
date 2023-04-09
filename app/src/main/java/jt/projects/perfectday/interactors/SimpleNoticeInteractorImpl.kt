@@ -9,17 +9,17 @@ class SimpleNoticeInteractorImpl(
     private val repository: FactsRepository
 ) {
 
-    suspend fun getFactsByDate(date: LocalDate, factsCount: Int): List<DataModel> {
-        val result = mutableListOf<DataModel>()
+    suspend fun getFactsByDate(date: LocalDate, factsCount: Int): List<DataModel.SimpleNotice> {
+        val result = mutableListOf<DataModel.SimpleNotice>()
         for (i in 1..factsCount) {
             result.add(repository.getFactByDate(date))
         }
         return result.distinctBy {
-            (it as DataModel.SimpleNotice).description
+            it.description
         }
     }
 
-    fun getFakeFacts(): List<DataModel> {
+    fun getFakeFacts(): List<DataModel.SimpleNotice> {
         return listOf(
             DataModel.SimpleNotice(
                 "Новости технологий",

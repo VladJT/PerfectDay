@@ -40,6 +40,9 @@ interface ScheduledEventDao {
     @Delete
     suspend fun delete(entity: ScheduledEventEntity)
 
+    @Query("delete from ScheduledEventEntity where id = :id")
+    suspend fun deleteById(id: Int)
+
     @Query("delete from ScheduledEventEntity")
     suspend fun deleteAll()
 }

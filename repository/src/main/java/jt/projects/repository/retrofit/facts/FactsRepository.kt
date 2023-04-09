@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface FactsRepository {
-    suspend fun getFactByDate(date: LocalDate): DataModel
+    suspend fun getFactByDate(date: LocalDate): DataModel.SimpleNotice
 }
