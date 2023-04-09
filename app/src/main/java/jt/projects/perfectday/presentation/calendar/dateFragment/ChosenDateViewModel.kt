@@ -1,39 +1,44 @@
 package jt.projects.perfectday.presentation.calendar.dateFragment
 
-import jt.projects.model.AppState
-import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import kotlinx.coroutines.launch
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
+import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 
 class ChosenDateViewModel(
-    private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl
-) : BaseViewModel<AppState>() {
+    settingsPreferences: SimpleSettingsPreferences,
+    birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
+    simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
+    getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
+    scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+) : BaseViewModel(
+    settingsPreferences,
+    birthdayFromPhoneInteractor,
+    simpleNoticeInteractorImpl,
+    getFriendsFromVkUseCase,
+    scheduledEventInteractorImpl
+) {
 
-    fun loadData() {
-        liveData.value = AppState.Loading(0)
-
-        viewModelCoroutineScope.launch {
-            val data = mutableListOf<DataModel>()
-
-            data.addAll(birthdayFromPhoneInteractor.getAllData())
-            liveData.value = AppState.Loading(100)
-
-            handleResponse(AppState.Success(data))
-        }
+    override suspend fun loadHolidays() {
+//        TODO("Not yet implemented")
     }
 
-    override fun handleError(error: Throwable) {
-        liveData.postValue(AppState.Error(error))
-        cancelJob()
+    override suspend fun loadInterestingFacts() {
+//        TODO("Not yet implemented")
     }
 
-    override fun handleResponse(response: AppState) {
-        liveData.postValue(response)
+    override suspend fun loadBirthdaysFromPhone() {
+        val allData = birthdayFromPhoneInteractor.getAllData()
+        data.addAll(allData)
     }
 
-    override fun onCleared() {
-        liveData.value = AppState.Success(null)
-        super.onCleared()
+    override suspend fun loadBirthdaysFromVk() {
+//        TODO("Not yet implemented")
+    }
+
+    override suspend fun loadScheduledEvents() {
+//        TODO("Not yet implemented")
     }
 }
