@@ -1,13 +1,20 @@
 package jt.projects.perfectday.di
 
 import android.content.Context
+import androidx.room.Room
 import jt.projects.perfectday.App
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.presentation.dialogs.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
 import jt.projects.repository.retrofit.facts.FactsRepoImpl
 import jt.projects.repository.retrofit.facts.FactsRepository
+import jt.projects.repository.room.LocalRepository
+import jt.projects.repository.room.RoomDatabaseImpl
+import jt.projects.repository.room.ScheduledEventDatabase
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
@@ -40,15 +47,27 @@ val application = module {
     }
 }
 
+val roomModule = module {
+    single {
+        Room.databaseBuilder(get(), ScheduledEventDatabase::class.java, "scheduledEvents.db")
+            .build()
+    }
+
+    single { get<ScheduledEventDatabase>().dao() }
+}
+
 
 val repoModule = module {
     single<FactsRepository> { FactsRepoImpl() }
+    single<LocalRepository> { RoomDatabaseImpl(dao = get()) }
 }
 
 
 val interactorsModule = module {
     single { BirthdayFromPhoneInteractorImpl() }
     single { SimpleNoticeInteractorImpl(repository = get()) }
+    single { GetFriendsFromVkUseCase(vkNetworkRepository = get()) }
+    single { ScheduledEventInteractorImpl(repository = get()) }
 }
 
 
@@ -58,9 +77,16 @@ val viewModelModule = module {
     }
 
     viewModel {
+        ScheduleEventViewModel(scheduledEventInteractorImpl = get())
+    }
+
+    viewModel {
         TodayViewModel(
+            settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
-            simpleNoticeInteractorImpl = get()
+            simpleNoticeInteractorImpl = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractorImpl = get()
         )
     }
 }

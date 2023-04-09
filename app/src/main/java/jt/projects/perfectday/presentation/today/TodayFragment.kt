@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
-import jt.projects.perfectday.core.showLoadingFrame
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentTodayBinding
 import jt.projects.perfectday.presentation.MainAdapter
@@ -30,7 +29,11 @@ class TodayFragment : Fragment() {
     private val todayAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
 
     private fun onItemClick(data: DataModel) {
-        requireActivity().showToast(data.toString())
+        if (data is DataModel.ScheduledEvent){
+            viewModel.deleteScheduledEvent(data.id)
+        }else {
+            requireActivity().showToast(data.toString())
+        }
     }
 
 
@@ -81,6 +84,13 @@ class TodayFragment : Fragment() {
         }
     }
 
+    private fun showLoadingFrame(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingFrameLayout.visibility = View.VISIBLE
+        } else {
+            binding.loadingFrameLayout.visibility = View.GONE
+        }
+    }
 
     override fun onDestroy() {
         _binding = null

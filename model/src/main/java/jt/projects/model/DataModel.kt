@@ -1,5 +1,7 @@
 package jt.projects.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
 
@@ -8,8 +10,8 @@ sealed class DataModel {
     data class BirthdayFromVk(
         val name: String,
         val birthDate: LocalDate,
-        val age: Int?,
-        val photoUrl: String?
+        val age: Int,
+        val photoUrl: String
     ) : DataModel()
 
     data class BirthdayFromPhone(
@@ -32,10 +34,11 @@ sealed class DataModel {
         val photoUrl: String?
     ) : DataModel()
 
+    @Parcelize
     data class ScheduledEvent(
         val id: Int,
-        val name: String,
-        val date: LocalDate,
-        val description: String,
-    ) : DataModel()
+        var name: String,
+        var date: LocalDate,
+        var description: String,
+    ) : DataModel(), Parcelable
 }

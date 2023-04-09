@@ -4,8 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
+import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
+import jt.projects.perfectday.databinding.ItemScheduledEventBinding
 import jt.projects.perfectday.databinding.ItemSimpleNoticeBinding
+import jt.projects.utils.toStdFormatString
+import jt.projects.utils.ui.CoilImageLoader
+import org.koin.java.KoinJavaComponent.getKoin
 
 
 class MainAdapter(
@@ -33,10 +38,15 @@ class MainAdapter(
         notifyDataSetChanged()
     }
 
+
+
     override fun getItemViewType(position: Int): Int {
         return when (data[position]) {
+            is DataModel.BirthdayFromVk -> BIRTHDAY_FROM_VK
             is DataModel.BirthdayFromPhone -> BIRTHDAY_FROM_PHONE
             is DataModel.SimpleNotice -> SIMPLE_NOTICE
+            is DataModel.Holiday -> HOLIDAY
+            is DataModel.ScheduledEvent -> SCHEDULED_EVENT
             else -> UNKNOWN
         }
     }
@@ -59,6 +69,14 @@ class MainAdapter(
                 )
                 return SimpleNoticeViewHolder(binding)
             }
+            SCHEDULED_EVENT -> {
+                val binding = ItemScheduledEventBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                return ScheduledEventViewHolder(binding)
+            }
             else -> {
                 throw IllegalStateException()
             }
@@ -70,6 +88,9 @@ class MainAdapter(
             holder.bind(data[position])
         }
         if (holder is SimpleNoticeViewHolder) {
+            holder.bind(data[position])
+        }
+        if (holder is ScheduledEventViewHolder) {
             holder.bind(data[position])
         }
     }
@@ -86,6 +107,10 @@ class MainAdapter(
                 with(binding) {
                     tvName.text = data.name
                     tvBirthday.text = data.birthDate.toString()
+                    tvAge.text = data.age.toString()
+
+                    getKoin().get<CoilImageLoader>()
+                        .loadToCircleView(ivAvatar, R.drawable.default_avatar)
                     root.setOnClickListener { listItemClicked(data) }
                 }
             }
@@ -99,13 +124,32 @@ class MainAdapter(
             val data = dataModel as DataModel.SimpleNotice
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 with(binding) {
-                    snName.text = data.name
-                    snDescription.text = data.description
-                    root.setOnClickListener { listItemClicked(data) }
+                    cardHeader.text = data.name
+                    description.text = data.description
+                    //    root.setOnClickListener { listItemClicked(data) }
                 }
             }
         }
     }
 
+    inner class ScheduledEventViewHolder(private val binding: ItemScheduledEventBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(dataModel: DataModel) {
+            val data = dataModel as DataModel.ScheduledEvent
+            if (layoutPosition != RecyclerView.NO_POSITION) {
+                with(binding) {
+                    tvHeader.text = "${data.date.toStdFormatString()}"
+                    tvName.text = data.name
+                    tvDescription.text = data.description
+
+                    btnDelete.setOnClickListener {
+                        notifyItemRemoved(layoutPosition)
+                        listItemClicked(data)
+                    }
+                }
+            }
+        }
+    }
 
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    android:elevation="@dimen/card_elevation"
+    app:cardCornerRadius="@dimen/card_corner_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorErrorContainer"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:textColor="?attr/colorOnErrorContainer">
+
+            <ImageView
+                android:id="@+id/item_badge"
+                android:padding="@dimen/padding_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_notifications_active_24"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tv_header"
+                style="@style/CardHeaderStyle"
+                android:text="12.12.2023" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/BaseTextStyle"
+            android:text="Task1"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            style="@style/BaseTextStyle"
+            android:text="Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+
+        <Button
+            android:id="@+id/btn_delete"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/delete" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
