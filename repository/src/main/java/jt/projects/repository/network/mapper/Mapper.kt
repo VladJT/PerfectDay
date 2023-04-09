@@ -3,10 +3,10 @@ package jt.projects.repository.network.mapper
 import jt.projects.model.*
 import jt.projects.repository.network.model.*
 
-internal fun VkResponse.toVkInfo(): VkInfo = this.run {
+internal fun VkInfoResponse.toVkInfo(): VkInfo = this.run {
     VkInfo(
-        count = response.count,
-        friends = response.items.map {
+        count = count,
+        friends = items.map {
             it.toVkFriend()
         }
     )
@@ -22,5 +22,13 @@ internal fun VkFriendResponse.toVkFriend(): VkFriend = this.run {
         canAccessClosed = canAccessClosed,
         isClosed = isClosed,
         deactivated = deactivated
+    )
+}
+
+internal fun VkUserResponse.toVkUserInfo(): VkUserInfo = this.run {
+    VkUserInfo(
+        photoMax = photoMax,
+        firstName = firstName,
+        lastName = lastName
     )
 }
