@@ -3,6 +3,7 @@ package jt.projects.perfectday.presentation.settings
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthenticationResult
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
@@ -68,5 +69,11 @@ class SettingsViewModel(
             else ->
                 _errorFlow.tryEmit(R.string.vk_error_auth_text)
         }
+    }
+
+    fun onClickButtonLogOut() {
+        VK.logout()
+        settingsPref.saveSettings(VK_AUTH_TOKEN, emptyString())
+        _isAuthorized.tryEmit(false)
     }
 }

@@ -37,7 +37,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeError()
-        setOnVkAuthListener()
+        setOnButtonsListener()
         observeVisibleProfile()
         observeUserInfo()
     }
@@ -55,9 +55,13 @@ class SettingsFragment : Fragment() {
         requireActivity().showSnackbar(text)
     }
 
-    private fun setOnVkAuthListener() {
+    private fun setOnButtonsListener() {
         binding.tvVkLogin.setOnClickListener {
             launcherVk.launch(listOf(VKScope.FRIENDS))
+        }
+
+        binding.btnVkLogout.setOnClickListener {
+            viewModel.onClickButtonLogOut()
         }
     }
 
