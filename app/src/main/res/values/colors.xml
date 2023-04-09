@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- CUSTOM THEME-->
+    <color name="transparent">#00000000</color>
     <color name="color_primary">#7CC5D4</color>
     <color name="background">#F6F6F6</color>
     <color name="primary_text_color">#03424F</color>
