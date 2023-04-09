@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import coil.load
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
@@ -37,7 +38,8 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeError()
         setOnVkAuthListener()
-        setVisibleProfile()
+        observeVisibleProfile()
+        observeUserInfo()
     }
 
     private fun observeError() {
@@ -59,7 +61,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun setVisibleProfile() {
+    private fun observeVisibleProfile() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoadingProfile
@@ -81,6 +83,23 @@ class SettingsFragment : Fragment() {
             tvVkLogin.isVisible = !isAuthorized
             headerVkUserInfo.root.isVisible = isAuthorized
             btnVkLogout.isVisible = isAuthorized
+        }
+    }
+
+    private fun observeUserInfo() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userInfo.collect { (fullName, urlImage) ->
+                    setUserInfo(fullName, urlImage)
+                }
+            }
+        }
+    }
+
+    private fun setUserInfo(fullName: String, urlImage: String) {
+        with(binding.headerVkUserInfo) {
+            ivVkUser.load(urlImage)
+            tvVkUserName.text = fullName
         }
     }
 

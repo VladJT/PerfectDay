@@ -73,7 +73,7 @@ val interactorsModule = module {
 
 val viewModelModule = module {
     viewModel {
-        SettingsViewModel(settingsPref = get())
+        SettingsViewModel(settingsPref = get(), vkRepository = get())
     }
 
     viewModel {
