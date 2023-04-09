@@ -16,4 +16,8 @@
 
     <!--Нужно для нормальной работы - это id нашего приложения, которое зарегистрировано в VK-->
     <integer name="com_vk_sdk_AppId">51605520</integer>
+
+
+    <string name="content_desc_logo">Logo application</string>
+    <string name="content_desc_settings">Settings button</string>
 </resources>
