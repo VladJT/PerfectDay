@@ -1,4 +1,4 @@
-package jt.projects.repository.retrofit
+package jt.projects.repository.network.retrofit
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor

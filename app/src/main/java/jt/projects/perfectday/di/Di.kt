@@ -10,8 +10,8 @@ import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.perfectday.presentation.dialogs.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
-import jt.projects.repository.retrofit.facts.FactsRepoImpl
-import jt.projects.repository.retrofit.facts.FactsRepository
+import jt.projects.repository.network.retrofit.facts.FactsRepoImpl
+import jt.projects.repository.network.retrofit.facts.FactsRepository
 import jt.projects.repository.room.LocalRepository
 import jt.projects.repository.room.RoomDatabaseImpl
 import jt.projects.repository.room.ScheduledEventDatabase
