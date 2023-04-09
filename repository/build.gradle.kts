@@ -53,4 +53,9 @@ dependencies {
     implementation(Koin.core)
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
+
+    // Room
+    implementation(Room.runtime)
+    kapt(Room.compiler)
+    implementation(Room.room_ktx)
 }

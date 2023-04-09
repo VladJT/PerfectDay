@@ -1,13 +1,11 @@
 package jt.projects.utils
 
 import android.app.Activity
-import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import jt.projects.utils.R
-import jt.projects.utils.shared_preferences.SimpleSharedPref
-import org.koin.java.KoinJavaComponent
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 /**
@@ -38,4 +36,12 @@ fun Fragment.showSnackbar(text: String) {
         text,
         Snackbar.LENGTH_SHORT
     ).show()
+}
+
+fun LocalDate.toStdFormatString(): String{
+    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+}
+
+fun String.toStdLocalDate(): LocalDate{
+    return LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 }
