@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
@@ -46,12 +48,12 @@ android {
 }
 
 dependencies {
-    // PROJECTS
-//    implementation(project(Modules.core))
     implementation(project(Modules.model))
     implementation(project(Modules.utils))
     implementation(project(Modules.repository))
-//    implementation(project(Modules.tests))
+    implementation(project(Modules.model))
+    implementation(project(Modules.utils))
+    implementation(project(Modules.repository))
 
     // AndroidX
     implementation(Design.appcompat)
@@ -79,6 +81,11 @@ dependencies {
 
     // Coil
     implementation(Coil.coil)
+
+    // Room
+    implementation(Room.runtime)
+    kapt(Room.compiler)
+    implementation(Room.room_ktx)
 
     // ** TESTS **
     androidTestImplementation(TestImpl.runner)

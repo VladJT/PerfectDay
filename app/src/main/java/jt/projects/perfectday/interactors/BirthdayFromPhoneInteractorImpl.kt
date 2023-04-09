@@ -22,5 +22,4 @@ class BirthdayFromPhoneInteractorImpl() {
             DataModel.BirthdayFromPhone("Volodya", LocalDate.of(1995, 4, 26), 28, "url5")
         )
     }
-
 }

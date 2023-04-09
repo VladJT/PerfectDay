@@ -8,7 +8,7 @@ const val FACTS_BASE_URL_LOCATIONS = "http://numbersapi.com/"
 /**
  * COMMON SETTINGS
  */
-const val FACTS_COUNT = 5 // кол-во интересных фактов для отображения на вкладке "Today"
+const val FACTS_COUNT = 1 // кол-во интересных фактов для отображения на вкладке "Today"
 const val FACT_HEADER = "Интересный факт" // заголовок для полученного факта (name)
 
 /**

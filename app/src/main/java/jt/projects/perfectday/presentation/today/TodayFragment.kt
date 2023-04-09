@@ -29,7 +29,11 @@ class TodayFragment : Fragment() {
     private val todayAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
 
     private fun onItemClick(data: DataModel) {
-        requireActivity().showToast(data.toString())
+        if (data is DataModel.ScheduledEvent){
+            viewModel.deleteScheduledEvent(data.id)
+        }else {
+            requireActivity().showToast(data.toString())
+        }
     }
 
     override fun onCreateView(

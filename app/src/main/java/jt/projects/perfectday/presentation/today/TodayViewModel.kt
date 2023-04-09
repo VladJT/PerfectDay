@@ -1,53 +1,56 @@
 package jt.projects.perfectday.presentation.today
 
-import jt.projects.model.AppState
-import jt.projects.model.DataModel
+import android.util.Log
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.utils.FACTS_COUNT
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import java.time.LocalDate
 
 class TodayViewModel(
-    private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-    private val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl
-
-) : BaseViewModel<AppState>() {
-
+    settingsPreferences: SimpleSettingsPreferences,
+    birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
+    simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
+    getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
+    scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+) :
+    BaseViewModel(
+        settingsPreferences,
+        birthdayFromPhoneInteractor,
+        simpleNoticeInteractorImpl,
+        getFriendsFromVkUseCase,
+        scheduledEventInteractorImpl
+    ) {
     private val currentDate = LocalDate.now()
 
-    fun loadData() {
-        liveData.value = AppState.Loading(0)
 
-        viewModelCoroutineScope.launch {
-            val data = mutableListOf<DataModel>()
-
-            data.addAll(birthdayFromPhoneInteractor.getDataByDate(currentDate))
-            liveData.value = AppState.Loading(50)
-
-            data.addAll(simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT))
-            liveData.value = AppState.Loading(100)
-
-            handleResponse(AppState.Success(data))
-        }
-
+    override suspend fun loadBirthdaysFromPhone() {
+        val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
+        data.addAll(dataByDate)
     }
 
-    // Список данных получен
-    override fun handleResponse(response: AppState) {
-        liveData.postValue(response)
+    override suspend fun loadBirthdaysFromVk() {
+        //Пока не добавил в адаптер
+        val friendsFromVk = loadFriendsFromVk()
+        Log.d("TAG", "friendsVk= $friendsFromVk")
     }
 
-    // Обрабатываем ошибки
-    override fun handleError(error: Throwable) {
-        liveData.postValue(AppState.Error(error))
-        cancelJob()
+    override suspend fun loadInterestingFacts() {
+        val factsByDate =
+            simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
+        data.addAll(factsByDate)
     }
 
-    override fun onCleared() {
-        liveData.value = AppState.Success(null)
-        super.onCleared()
+    override suspend fun loadHolidays() {
+        throw Exception("some error")
     }
+
+    override suspend fun loadScheduledEvents() {
+        val scheduledEvents = scheduledEventInteractorImpl.getScheduledEventsByDate(currentDate)
+        data.addAll(scheduledEvents)
+    }
+
 }

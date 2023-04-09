@@ -11,8 +11,7 @@ import java.net.URL
 import java.time.LocalDate
 
 class FactsRepoImpl : FactsRepository {
-
-    override suspend fun getFactByDate(date: LocalDate): DataModel {
+    override suspend fun getFactByDate(date: LocalDate): DataModel.SimpleNotice {
         val response =
             withContext(CoroutineScope(Dispatchers.IO + SupervisorJob()).coroutineContext) {
                 URL(FACTS_BASE_URL_LOCATIONS.plus("${date.monthValue}/${date.dayOfMonth}/date")).readText()

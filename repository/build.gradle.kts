@@ -10,12 +10,18 @@ android {
 
     defaultConfig {
         minSdk = Config.min_sdk
+
+        buildConfigField("String", "VK_BASE_URL", "\"https://api.vk.com/\"")
+        buildConfigField("Double", "VK_VERSION_API", "5.131")
     }
 
     buildTypes {
         release {
             isMinifyEnabled = Config.isMinifyEnabled
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -45,4 +51,9 @@ dependencies {
     implementation(Retrofit.converter_gson)
     implementation(Retrofit.logging_interceptor)
     implementation(Retrofit.adapter_coroutines)//КОРУТИНЫ для Retrofit
+
+    // Koin for Android
+    implementation(Koin.core)
+    testImplementation(Koin.test)
+    testImplementation(Koin.junit4Test)
 }

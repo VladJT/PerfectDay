@@ -7,6 +7,12 @@
     <string name="vk_error_auth_text">Ошибка авторизации. Попробуйте позже.</string>
     <string name="age">Возраст</string>
     <string name="birthday">День Рождения</string>
+    <string name="My_notice">Напоминание</string>
+    <string name="delete">Удалить</string>
+
+    <string name="vk_auth_text">Авторизация VK</string>
+    <string name="push_settings_text">Настройка push-уведомлений</string>
+    <string name="vk_logout_text">Выйти из аккаунта</string>
 
     <!--Нужно для нормальной работы - это id нашего приложения, которое зарегистрировано в VK-->
     <integer name="com_vk_sdk_AppId">51605520</integer>

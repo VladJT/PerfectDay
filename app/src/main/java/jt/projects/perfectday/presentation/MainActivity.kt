@@ -7,15 +7,18 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
+import jt.projects.perfectday.presentation.dialogs.ScheduleEventDialogFragment
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.showSnackbar
 import org.koin.android.ext.android.getKoin
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
         initToolBar()
         initBottomNavView()
+        initFab()
         //    subscribeToNetworkStatusChange()
     }
 
@@ -45,6 +49,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun initFab() {
+        binding.fabTop.setOnClickListener {
+            ScheduleEventDialogFragment
+                .newInstance(data = null)
+                .show(supportFragmentManager, ScheduleEventDialogFragment.TAG)
+        }
+    }
     private fun subscribeToNetworkStatusChange() {
         getKoin()
             .get<OnlineStatusLiveData>()
