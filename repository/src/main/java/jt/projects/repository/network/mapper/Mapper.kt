@@ -24,3 +24,11 @@ internal fun VkFriendResponse.toVkFriend(): VkFriend = this.run {
         deactivated = deactivated
     )
 }
+
+internal fun VkUserResponse.toVkUserInfo(): VkUserInfo = this.run {
+    VkUserInfo(
+        photoMax = photoMax,
+        firstName = firstName,
+        lastName = lastName
+    )
+}
