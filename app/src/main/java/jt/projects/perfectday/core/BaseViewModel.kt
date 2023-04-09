@@ -19,11 +19,12 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.KSuspendFunction0
 
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
-abstract class BaseViewModel(protected val settingsPreferences: SimpleSettingsPreferences,
-                             protected val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-                             protected val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
-                             protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
-                             protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+abstract class BaseViewModel(
+    protected val settingsPreferences: SimpleSettingsPreferences,
+    protected val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
+    protected val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
+    protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
+    protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : ViewModel() {
     protected val liveData: MutableLiveData<AppState> = MutableLiveData()
     val liveDataForViewToObserve: LiveData<AppState>
@@ -56,7 +57,7 @@ abstract class BaseViewModel(protected val settingsPreferences: SimpleSettingsPr
         }
     }
 
-    private suspend fun tryToExecute(method: KSuspendFunction0<Unit>, progress: Int){
+    private suspend fun tryToExecute(method: KSuspendFunction0<Unit>, progress: Int) {
         try {
             method.invoke()
             liveData.value = AppState.Loading(progress)
@@ -65,7 +66,7 @@ abstract class BaseViewModel(protected val settingsPreferences: SimpleSettingsPr
         }
     }
 
-    protected fun handleError(e: Exception){
+    protected fun handleError(e: Exception) {
         Log.d(LOG_TAG, e.message.toString())
     }
 
