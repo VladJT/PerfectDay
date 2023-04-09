@@ -77,8 +77,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setVisibleAuthorized(isAuthorized: Boolean) {
-        binding.tvVkLogin.isVisible = !isAuthorized
-        binding.headerVkUserInfo.root.isVisible = isAuthorized
+        with(binding) {
+            tvVkLogin.isVisible = !isAuthorized
+            headerVkUserInfo.root.isVisible = isAuthorized
+            btnVkLogout.isVisible = isAuthorized
+        }
     }
 
     override fun onDestroyView() {
