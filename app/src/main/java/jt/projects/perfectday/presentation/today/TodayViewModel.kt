@@ -2,27 +2,28 @@ package jt.projects.perfectday.presentation.today
 
 import android.util.Log
 import jt.projects.perfectday.core.BaseViewModel
-import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
-import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.interactors.*
 import jt.projects.utils.FACTS_COUNT
+import jt.projects.utils.HOLIDAY_COUNTRY
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import java.time.LocalDate
+import java.time.Month
 
 class TodayViewModel(
     settingsPreferences: SimpleSettingsPreferences,
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
-    scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+    scheduledEventInteractorImpl: ScheduledEventInteractorImpl,
+    holidayInteractorImpl: HolidayInteractorImpl
 ) :
     BaseViewModel(
         settingsPreferences,
         birthdayFromPhoneInteractor,
         simpleNoticeInteractorImpl,
         getFriendsFromVkUseCase,
-        scheduledEventInteractorImpl
+        scheduledEventInteractorImpl,
+        holidayInteractorImpl
     ) {
     private val currentDate = LocalDate.now()
 
@@ -45,7 +46,10 @@ class TodayViewModel(
     }
 
     override suspend fun loadHolidays() {
-        throw Exception("some error")
+        //throw Exception("some error")
+//        val holidayByDate = holidayInteractorImpl.getHolidayByDate(LocalDate.of(2023,Month.MAY,9), HOLIDAY_COUNTRY)
+        val holidayByDate = holidayInteractorImpl.getFakeHoliday()
+        data.addAll(holidayByDate)
     }
 
     override suspend fun loadScheduledEvents() {

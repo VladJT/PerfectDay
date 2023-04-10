@@ -7,9 +7,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-abstract class BaseRetrofit {
+class BaseRetrofit {
 
-    internal fun getService(interceptor: Interceptor, baseUrl:String): ApiService {
+    fun getService(interceptor: Interceptor, baseUrl:String): ApiService {
         return createRetrofit(interceptor,baseUrl).create(ApiService::class.java)
     }
 
@@ -27,5 +27,9 @@ abstract class BaseRetrofit {
         httpClient.addInterceptor(interceptor)
         httpClient.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         return httpClient.build()
+    }
+
+    companion object{
+        val newInstansRetrofit = BaseRetrofit()
     }
 }

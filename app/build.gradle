@@ -78,6 +78,7 @@ dependencies {
     implementation(Koin.core)
     implementation(Koin.viewmodel)
     implementation(Koin.compat)
+    implementation 'androidx.room:room-ktx:2.5.0'
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
 

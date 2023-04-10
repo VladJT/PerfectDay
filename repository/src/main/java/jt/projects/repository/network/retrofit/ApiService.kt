@@ -9,5 +9,5 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("/v1")
-    fun searchHoliday(@Query("api_key") apiKey:String, @Query("country") country:String, @Query("year") year: Int, @Query("month") month:Int, @Query("day") day:Int): Deferred<List<HolidayDTO>>
+   suspend fun searchHoliday(@Query("api_key") apiKey:String, @Query("country") country:String, @Query("year") year: String, @Query("month") month:String, @Query("day") day:String): List<HolidayDTO>
 }
