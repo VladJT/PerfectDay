@@ -17,6 +17,7 @@ import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import java.util.*
 
+
 class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
@@ -92,6 +93,7 @@ class CalendarFragment : Fragment() {
                 datesIndicators = indicatorsList
             }
         }
+
     }
 
     private fun showChosenDateDialogFragmentDialog(date: CalendarDate) {
@@ -132,6 +134,7 @@ class CalendarFragment : Fragment() {
             }
         }
     }
+
 
     override fun onDestroy() {
         _binding = null
