@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
         }
     }
-
     private fun subscribeToNetworkStatusChange() {
         getKoin()
             .get<OnlineStatusLiveData>()

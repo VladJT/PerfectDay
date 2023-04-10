@@ -70,7 +70,6 @@ class SettingsViewModel(
                 _errorFlow.tryEmit(R.string.vk_error_auth_text)
         }
     }
-
     fun onClickButtonLogOut() {
         VK.logout()
         settingsPref.saveSettings(VK_AUTH_TOKEN, emptyString())

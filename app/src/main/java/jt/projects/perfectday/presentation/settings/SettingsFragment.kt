@@ -69,7 +69,7 @@ class SettingsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoadingProfile
-                    .combine(viewModel.isAuthorized) { isLoading, isAuthorized -> isLoading to isAuthorized}
+                    .combine(viewModel.isAuthorized) { isLoading, isAuthorized -> isLoading to isAuthorized }
                     .collect { (isLoading, isAuthorized) ->
                         setVisibleLoading(isLoading)
                         setVisibleAuthorized(isAuthorized)

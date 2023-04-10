@@ -32,7 +32,6 @@ abstract class BaseViewModel(
             return liveData
         }
 
-
     private val vkToken: String? by lazy { settingsPreferences.getSettings(VK_AUTH_TOKEN) }
     protected val data = mutableListOf<DataModel>()
 
