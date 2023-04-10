@@ -6,12 +6,13 @@ import jt.projects.repository.room.mapper.toRoomEntity
 import jt.projects.repository.room.mapper.toScheduledEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 
 class RoomDatabaseImpl(private val dao: ScheduledEventDao) : LocalRepository {
 
-    override suspend fun getAll(): Flow<DataModel.ScheduledEvent> =
-        dao.getAll().asFlow().map { it.toScheduledEvent() }
+    override fun getAll(): Flow<DataModel.ScheduledEvent> =
+        dao.getAll().map { it.toScheduledEvent() }
 
     override suspend fun insert(scheduledEvent: DataModel.ScheduledEvent) =
         dao.insert(scheduledEvent.toRoomEntity())

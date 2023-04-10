@@ -3,20 +3,22 @@ package jt.projects.perfectday.interactors
 
 import jt.projects.model.DataModel
 import jt.projects.repository.retrofit.facts.FactsRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
 
 class SimpleNoticeInteractorImpl(
     private val repository: FactsRepository
 ) {
 
-    suspend fun getFactsByDate(date: LocalDate, factsCount: Int): List<DataModel.SimpleNotice> {
+    suspend fun getFactsByDate(date: LocalDate, factsCount: Int): Flow<DataModel> {
         val result = mutableListOf<DataModel.SimpleNotice>()
         for (i in 1..factsCount) {
             result.add(repository.getFactByDate(date))
         }
-        return result.distinctBy {
+        return flow { result.distinctBy {
             it.description
-        }
+        }}
     }
 
     fun getFakeFacts(): List<DataModel.SimpleNotice> {
