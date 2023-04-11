@@ -66,7 +66,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_description_date" />
 
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_marginTop="20dp"
         android:id="@+id/btn_save"
         style="@style/PerfectDay.Button"
