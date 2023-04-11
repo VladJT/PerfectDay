@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
-import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
-import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.interactors.*
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
@@ -24,7 +21,8 @@ abstract class BaseViewModel(
     protected val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     protected val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
-    protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+    protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl,
+    protected val holidayInteractorImpl: HolidayInteractorImpl
 ) : ViewModel() {
     protected val liveData: MutableLiveData<AppState> = MutableLiveData()
     val liveDataForViewToObserve: LiveData<AppState>
@@ -46,7 +44,7 @@ abstract class BaseViewModel(
                 tryToExecute(::loadInterestingFacts, progress = 60)
                 tryToExecute(::loadHolidays, progress = 80)
                 tryToExecute(::loadScheduledEvents, progress = 100)
-
+                tryToExecute(::loadHolidays, progress = 120)
                 liveData.postValue(AppState.Success(data))
             } catch (e: CancellationException) {
                 throw e

@@ -1,10 +1,7 @@
 package jt.projects.perfectday.presentation.calendar.dateFragment
 
 import jt.projects.perfectday.core.BaseViewModel
-import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
-import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.interactors.*
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 
 class ChosenDateViewModel(
@@ -12,13 +9,15 @@ class ChosenDateViewModel(
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
-    scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+    scheduledEventInteractorImpl: ScheduledEventInteractorImpl,
+    holidayInteractorImpl: HolidayInteractorImpl
 ) : BaseViewModel(
     settingsPreferences,
     birthdayFromPhoneInteractor,
     simpleNoticeInteractorImpl,
     getFriendsFromVkUseCase,
-    scheduledEventInteractorImpl
+    scheduledEventInteractorImpl,
+    holidayInteractorImpl
 ) {
 
     override suspend fun loadHolidays() {

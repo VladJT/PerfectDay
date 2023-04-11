@@ -1,4 +1,4 @@
-package jt.projects.repository.retrofit
+package jt.projects.repository.network.retrofit
 
 import okhttp3.Interceptor
 import java.io.IOException

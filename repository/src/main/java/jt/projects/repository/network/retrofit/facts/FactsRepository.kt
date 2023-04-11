@@ -1,4 +1,4 @@
-package jt.projects.repository.retrofit.facts
+package jt.projects.repository.network.retrofit.facts
 
 import jt.projects.model.DataModel
 import kotlinx.coroutines.flow.Flow
