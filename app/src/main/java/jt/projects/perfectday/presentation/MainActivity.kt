@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
+import jt.projects.perfectday.presentation.dialogs.ScheduleEventDialogFragment
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
@@ -24,7 +25,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initBottomNavView()
         setOnClickSettings()
+        initFab()
         //    subscribeToNetworkStatusChange()
+    }
+
+    private fun initFab() {
+        binding.fBtnAddReminder.setOnClickListener {
+                ScheduleEventDialogFragment
+                    .newInstance(data = null)
+                    .show(supportFragmentManager, ScheduleEventDialogFragment.TAG)
+        }
     }
 
     private fun initBottomNavView() {
