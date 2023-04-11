@@ -29,17 +29,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes.each {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
-        def apikey_holiday = properties.getProperty("holiday_api_key","")
-        it.buildConfigField "String", "HOLIDAY_API_KEY", apikey_holiday
-    }
     buildTypes {
         release {
             //  isMinifyEnabled = Config.isMinifyEnabled
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
         }
     }
 
@@ -71,8 +64,6 @@ dependencies {
     // Kotlin
     implementation(Kotlin.core)
     implementation(Kotlin.stdlib)
-    implementation(Kotlin.livedata)
-
 
     // КОРУТИНЫ
     implementation(Kotlin.coroutines_core)
@@ -82,7 +73,6 @@ dependencies {
     implementation(Koin.core)
     implementation(Koin.viewmodel)
     implementation(Koin.compat)
-    implementation 'androidx.room:room-ktx:2.5.0'
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
 

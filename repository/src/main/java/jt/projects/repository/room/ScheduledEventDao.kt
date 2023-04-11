@@ -1,7 +1,6 @@
 package jt.projects.repository.room
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 
 // ключевое слово suspend, которое намекает, что все
 // запросы в БД будут асинхронными (корутины поддерживаются в Room изначально)
@@ -12,7 +11,7 @@ interface ScheduledEventDao {
      * SELECT
      */
     @Query("select * from ScheduledEventEntity")
-    fun getAll(): Flow<ScheduledEventEntity>
+    suspend fun getAll(): List<ScheduledEventEntity>
 
     @Query("select * from ScheduledEventEntity where id = :id")
     suspend fun getDataById(id: Int): ScheduledEventEntity?
