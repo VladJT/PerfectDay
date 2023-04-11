@@ -2,14 +2,19 @@ package jt.projects.perfectday.presentation
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.animation.LinearInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.transition.ChangeBounds
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
-import jt.projects.perfectday.presentation.dialogs.ScheduleEventDialogFragment
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
+import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
 import jt.projects.utils.network.OnlineStatusLiveData
@@ -26,14 +31,19 @@ class MainActivity : AppCompatActivity() {
         initBottomNavView()
         setOnClickSettings()
         initFab()
+        initButtonBackHome()
         //    subscribeToNetworkStatusChange()
+    }
+
+    private fun initButtonBackHome() {
+        binding.layoutToolbar.btnBack.setOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
     }
 
     private fun initFab() {
         binding.fBtnAddReminder.setOnClickListener {
-                ScheduleEventDialogFragment
-                    .newInstance(data = null)
-                    .show(supportFragmentManager, ScheduleEventDialogFragment.TAG)
+            navigateToFragment(ScheduleEventFragment.newInstance(data = null), isAddToBackStack = true)
         }
     }
 
@@ -49,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
         }
     }
+
     private fun subscribeToNetworkStatusChange() {
         getKoin()
             .get<OnlineStatusLiveData>()

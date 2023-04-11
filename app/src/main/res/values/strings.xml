@@ -19,6 +19,8 @@
 
 
     <string name="content_desc_logo">Logo application</string>
+    <string name="content_desc_back">Back home button</string>
     <string name="content_desc_settings">Settings button</string>
     <string name="content_desc_floating_button">Add reminder</string>
+    <string name="save">Сохранить</string>
 </resources>

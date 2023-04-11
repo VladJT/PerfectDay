@@ -40,7 +40,7 @@
     <!--endregion-->
 
 
-    <style name="BaseTextStyle" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="BaseTextStyle" parent="">
         <item name="android:textColor">?attr/colorSecondary</item>
         <item name="android:textSize">@dimen/text_size_standard</item>
         <item name="android:layout_width">wrap_content</item>
@@ -82,6 +82,18 @@
         <item name="endIconCheckable">true</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="PerfectDay.Button" parent="">
+        <item name="android:background">@drawable/bg_holiday_item</item>
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingVertical">20dp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/background</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">8dp</item>
     </style>
 
 </resources>

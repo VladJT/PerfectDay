@@ -5,6 +5,17 @@
     android:orientation="horizontal"
     android:background="@color/white">
 
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:visibility="gone"
+        android:alpha="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:backgroundTint="@color/transparent"
+        android:contentDescription="@string/content_desc_back"
+        android:src="@drawable/baseline_arrow_back_24" />
+
     <ImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"

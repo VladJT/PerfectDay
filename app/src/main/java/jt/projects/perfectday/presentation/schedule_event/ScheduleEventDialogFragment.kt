@@ -1,4 +1,4 @@
-package jt.projects.perfectday.presentation.dialogs
+package jt.projects.perfectday.presentation.schedule_event
 
 import android.app.Dialog
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.databinding.DialogScheduleEventBinding
+import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.showToast
 import jt.projects.utils.toStdFormatString
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,7 +17,7 @@ import java.util.*
 
 
 class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
-    private var _binding: DialogScheduleEventBinding? = null
+    private var _binding: FragmentScheduleEventBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleEventViewModel by viewModel()
 
@@ -37,12 +37,11 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = DialogScheduleEventBinding.inflate(requireActivity().layoutInflater, null, false)
+        _binding = FragmentScheduleEventBinding.inflate(requireActivity().layoutInflater, null, false)
 
         initViewModel()
         setButtonChooseDateListener()
         setButtonSaveListener()
-        setButtonCloseListener()
 
         return AlertDialog
             .Builder(requireContext())
@@ -109,12 +108,6 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
             } catch (e: Exception) {
                 requireActivity().showToast(e.message.toString())
             }
-            this.dismiss()
-        }
-    }
-
-    private fun setButtonCloseListener() {
-        binding.btnCancel.setOnClickListener {
             this.dismiss()
         }
     }
