@@ -40,6 +40,11 @@ const val NETWORK_SERVICE = "NETWORK_SERVICE"
 const val FAKE = "FAKE"
 const val REAL = "REAL"
 
+/**
+ * CONTACTS PERMISSION REQUEST
+ */
+const val REQUEST_CODE_READ_CONTACTS = 4513
+var permissionGranted = false
 /*
 * FOR DEBUG LO
  */

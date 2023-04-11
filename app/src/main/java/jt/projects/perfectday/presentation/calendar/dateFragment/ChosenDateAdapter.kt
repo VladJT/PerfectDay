@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
+import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
 import jt.projects.perfectday.presentation.MainAdapter
+import jt.projects.utils.ui.CoilImageLoader
+import org.koin.java.KoinJavaComponent
 
 class ChosenDateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -64,6 +67,13 @@ class ChosenDateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     tvName.text = data.name
                     tvBirthday.text = data.birthDate.toString()
                     tvAge.text = data.age.toString()
+                    if (data.photoUri.isNullOrEmpty()) {
+                        KoinJavaComponent.getKoin().get<CoilImageLoader>()
+                            .loadToCircleView(ivAvatar, R.drawable.default_avatar)
+                    } else {
+                        KoinJavaComponent.getKoin().get<CoilImageLoader>()
+                            .loadToCircleView(ivAvatar, data.photoUri.toString())
+                    }
                 }
             }
         }
