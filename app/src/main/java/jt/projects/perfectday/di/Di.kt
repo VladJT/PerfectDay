@@ -12,8 +12,8 @@ import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateViewM
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
-import jt.projects.repository.retrofit.facts.FactsRepoImpl
-import jt.projects.repository.retrofit.facts.FactsRepository
+import jt.projects.repository.network.facts.FactsRepoImpl
+import jt.projects.repository.network.facts.FactsRepository
 import jt.projects.repository.room.LocalRepository
 import jt.projects.repository.room.RoomDatabaseImpl
 import jt.projects.repository.room.ScheduledEventDatabase
