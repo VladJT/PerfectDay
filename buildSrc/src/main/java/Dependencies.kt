@@ -69,6 +69,9 @@ object Versions {
     // RxJava
     const val rxandroid = "3.0.0"
     const val rxjava = "3.0.0"
+
+    //CrunchyCalendar
+    const val crunchycalendar = "2.4.0"
 }
 
 object Design {
@@ -136,4 +139,8 @@ object TestImpl {
 object RxJava {
     const val rxandroid = "io.reactivex.rxjava3:rxandroid:${Versions.rxandroid}"
     const val rxjava = "io.reactivex.rxjava3:rxjava:${Versions.rxjava}"
+}
+
+object CrunchyCalendar {
+    const val crunchycalendar = "ru.cleverpumpkin:crunchycalendar:${Versions.crunchycalendar}"
 }

@@ -18,7 +18,6 @@
         <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
         <item name="colorOnError">@color/md_theme_light_onError</item>
         <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
-        <item name="android:colorBackground">@color/md_theme_light_background</item>
         <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
         <item name="colorSurface">@color/md_theme_light_surface</item>
         <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
@@ -28,58 +27,14 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <!-- FOR ANDROID < 12
     <style name="Theme.GBSplashScreenTheme" parent="Theme.PerfectDay">
         <item name="android:windowBackground">@drawable/bg_2</item>
     </style>-->
-
-    <style name="BaseTextStyle" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">?attr/colorSecondary</item>
-        <item name="android:textSize">@dimen/text_size_standard</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/padding_small</item>
-    </style>
-
-    <style name="CardHeaderStyle" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textSize">@dimen/text_size_standard</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/padding_small</item>
-    </style>
-
-    <style name="HeaderTextStyle" parent="BaseTextStyle">
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:textSize">@dimen/text_size_standard_header</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="HeaderTextSecondStyle" parent="HeaderTextStyle">
-        <item name="android:textColor">?attr/colorSecondary</item>
-    </style>
-
-    <style name="BaseEditTextStyle">
-        <item name="android:background">@null</item>
-        <item name="android:imeOptions">actionNext</item>
-        <item name="android:textSize">@dimen/text_size_standard</item>
-        <item name="android:inputType">text</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="BaseTextInputLayout" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
-        <item name="android:imeOptions">actionNext</item>
-        <item name="android:textSize">@dimen/text_size_standard</item>
-        <item name="counterEnabled">true</item>
-        <item name="endIconMode">clear_text</item>
-        <item name="endIconCheckable">true</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-
 </resources>

@@ -48,7 +48,7 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
             .Builder(requireContext())
             .setTitle(getString(R.string.My_notice))
             .setView(binding.root)
-            .setIcon(android.R.drawable.ic_input_get)
+            .setIcon(R.drawable.baseline_notification_add_24)
             .setCancelable(false)
             .create()
     }

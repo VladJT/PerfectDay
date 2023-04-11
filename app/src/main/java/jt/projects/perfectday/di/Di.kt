@@ -3,7 +3,12 @@ package jt.projects.perfectday.di
 import android.content.Context
 import androidx.room.Room
 import jt.projects.perfectday.App
-import jt.projects.perfectday.interactors.*
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
+import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.presentation.calendar.CalendarViewModel
+import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateViewModel
 import jt.projects.perfectday.presentation.dialogs.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
@@ -18,6 +23,7 @@ import jt.projects.repository.network.retrofit.holiday.dto.HolidayDTO
 import jt.projects.repository.room.LocalRepository
 import jt.projects.repository.room.RoomDatabaseImpl
 import jt.projects.repository.room.ScheduledEventDatabase
+
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
@@ -50,6 +56,7 @@ val application = module {
     }
 }
 
+
 val roomModule = module {
     single {
         Room.databaseBuilder(get(), ScheduledEventDatabase::class.java, "scheduledEvents.db")
@@ -81,7 +88,7 @@ val interactorsModule = module {
 
 val viewModelModule = module {
     viewModel {
-        SettingsViewModel(settingsPref = get())
+        SettingsViewModel(settingsPref = get(), vkRepository = get())
     }
 
     viewModel {
@@ -96,6 +103,26 @@ val viewModelModule = module {
             getFriendsFromVkUseCase = get(),
             scheduledEventInteractorImpl = get(),
             holidayInteractorImpl = get()
+        )
+    }
+
+    viewModel {
+        CalendarViewModel(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            simpleNoticeInteractorImpl = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractorImpl = get()
+        )
+    }
+
+    viewModel {
+        ChosenDateViewModel(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            simpleNoticeInteractorImpl = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractorImpl = get()
         )
     }
 }

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.cleverpumpkin.calendar.CalendarView
-        android:id="@+id/calendar_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/date_on_calendar_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <FrameLayout
         android:id="@+id/loading_frame_layout"

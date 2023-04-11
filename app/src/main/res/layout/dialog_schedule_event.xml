@@ -12,28 +12,39 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_large">
 
+        <TextView
+            android:id="@+id/tv_header_label"
+            style="@style/HeaderTextStyle"
+            android:text="Заголовок заметки"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_input_layout_event_header"
             style="@style/BaseTextInputLayout"
             android:hint="Введите заголовок заметки"
-            app:helperText="Заголовок"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/tv_header_label">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/scheduled_event_header"
                 style="@style/BaseEditTextStyle" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/tv_description_label"
+            style="@style/HeaderTextStyle"
+            android:text="Текст заметки"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_input_layout_event_header"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_input_layout_event_description"
             style="@style/BaseTextInputLayout"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:hint="Введите текст заметки"
-            app:helperText="Заметка"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_input_layout_event_header">
+            app:layout_constraintTop_toBottomOf="@id/tv_description_label">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/scheduled_event_description"

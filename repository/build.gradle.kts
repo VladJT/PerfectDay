@@ -18,7 +18,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = Config.isMinifyEnabled
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -53,9 +56,4 @@ dependencies {
     implementation(Koin.core)
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
-
-    // Room
-    implementation(Room.runtime)
-    kapt(Room.compiler)
-    implementation(Room.room_ktx)
 }

@@ -38,8 +38,6 @@ class MainAdapter(
         notifyDataSetChanged()
     }
 
-
-
     override fun getItemViewType(position: Int): Int {
         return when (data[position]) {
             is DataModel.BirthdayFromVk -> BIRTHDAY_FROM_VK
