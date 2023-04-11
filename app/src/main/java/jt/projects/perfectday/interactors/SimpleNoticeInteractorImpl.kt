@@ -2,7 +2,7 @@ package jt.projects.perfectday.interactors
 
 
 import jt.projects.model.DataModel
-import jt.projects.repository.retrofit.facts.FactsRepository
+import jt.projects.repository.network.retrofit.facts.FactsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDate

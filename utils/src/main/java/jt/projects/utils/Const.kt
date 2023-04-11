@@ -39,3 +39,8 @@ const val NETWORK_SERVICE = "NETWORK_SERVICE"
  */
 const val FAKE = "FAKE"
 const val REAL = "REAL"
+
+/*
+* FOR DEBUG LO
+ */
+val DEBUG: Boolean = BuildConfig.DEBUG && true

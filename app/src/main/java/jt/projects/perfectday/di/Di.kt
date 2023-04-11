@@ -66,7 +66,6 @@ val repoModule = module {
     single<FactsRepository> { FactsRepoImpl() }
     single<LocalRepository> { RoomDatabaseImpl(dao = get()) }
 
-//    single { BaseRetrofit() }
     single<DataSourceHoliday<List<HolidayDTO>>> { RetrofitHolidayImpl() }
     single<HolidayRepository> {HolidayRepositoryImpl(dataSource = get())}
 }
@@ -107,7 +106,8 @@ val viewModelModule = module {
             birthdayFromPhoneInteractor = get(),
             simpleNoticeInteractorImpl = get(),
             getFriendsFromVkUseCase = get(),
-            scheduledEventInteractorImpl = get()
+            scheduledEventInteractorImpl = get(),
+            holidayInteractorImpl = get()
         )
     }
 
@@ -117,7 +117,8 @@ val viewModelModule = module {
             birthdayFromPhoneInteractor = get(),
             simpleNoticeInteractorImpl = get(),
             getFriendsFromVkUseCase = get(),
-            scheduledEventInteractorImpl = get()
+            scheduledEventInteractorImpl = get(),
+            holidayInteractorImpl = get()
         )
     }
 }

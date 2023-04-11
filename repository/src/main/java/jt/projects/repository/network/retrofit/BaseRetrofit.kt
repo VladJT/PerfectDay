@@ -9,8 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class BaseRetrofit {
 
-    fun getService(interceptor: Interceptor, baseUrl:String): ApiService {
-        return createRetrofit(interceptor,baseUrl).create(ApiService::class.java)
+    fun getService(interceptor: Interceptor, baseUrl:String): HolidayApi {
+        return createRetrofit(interceptor,baseUrl).create(HolidayApi::class.java)
     }
 
     private fun createRetrofit(interceptor: Interceptor, baseUrl:String): Retrofit {

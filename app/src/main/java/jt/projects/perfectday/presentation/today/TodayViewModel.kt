@@ -2,10 +2,7 @@ package jt.projects.perfectday.presentation.today
 
 import jt.projects.model.AppState
 import jt.projects.perfectday.core.BaseViewModel
-import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
-import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.interactors.*
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
@@ -50,10 +47,10 @@ class TodayViewModel(
     }
 
     override suspend fun loadHolidays() {
-        //throw Exception("some error")
+        throw Exception("some error")
 //        val holidayByDate = holidayInteractorImpl.getHolidayByDate(LocalDate.of(2023,Month.MAY,9), HOLIDAY_COUNTRY)
-        val holidayByDate = holidayInteractorImpl.getFakeHoliday()
-        data.addAll(holidayByDate)
+       // val holidayByDate = holidayInteractorImpl.getFakeHoliday()
+       // data.addAll(holidayByDate)
     }
 
     override suspend fun loadScheduledEvents() {

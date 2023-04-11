@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
@@ -15,6 +14,7 @@ import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialo
 import jt.projects.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
+import ru.cleverpumpkin.calendar.CalendarView
 import java.util.*
 
 class CalendarFragment : Fragment() {
