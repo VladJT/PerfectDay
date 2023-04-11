@@ -1,6 +1,6 @@
 package jt.projects.perfectday.presentation.today
 
-import android.util.Log
+import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
@@ -8,6 +8,8 @@ import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.utils.FACTS_COUNT
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
 
 class TodayViewModel(
@@ -26,6 +28,9 @@ class TodayViewModel(
     ) {
     private val currentDate = LocalDate.now()
 
+    private val _friendsFlow = MutableStateFlow(listOf<DataModel.BirthdayFromVk>())
+    val friendsFlow get() = _friendsFlow.asStateFlow()
+
 
     override suspend fun loadBirthdaysFromPhone() {
         val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
@@ -35,7 +40,9 @@ class TodayViewModel(
     override suspend fun loadBirthdaysFromVk() {
         //Пока не добавил в адаптер
         val friendsFromVk = loadFriendsFromVk()
-        Log.d("TAG", "friendsVk= $friendsFromVk")
+        //крашит из за main view holder
+//        data.addAll(friendsFromVk)
+        _friendsFlow.tryEmit(friendsFromVk.filterIsInstance<DataModel.BirthdayFromVk>())
     }
 
     override suspend fun loadInterestingFacts() {
