@@ -38,7 +38,6 @@ object Versions {
     const val stdlib = "1.5.21"
     const val coroutinesCore = "1.6.4"
     const val coroutinesAndroid = "1.6.4"
-    const val lifecycle_version = "2.6.1"
 
     //Retrofit
     const val retrofit = "2.9.0"
@@ -82,7 +81,6 @@ object Design {
 
 object Kotlin {
     const val core = "androidx.core:core-ktx:${Versions.core}"
-    const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle_version}"
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.stdlib}"
     const val coroutines_core =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesCore}"

@@ -3,21 +3,20 @@ package jt.projects.perfectday.interactors
 
 import jt.projects.model.DataModel
 import jt.projects.repository.room.LocalRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.toList
 import java.time.LocalDate
 
 class ScheduledEventInteractorImpl(
     private val repository: LocalRepository
 ) {
-    suspend fun getAll(): Flow<DataModel> =
-        repository.getAll()
+    suspend fun getAll(): List<DataModel.ScheduledEvent> =
+        repository.getAll().toList()
 
-    suspend fun getScheduledEventsByDate(date: LocalDate): Flow<DataModel> {
+    suspend fun getScheduledEventsByDate(date: LocalDate): List<DataModel.ScheduledEvent> {
         return repository
             .getAll()
-          //  .filter { it.date == date }
+            .toList()
+            .filter { it.date == date }
     }
 
     suspend fun insert(scheduledEvent: DataModel.ScheduledEvent) =
