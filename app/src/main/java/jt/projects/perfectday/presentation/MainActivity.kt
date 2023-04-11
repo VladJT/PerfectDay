@@ -19,7 +19,7 @@ import jt.projects.utils.showSnackbar
 import org.koin.android.ext.android.getKoin
 
 class MainActivity : AppCompatActivity() {
-    companion object{
+    companion object {
         const val ANIMATION_DURATION = 500L
     }
 
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnClickSettings() {
         binding.layoutToolbar.btnSettings.setOnClickListener {
-           it.animate()
+            it.animate()
                 .rotationBy(180f)
                 .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
@@ -113,6 +113,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = false) {
+        // проверяем,что фрагмент еще не запущен
+        if (supportFragmentManager.fragments.find { it.javaClass == fragment::class.java } != null) return
+
         val beginTransaction = supportFragmentManager.beginTransaction()
         beginTransaction.replace(binding.fragmentContainer.id, fragment)
 
