@@ -18,7 +18,7 @@ sealed class DataModel {
         val name: String,
         val birthDate: LocalDate,
         val age: Int?,
-        val photoUrl: String?
+        val photoUri: String?
     ) : DataModel()
 
     data class SimpleNotice(

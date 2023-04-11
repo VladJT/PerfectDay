@@ -23,6 +23,7 @@ import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -68,7 +69,7 @@ val repoModule = module {
 
 
 val interactorsModule = module {
-    single { BirthdayFromPhoneInteractorImpl() }
+    single { BirthdayFromPhoneInteractorImpl(androidApplication().applicationContext) }
     single { SimpleNoticeInteractorImpl(repository = get()) }
     single { GetFriendsFromVkUseCase(vkNetworkRepository = get()) }
     single { ScheduledEventInteractorImpl(repository = get()) }

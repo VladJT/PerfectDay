@@ -30,7 +30,7 @@ class CalendarViewModel(
     }
 
     override suspend fun loadBirthdaysFromPhone() {
-        val allData = birthdayFromPhoneInteractor.getAllData()
+        val allData = birthdayFromPhoneInteractor.getContacts()
         data.addAll(allData)
     }
 
