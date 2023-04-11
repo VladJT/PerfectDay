@@ -9,6 +9,8 @@ import androidx.lifecycle.*
 import coil.load
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
+import jt.projects.perfectday.core.showButtonBackHome
+import jt.projects.perfectday.core.showFab
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
 import jt.projects.utils.showSnackbar
 import kotlinx.coroutines.flow.combine
@@ -40,6 +42,8 @@ class SettingsFragment : Fragment() {
         setOnButtonsListener()
         observeVisibleProfile()
         observeUserInfo()
+        showFab(false)
+        showButtonBackHome(true)
     }
 
     private fun observeError() {
@@ -109,6 +113,8 @@ class SettingsFragment : Fragment() {
 
     override fun onDestroyView() {
         _binding = null
+        showButtonBackHome(false)
+        showFab(true)
         super.onDestroyView()
     }
 }

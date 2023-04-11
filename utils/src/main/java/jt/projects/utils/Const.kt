@@ -4,6 +4,8 @@ package jt.projects.utils
  * URLS
  */
 const val FACTS_BASE_URL_LOCATIONS = "http://numbersapi.com/"
+const val HOLIDAY_BASE_URL_LOCATION = "https://holidays.abstractapi.com/"
+const val HOLIDAY_COUNTRY           = "Ru"
 
 /**
  * COMMON SETTINGS
@@ -43,3 +45,7 @@ const val REAL = "REAL"
  */
 const val REQUEST_CODE_READ_CONTACTS = 4513
 var permissionGranted = false
+/*
+* FOR DEBUG LO
+ */
+val DEBUG: Boolean = BuildConfig.DEBUG && true

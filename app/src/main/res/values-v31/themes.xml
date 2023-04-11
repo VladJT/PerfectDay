@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.PerfectDaySplashScreenTheme" parent="Theme.PerfectDay">
+        <!-- НАСТРОЙКИ Splash Screen
+        ● windowSplashScreenBackground указывает на цвет заливки экрана загрузки;
+        ● windowSplashScreenAnimatedIcon позволяет поставить свою иконку (в том числе и
+        анимированный drawable)
+        ● windowSplashScreenIconBackgroundColor устанавливает цвет заливки заднего фона иконки
+        (если иконка полупрозрачная или занимает не все место)
+        ● windowSplashScreenBrandingImage позволяет добавить еще одну иконку (например, логотип
+        компании)
+         -->
+        <item name="postSplashScreenTheme">@style/Theme.PerfectDay</item>
+        <item name="android:windowSplashScreenBackground">@color/color_primary</item>
+        <!--item name="android:windowSplashScreenBrandingImage">@drawable/branding_image</item-->
+    </style>
+
+</resources>
