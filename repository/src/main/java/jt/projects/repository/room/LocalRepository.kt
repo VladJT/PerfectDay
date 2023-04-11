@@ -4,7 +4,7 @@ import jt.projects.model.DataModel
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
-    suspend fun getAll(): Flow<DataModel.ScheduledEvent>
+    fun getAll(): Flow<DataModel.ScheduledEvent>
 
     suspend fun insert(scheduledEvent: DataModel.ScheduledEvent)
 

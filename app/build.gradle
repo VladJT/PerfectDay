@@ -71,6 +71,8 @@ dependencies {
     // Kotlin
     implementation(Kotlin.core)
     implementation(Kotlin.stdlib)
+    implementation(Kotlin.livedata)
+
 
     // КОРУТИНЫ
     implementation(Kotlin.coroutines_core)
