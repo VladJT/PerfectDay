@@ -7,7 +7,7 @@ import jt.projects.repository.network.retrofit.holiday.dto.HolidayDTOItem
 fun parseArrayDTOtoDataModel(holidayDTO:List<HolidayDTO>):List<DataModel.Holiday>{
     var listDataModel = mutableListOf<DataModel.Holiday>()
     if (holidayDTO.isNotEmpty()){
-        holidayDTO.forEach {
+        holidayDTO.forEach { it ->
             it.forEach{
                 listDataModel.add(
                     DataModel.Holiday(
