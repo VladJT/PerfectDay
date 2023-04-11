@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin_large">
+
+    <TextView
+        android:id="@+id/tv_header_label"
+        style="@style/HeaderTextStyle"
+        android:text="Заголовок заметки"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_input_layout_event_header"
+        style="@style/BaseTextInputLayout"
+        android:hint="Введите заголовок заметки"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_header_label">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/scheduled_event_header"
+            style="@style/BaseEditTextStyle" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_description_label"
+        style="@style/HeaderTextStyle"
+        android:text="Текст заметки"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_input_layout_event_header" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_input_layout_event_description"
+        style="@style/BaseTextInputLayout"
+        android:layout_height="wrap_content"
+        android:hint="Введите текст заметки"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_description_label">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/scheduled_event_description"
+            style="@style/BaseEditTextStyle"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:maxLines="10"
+            android:minLines="10" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_description_date"
+        style="@style/HeaderTextStyle"
+        android:text="Дата события"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_input_layout_event_description" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_choose_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="02.20.2023"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description_date" />
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn_save"
+        style="@style/PerfectDay.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_choose_date" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

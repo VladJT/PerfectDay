@@ -1,4 +1,4 @@
-package jt.projects.perfectday.presentation.dialogs
+package jt.projects.perfectday.presentation.schedule_event
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
