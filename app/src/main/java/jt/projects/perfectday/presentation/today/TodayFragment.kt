@@ -58,10 +58,7 @@ class TodayFragment : Fragment() {
     }
 
     private fun initRecView() {
-        with(binding.todayRecyclerview) {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = todayAdapter
-        }
+        binding.todayRecyclerview.adapter = todayAdapter
     }
 
     private fun renderData(appState: AppState) {
