@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.showToast
 import jt.projects.utils.toStdFormatString
@@ -53,6 +54,7 @@ class ScheduleEventFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         showButtonBackHome(true)
+        showFab(false)
         setButtonChooseDateListener()
         setButtonSaveListener()
 
@@ -135,6 +137,7 @@ class ScheduleEventFragment() : Fragment() {
 
     override fun onDestroyView() {
         showButtonBackHome(false)
+        showFab(true)
         _binding = null
         super.onDestroyView()
     }
