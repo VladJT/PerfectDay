@@ -3,21 +3,17 @@ package jt.projects.perfectday.interactors
 import jt.projects.model.DataModel
 import jt.projects.repository.network.mapper.parseArrayDTOtoDataModel
 import jt.projects.repository.network.retrofit.holiday.HolidayRepository
-import java.time.LocalDate
-import jt.projects.perfectday.BuildConfig
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import jt.projects.utils.HOLIDAY_COUNTRY
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.single
+import java.time.LocalDate
 
 class HolidayInteractorImpl(
     private val repository: HolidayRepository
 ) {
 
-    suspend fun getHolidayByDate(date: LocalDate, country: String): List<DataModel.Holiday> {
-        val apiKey = BuildConfig.HOLIDAY_API_KEY
-        val respose = parseArrayDTOtoDataModel(repository.getHoliday(apiKey, country, date))
-        return respose
+    suspend fun getHolidayByDate(date: LocalDate, country: String = HOLIDAY_COUNTRY): List<DataModel.Holiday> {
+        return parseArrayDTOtoDataModel(repository.getHoliday(country, date))
     }
 
     suspend fun getFakeHoliday(): List<DataModel.Holiday> {
@@ -44,3 +40,4 @@ class HolidayInteractorImpl(
         }.single().distinctBy { it.name }
     }
 }
+

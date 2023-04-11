@@ -6,8 +6,8 @@ import java.time.LocalDate
 
 
 class HolidayRepositoryImpl(private val dataSource : DataSourceHoliday<List<HolidayDTO>>):HolidayRepository {
-    override suspend fun getHoliday(apiKey:String, country:String,date: LocalDate): List<HolidayDTO> {
-        return dataSource.getData(apiKey,country,date)
+    override suspend fun getHoliday(country:String,date: LocalDate): List<HolidayDTO> {
+        return dataSource.getData(country,date)
 
     }
 }
