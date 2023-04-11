@@ -15,6 +15,7 @@ import jt.projects.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
+import java.time.LocalDate
 import java.util.*
 
 
@@ -118,14 +119,25 @@ class CalendarFragment : Fragment() {
             when (data[index]) {
                 is DataModel.BirthdayFromPhone -> {
                     val birthdayData = data[index] as DataModel.BirthdayFromPhone
-                    calendarSetter.set(
-                        CalendarDate.today.year,
-                        birthdayData.birthDate.monthValue - 1,
-                        birthdayData.birthDate.dayOfMonth
-                    )
+                    if(birthdayData.birthDate.monthValue < LocalDate.now().monthValue ||
+                        (birthdayData.birthDate.monthValue.equals(LocalDate.now().monthValue) && (birthdayData.birthDate.dayOfMonth < LocalDate.now().dayOfMonth))
+                    ){
+                        calendarSetter.set(
+                            CalendarDate.today.year + 1,
+                            birthdayData.birthDate.monthValue - 1,
+                            birthdayData.birthDate.dayOfMonth
+                        )
+                    } else {
+                        calendarSetter.set(
+                            CalendarDate.today.year,
+                            birthdayData.birthDate.monthValue - 1,
+                            birthdayData.birthDate.dayOfMonth
+                        )
+                    }
+
                     indicatorsList.add(
                         DateIndicator(
-                            resources.getColor(R.color.purple_700),
+                            resources.getColor(R.color.color_primary),
                             CalendarDate(calendarSetter.time)
                         )
                     )
