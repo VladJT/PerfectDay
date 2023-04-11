@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.showButtonBackHome
 import jt.projects.perfectday.core.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.showToast
@@ -58,21 +59,6 @@ class ScheduleEventFragment() : Fragment() {
         setButtonChooseDateListener()
         setButtonSaveListener()
 
-    }
-
-    private fun showButtonBackHome(isVisible: Boolean) {
-        val buttonBack = requireActivity().findViewById<ImageButton>(R.id.btn_back)
-        if (isVisible) {
-            buttonBack.visibility = View.VISIBLE
-            buttonBack.animate()
-                .setInterpolator(AnticipateOvershootInterpolator(1.0f))
-                .translationXBy(-5f)
-                .alpha(1f)
-                .setInterpolator(LinearInterpolator()).duration = 500
-        } else {
-            buttonBack.visibility = View.GONE
-            buttonBack.alpha = 0f
-        }
     }
 
     private fun getDataFromBundle(): DataModel.ScheduledEvent? =

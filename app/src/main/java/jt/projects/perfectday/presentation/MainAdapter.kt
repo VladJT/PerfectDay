@@ -14,7 +14,7 @@ import org.koin.java.KoinJavaComponent.getKoin
 
 
 class MainAdapter(
-    private var onListItemClick: (DataModel) -> Unit
+    private var onListItemClick: ((DataModel) -> Unit)?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -30,7 +30,7 @@ class MainAdapter(
 
     // Передаём событие во фрагмент
     private fun listItemClicked(listItemData: DataModel) {
-        onListItemClick(listItemData)
+        onListItemClick?.let { it(listItemData) }
     }
 
     fun setData(newData: List<DataModel>) {

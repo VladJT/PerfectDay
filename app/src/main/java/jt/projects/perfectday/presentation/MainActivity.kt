@@ -3,6 +3,7 @@ package jt.projects.perfectday.presentation
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,6 +19,10 @@ import jt.projects.utils.showSnackbar
 import org.koin.android.ext.android.getKoin
 
 class MainActivity : AppCompatActivity() {
+    companion object{
+        const val ANIMATION_DURATION = 500L
+    }
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +59,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showButtonBackHome(isVisible: Boolean) {
+        if (isVisible) {
+            binding.layoutToolbar.btnBack.visibility = View.VISIBLE
+            binding.layoutToolbar.btnBack.animate()
+                .alpha(1f)
+                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
+        } else {
+            binding.layoutToolbar.btnBack.visibility = View.GONE
+            binding.layoutToolbar.btnBack.alpha = 0f
+        }
+    }
+
     private fun initBottomNavView() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             onOptionsItemSelected(item)
@@ -63,6 +80,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnClickSettings() {
         binding.layoutToolbar.btnSettings.setOnClickListener {
+           it.animate()
+                .rotationBy(180f)
+                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
         }
     }

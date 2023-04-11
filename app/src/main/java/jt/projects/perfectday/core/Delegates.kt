@@ -8,6 +8,10 @@ fun Fragment.showProgress(progress: Int) {
     (this.requireActivity() as? MainActivity)?.showProgress(progress)
 }
 
-fun Fragment.showFab(isShow: Boolean) {
-    (this.requireActivity() as? MainActivity)?.showFab(isShow)
+fun Fragment.showFab(isVisible: Boolean) {
+    (this.requireActivity() as? MainActivity)?.showFab(isVisible)
+}
+
+fun Fragment.showButtonBackHome(isVisible: Boolean) {
+    (this.requireActivity() as? MainActivity)?.showButtonBackHome(isVisible)
 }
