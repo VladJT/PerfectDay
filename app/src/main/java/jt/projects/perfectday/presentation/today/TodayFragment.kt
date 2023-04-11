@@ -10,7 +10,7 @@ import jt.projects.model.AppState
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentTodayBinding
-import jt.projects.perfectday.presentation.MainAdapter
+import jt.projects.perfectday.presentation.today.adapter.MainAdapter
 import jt.projects.utils.showSnackbar
 import jt.projects.utils.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
