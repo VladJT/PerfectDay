@@ -54,6 +54,7 @@ class TodayViewModel(
 
                     val items = mutableListOf<TodayItem>()
                     items.apply {
+                        add(TodayItem.Holiday(listOf()))
                         add(TodayItem.Friends(friendsVk, friendsPhone))
                         add(TodayItem.FactOfDay(facts))
                         addAll(notes)
