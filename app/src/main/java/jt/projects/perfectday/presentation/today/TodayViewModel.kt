@@ -1,15 +1,19 @@
 package jt.projects.perfectday.presentation.today
 
+import android.util.Log
+import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.perfectday.presentation.today.adapter.TodayItem
 import jt.projects.utils.FACTS_COUNT
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class TodayViewModel(
