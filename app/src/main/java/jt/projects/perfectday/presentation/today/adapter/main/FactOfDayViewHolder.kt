@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.databinding.ItemFactOfDayBinding
-import jt.projects.perfectday.presentation.today.adapter.TodayItem
 
 class FactOfDayViewHolder private constructor(
     private val binding: ItemFactOfDayBinding

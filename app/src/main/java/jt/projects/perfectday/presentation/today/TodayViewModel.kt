@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import jt.projects.model.DataModel
 import jt.projects.perfectday.interactors.*
-import jt.projects.perfectday.presentation.today.adapter.TodayItem
+import jt.projects.perfectday.presentation.today.adapter.main.TodayItem
 import jt.projects.utils.FACTS_COUNT
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.shared_preferences.*
