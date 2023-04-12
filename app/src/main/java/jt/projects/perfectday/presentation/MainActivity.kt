@@ -1,12 +1,7 @@
 package jt.projects.perfectday.presentation
 
 import android.Manifest
-import android.content.ContentResolver
 import android.content.pm.PackageManager
-import android.database.Cursor
-import android.os.Bundle
-import android.provider.ContactsContract
-import android.view.Menu
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
