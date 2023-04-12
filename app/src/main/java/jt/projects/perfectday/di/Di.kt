@@ -106,7 +106,6 @@ val viewModelModule = module {
         ReminderViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
-            simpleNoticeInteractorImpl = get(),
             getFriendsFromVkUseCase = get(),
             scheduledEventInteractorImpl = get()
         )
@@ -116,7 +115,6 @@ val viewModelModule = module {
         CalendarViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
-            simpleNoticeInteractorImpl = get(),
             getFriendsFromVkUseCase = get(),
             scheduledEventInteractorImpl = get()
         )
@@ -126,7 +124,6 @@ val viewModelModule = module {
         ChosenDateViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
-            simpleNoticeInteractorImpl = get(),
             getFriendsFromVkUseCase = get(),
             scheduledEventInteractorImpl = get()
         )

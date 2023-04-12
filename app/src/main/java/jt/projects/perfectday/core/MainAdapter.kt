@@ -1,11 +1,11 @@
-package jt.projects.perfectday.presentation.today.adapter
+package jt.projects.perfectday.core
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 
 class MainAdapter(
-    private var onListItemClick: (DataModel) -> Unit
+    private var onListItemClick: ((DataModel) -> Unit)?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val onDeleteClicked: (Int) -> Unit = {
@@ -25,7 +25,7 @@ class MainAdapter(
 
     // Передаём событие во фрагмент
     private fun listItemClicked(listItemData: DataModel) {
-        onListItemClick(listItemData)
+        onListItemClick?.let { it(listItemData) }
     }
 
     fun setData(newData: List<DataModel>) {
@@ -54,13 +54,13 @@ class MainAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BirthdayFromPhoneViewHolder) {
-            holder.bind(data[position], onListItemClick)
+            onListItemClick?.let { holder.bind(data[position], it) }
         }
         if (holder is NoticeViewHolder) {
             holder.bind(data[position])
         }
         if (holder is ScheduledEventViewHolder) {
-            holder.bind(data[position], onListItemClick, onDeleteClicked)
+            onListItemClick?.let { holder.bind(data[position], it, onDeleteClicked) }
         }
     }
 
