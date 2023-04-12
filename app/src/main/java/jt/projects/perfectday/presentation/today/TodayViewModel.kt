@@ -12,9 +12,12 @@ import jt.projects.perfectday.presentation.today.adapter.TodayItem
 import jt.projects.utils.FACTS_COUNT
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+
+private const val TAG = "TodayViewModel"
 
 class TodayViewModel(
     settingsPreferences: SimpleSettingsPreferences,
@@ -37,9 +40,17 @@ class TodayViewModel(
 
     init {
         viewModelScope.launch {
-            val friendsVk = loadFriendsFromVk()
-            val friendsPhone = birthdayFromPhoneInteractor.getContacts()
-            val facts = simpleNoticeInteractorImpl.getFakeFacts()
+            val loadVkFriends = async { loadFriendsFromVk() }
+            val loadPhoneFriends = async { loadContent(birthdayFromPhoneInteractor::getContacts) }
+            val loadFacts = async {
+                loadContent {
+                    simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
+                }
+            }
+
+            val friendsVk = loadVkFriends.await()
+            val friendsPhone = loadPhoneFriends.await().filterIsInstance<DataModel.BirthdayFromPhone>()
+            val facts = loadFacts.await().filterIsInstance<DataModel.SimpleNotice>()
 
             scheduledEventInteractorImpl.getNotesByDate(currentDate)
                 .map {
@@ -59,6 +70,16 @@ class TodayViewModel(
                 .collect()
         }
     }
+
+    private suspend fun loadContent(listener: suspend () -> List<DataModel>): List<DataModel> =
+        try {
+            listener.invoke()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.e(TAG, "$e")
+            listOf()
+        }
 
     fun onDeleteNoteClicked(id: Int) {
         viewModelScope.launch {
