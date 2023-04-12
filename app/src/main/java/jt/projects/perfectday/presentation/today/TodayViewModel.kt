@@ -19,6 +19,7 @@ class TodayViewModel(
     settingsPreferences: SimpleSettingsPreferences,
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
+    holidayInteractor: HolidayInteractorImpl,
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     private val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : ViewModel() {
@@ -34,6 +35,8 @@ class TodayViewModel(
     init {
         viewModelScope.launch {
             //Запускаем параллельно загрузку данных
+
+            val loadHoliday = async { loadContent { holidayInteractor.getHolidayByDate(currentDate) }}
             val loadPhoneFriends = async { loadContent(birthdayFromPhoneInteractor::getContacts) }
             val loadVkFriends = async { loadFriendsFromVk() }
             val loadFacts = async {
@@ -43,6 +46,7 @@ class TodayViewModel(
             }
 
             //Ждём загрузку всех данных, чтобы пришли(и приводим к нужному типу)
+            val holidays = loadHoliday.await().filterIsInstance<DataModel.Holiday>()
             val friendsVk = loadVkFriends.await().filterIsInstance<DataModel.BirthdayFromVk>()
             val facts = loadFacts.await().filterIsInstance<DataModel.SimpleNotice>()
 
@@ -68,7 +72,7 @@ class TodayViewModel(
 
                     val items = mutableListOf<TodayItem>()
                     items.apply {
-                        add(TodayItem.Holiday(listOf()))
+                        add(TodayItem.Holiday(holidays))
                         add(TodayItem.Friends(friends))
                         add(TodayItem.FactOfDay(facts))
                         addAll(notes)

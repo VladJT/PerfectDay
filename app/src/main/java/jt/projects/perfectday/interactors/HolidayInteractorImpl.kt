@@ -15,29 +15,5 @@ class HolidayInteractorImpl(
     suspend fun getHolidayByDate(date: LocalDate, country: String = HOLIDAY_COUNTRY): List<DataModel.Holiday> {
         return parseArrayDTOtoDataModel(repository.getHoliday(country, date))
     }
-
-    suspend fun getFakeHoliday(): List<DataModel.Holiday> {
-        return flow {
-            emit(
-                listOf(
-                    DataModel.Holiday(
-                        country = "Россия",
-                        name = "День труда",
-                        description = "День всех трудящихся",
-                        photoUrl = "",
-                        type = "Национальный"
-                    ),
-                    DataModel.Holiday(
-                        country = "Россия",
-                        name = "День победы",
-                        description = "День победы в ВОВ",
-                        photoUrl = "",
-                        type = "Национальный"
-                    )
-
-                )
-            )
-        }.single().distinctBy { it.name }
-    }
 }
 
