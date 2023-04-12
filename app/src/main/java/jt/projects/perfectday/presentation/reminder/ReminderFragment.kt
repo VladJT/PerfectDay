@@ -5,7 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.model.AppState
+import jt.projects.model.DataModel
+import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentReminderBinding
+import jt.projects.perfectday.presentation.MainAdapter
+import jt.projects.utils.REMINDER_PERIOD_DEFAULT
+import jt.projects.utils.REMINDER_PERIOD_KEY
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.utils.showSnackbar
+import jt.projects.utils.showToast
+import org.koin.android.ext.android.getKoin
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReminderFragment : Fragment() {
     private var _binding: FragmentReminderBinding? = null
@@ -13,6 +25,18 @@ class ReminderFragment : Fragment() {
 
     companion object {
         fun newInstance() = ReminderFragment()
+    }
+
+    private val viewModel: ReminderViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
+
+    private val reminderAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
+
+    private fun onItemClick(data: DataModel) {
+        if (data is DataModel.ScheduledEvent) {
+            viewModel.deleteScheduledEvent(data.id)
+        } else {
+            requireActivity().showToast(data.toString())
+        }
     }
 
 
@@ -25,6 +49,65 @@ class ReminderFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initViewModel()
+        initRecView()
+        initToggleButtons()
+    }
+
+    private fun initToggleButtons() {
+        binding.buttonTomorrow.setOnClickListener {
+            viewModel.setDatesToShowTomorrow()
+            viewModel.loadData()
+        }
+
+        binding.buttonAllTime.text = "${viewModel.getPeriod()} Дней"
+        binding.buttonAllTime.setOnClickListener {
+            viewModel.setDatesToShowLongPeriod()
+            viewModel.loadData()
+        }
+    }
+
+    private fun initViewModel() {
+        viewModel.liveDataForViewToObserve.observe(this@ReminderFragment) {
+            renderData(it)
+        }
+        viewModel.loadData()
+    }
+
+    private fun initRecView() {
+        with(binding.reminderRecyclerview) {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = reminderAdapter
+        }
+    }
+
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                showLoadingFrame(false)
+                val data = appState.data?.let { data ->
+                    reminderAdapter.setData(data)
+                }
+            }
+            is AppState.Loading -> {
+                showLoadingFrame(true)
+                appState.progress?.let { showProgress(it) }
+            }
+            is AppState.Error -> {
+                showLoadingFrame(false)
+                showSnackbar(appState.error.message.toString())
+            }
+        }
+    }
+
+    private fun showLoadingFrame(isLoading: Boolean) {
+        if (isLoading) {
+            binding.loadingFrameLayout.visibility = View.VISIBLE
+        } else {
+            binding.loadingFrameLayout.visibility = View.GONE
+        }
+    }
 
     override fun onDestroy() {
         _binding = null

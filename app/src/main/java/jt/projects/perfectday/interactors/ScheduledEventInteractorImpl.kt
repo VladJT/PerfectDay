@@ -19,6 +19,17 @@ class ScheduledEventInteractorImpl(
             .filter { it.date == date }
     }
 
+    suspend fun getScheduledEventsByPeriod(
+        startDate: LocalDate,
+        endDate: LocalDate
+    ): List<DataModel.ScheduledEvent> {
+        return repository
+            .getAll()
+            .toList()
+            .filter { it.date in startDate..endDate }
+            .sortedBy { it.date }
+    }
+
     suspend fun insert(scheduledEvent: DataModel.ScheduledEvent) =
         repository.insert(scheduledEvent)
 

@@ -46,8 +46,8 @@
             style="@style/BaseEditTextStyle"
             android:gravity="top|start"
             android:inputType="textMultiLine"
-            android:maxLines="10"
-            android:minLines="10" />
+            android:maxLines="6"
+            android:minLines="6" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
