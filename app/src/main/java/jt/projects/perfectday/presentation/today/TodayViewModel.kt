@@ -35,9 +35,6 @@ class TodayViewModel(
     private val _resultRecycler = MutableStateFlow<List<TodayItem>>(listOf())
     val resultRecycler get() = _resultRecycler.asStateFlow()
 
-    private val _friendsFlow = MutableStateFlow(listOf<DataModel.BirthdayFromVk>())
-    val friendsFlow get() = _friendsFlow.asStateFlow()
-
     init {
         viewModelScope.launch {
             val friendsVk = loadFriendsFromVk()
@@ -63,6 +60,12 @@ class TodayViewModel(
         }
     }
 
+    fun onDeleteNoteClicked(id: Int) {
+        viewModelScope.launch {
+            scheduledEventInteractorImpl.deleteScheduledEventById(id)
+        }
+    }
+
     override suspend fun loadBirthdaysFromPhone() {
         val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
         data.addAll(dataByDate)
@@ -73,7 +76,6 @@ class TodayViewModel(
         val friendsFromVk = loadFriendsFromVk()
         //крашит из за main view holder
 //        data.addAll(friendsFromVk)
-        _friendsFlow.tryEmit(friendsFromVk.filterIsInstance<DataModel.BirthdayFromVk>())
     }
 
     override suspend fun loadInterestingFacts() {

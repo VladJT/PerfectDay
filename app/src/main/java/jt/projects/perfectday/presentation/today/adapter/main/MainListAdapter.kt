@@ -10,7 +10,9 @@ private const val FRIENDS_ITEM = 2
 private const val FACT_OF_DAY_ITEM = 3
 private const val NOTE_ITEM = 4
 
-class MainListAdapter : ListAdapter<TodayItem, RecyclerView.ViewHolder>(TodayDiffUtil()) {
+class MainListAdapter(
+    private val onClickDeleteNote: (Int) -> Unit
+): ListAdapter<TodayItem, RecyclerView.ViewHolder>(TodayDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when(viewType) {
             HOLIDAY_ITEM -> HolidayViewHolder(parent)
@@ -24,7 +26,7 @@ class MainListAdapter : ListAdapter<TodayItem, RecyclerView.ViewHolder>(TodayDif
         when(holder) {
             is FriendsViewHolder -> holder.bind(getItem(position) as TodayItem.Friends)
             is FactOfDayViewHolder -> holder.bind(getItem(position) as TodayItem.FactOfDay)
-            is NoteViewHolder -> holder.bind(getItem(position) as TodayItem.Notes)
+            is NoteViewHolder -> holder.bind(getItem(position) as TodayItem.Notes, onClickDeleteNote)
         }
     }
 

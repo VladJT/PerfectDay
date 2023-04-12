@@ -15,7 +15,7 @@ class NoteViewHolder private constructor(
         ItemScheduledEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    fun bind(item: TodayItem.Notes) {
+    fun bind(item: TodayItem.Notes, onClickDeleteNote: (Int) -> Unit) {
         val data = item.data
 
 
@@ -24,10 +24,9 @@ class NoteViewHolder private constructor(
             tvName.text = data.name
             tvDescription.text = data.description
 
-//            btnDelete.setOnClickListener {
-////                onDeleteClicked(layoutPosition)
-////                listItemClicked(data)
-//            }
+            btnDelete.setOnClickListener {
+                onClickDeleteNote.invoke(data.id)
+            }
         }
 
     }

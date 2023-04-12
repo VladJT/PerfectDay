@@ -5,10 +5,8 @@ import android.view.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.FragmentTodayBinding
 import jt.projects.perfectday.presentation.today.adapter.main.MainListAdapter
-import jt.projects.utils.showToast
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -17,15 +15,7 @@ class TodayFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: TodayViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
-    private val todayAdapter by lazy { MainListAdapter() }
-
-    private fun onItemClick(data: DataModel) {
-        if (data is DataModel.ScheduledEvent){
-            viewModel.deleteScheduledEvent(data.id)
-        }else {
-            requireActivity().showToast(data.toString())
-        }
-    }
+    private val todayAdapter by lazy { MainListAdapter(viewModel::onDeleteNoteClicked) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
