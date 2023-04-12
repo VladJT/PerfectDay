@@ -6,10 +6,12 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.interactors.*
 import jt.projects.perfectday.presentation.today.adapter.TodayItem
 import jt.projects.utils.FACTS_COUNT
+import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.shared_preferences.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.time.LocalDate
+import java.time.Period
 
 private const val TAG = "TodayViewModel"
 
@@ -42,8 +44,20 @@ class TodayViewModel(
 
             //Ждём загрузку всех данных, чтобы пришли(и приводим к нужному типу)
             val friendsVk = loadVkFriends.await().filterIsInstance<DataModel.BirthdayFromVk>()
-            val friendsPhone = loadPhoneFriends.await().filterIsInstance<DataModel.BirthdayFromPhone>()
             val facts = loadFacts.await().filterIsInstance<DataModel.SimpleNotice>()
+
+            /* Нужно конвертнуть друзей из телефона в модель для вк чтобы итем принимал
+             * один список друзей. Не стал менять основные данные  DataModel т.к.
+             * на них сейчас завязаны другие люди, и могу все сломать.
+             * По хорошему нужно сделать для друзей одну модель data class, так как поля у них схожу.
+             */
+            val friends = loadPhoneFriends
+                .await()
+                .filterIsInstance<DataModel.BirthdayFromPhone>()
+                .map(::mapToBirthdayVk)
+                .toMutableList()
+                .apply { addAll(friendsVk) }
+
 
             /*Подписываемся на изменения базы данных(а именно заметок на текущий день)
             * и каждый раз когда база изменяется, создаем items для RecyclerView
@@ -55,7 +69,7 @@ class TodayViewModel(
                     val items = mutableListOf<TodayItem>()
                     items.apply {
                         add(TodayItem.Holiday(listOf()))
-                        add(TodayItem.Friends(friendsVk, friendsPhone))
+                        add(TodayItem.Friends(friends))
                         add(TodayItem.FactOfDay(facts))
                         addAll(notes)
                     }
@@ -66,6 +80,15 @@ class TodayViewModel(
                 }
                 .collect()
         }
+    }
+
+    private fun mapToBirthdayVk(data: DataModel.BirthdayFromPhone): DataModel.BirthdayFromVk = data.run {
+        DataModel.BirthdayFromVk(
+            name = name,
+            birthDate = birthDate,
+            age = Period.between(birthDate, LocalDate.now()).years,
+            photoUrl = photoUri ?: emptyString()
+        )
     }
 
     private suspend fun loadFriendsFromVk(): List<DataModel> {
