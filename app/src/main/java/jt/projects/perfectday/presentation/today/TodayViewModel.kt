@@ -26,20 +26,28 @@ class TodayViewModel(
     private val _resultRecycler = MutableStateFlow<List<TodayItem>>(listOf())
     val resultRecycler get() = _resultRecycler.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading get() = _isLoading.asStateFlow()
+
     init {
         viewModelScope.launch {
-            val loadVkFriends = async { loadFriendsFromVk() }
+            //Запускаем параллельно загрузку данных
             val loadPhoneFriends = async { loadContent(birthdayFromPhoneInteractor::getContacts) }
+            val loadVkFriends = async { loadFriendsFromVk() }
             val loadFacts = async {
                 loadContent {
                     simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
                 }
             }
 
+            //Ждём загрузку всех данных, чтобы пришли(и приводим к нужному типу)
             val friendsVk = loadVkFriends.await().filterIsInstance<DataModel.BirthdayFromVk>()
             val friendsPhone = loadPhoneFriends.await().filterIsInstance<DataModel.BirthdayFromPhone>()
             val facts = loadFacts.await().filterIsInstance<DataModel.SimpleNotice>()
 
+            /*Подписываемся на изменения базы данных(а именно заметок на текущий день)
+            * и каждый раз когда база изменяется, создаем items для RecyclerView
+            * с нужными данными, после чего emit во фрагмент*/
             scheduledEventInteractorImpl.getNotesByDate(currentDate)
                 .map {
                     val notes = it.map { note -> TodayItem.Notes(note) }
@@ -53,7 +61,7 @@ class TodayViewModel(
                 }
                 .onEach {
                     _resultRecycler.tryEmit(it)
-                    Log.d("TAG", "items $it")
+                    _isLoading.tryEmit(false)
                 }
                 .collect()
         }
