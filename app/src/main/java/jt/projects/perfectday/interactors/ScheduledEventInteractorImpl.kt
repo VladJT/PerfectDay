@@ -3,8 +3,10 @@ package jt.projects.perfectday.interactors
 
 import jt.projects.model.DataModel
 import jt.projects.repository.room.LocalRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ScheduledEventInteractorImpl(
     private val repository: LocalRepository
@@ -28,6 +30,12 @@ class ScheduledEventInteractorImpl(
             .toList()
             .filter { it.date in startDate..endDate }
             .sortedBy { it.date }
+    }
+
+    fun getNotesByDate(date: LocalDate): Flow<List<DataModel.ScheduledEvent>> {
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val dateFormat = date.format(formatter)
+        return repository.getNotesByDate(dateFormat)
     }
 
     suspend fun insert(scheduledEvent: DataModel.ScheduledEvent) =

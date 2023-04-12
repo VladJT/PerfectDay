@@ -10,7 +10,7 @@ import jt.projects.model.AppState
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentReminderBinding
-import jt.projects.perfectday.presentation.MainAdapter
+import jt.projects.perfectday.presentation.today.adapter.MainAdapter
 import jt.projects.utils.REMINDER_PERIOD_DEFAULT
 import jt.projects.utils.REMINDER_PERIOD_KEY
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences

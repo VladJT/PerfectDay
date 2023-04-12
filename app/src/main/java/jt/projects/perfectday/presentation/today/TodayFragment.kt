@@ -1,40 +1,23 @@
 package jt.projects.perfectday.presentation.today
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import jt.projects.model.AppState
-import jt.projects.model.DataModel
+import androidx.lifecycle.*
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentTodayBinding
-import jt.projects.perfectday.presentation.MainAdapter
-import jt.projects.utils.showSnackbar
-import jt.projects.utils.showToast
+import jt.projects.perfectday.presentation.today.adapter.main.MainListAdapter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class TodayFragment : Fragment() {
     private var _binding: FragmentTodayBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance() = TodayFragment()
-    }
-
     private val viewModel: TodayViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
-
-    private val todayAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
-
-    private fun onItemClick(data: DataModel) {
-        if (data is DataModel.ScheduledEvent){
-            viewModel.deleteScheduledEvent(data.id)
-        }else {
-            requireActivity().showToast(data.toString())
-        }
-    }
+    private val todayAdapter by lazy { MainListAdapter(viewModel::onDeleteNoteClicked) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,53 +29,32 @@ class TodayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initViewModel()
         initRecView()
-    }
-
-    private fun initViewModel() {
-        viewModel.liveDataForViewToObserve.observe(this@TodayFragment) {
-            renderData(it)
-        }
-        viewModel.loadData()
+        setLoadingVisible()
     }
 
     private fun initRecView() {
-        with(binding.todayRecyclerview) {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = todayAdapter
+        binding.todayRecyclerview.adapter = todayAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.resultRecycler.collect(todayAdapter::submitList)
+            }
         }
     }
 
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                showLoadingFrame(false)
-                val data = appState.data?.let { data ->
-                    todayAdapter.setData(data)
+    private fun setLoadingVisible() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoading.collect {
+                    binding.loadingFrameLayout.isVisible = it
                 }
             }
-            is AppState.Loading -> {
-                showLoadingFrame(true)
-                appState.progress?.let { showProgress(it) }
-            }
-            is AppState.Error -> {
-                showLoadingFrame(false)
-                showSnackbar(appState.error.message.toString())
-            }
         }
     }
 
-    private fun showLoadingFrame(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingFrameLayout.visibility = View.VISIBLE
-        } else {
-            binding.loadingFrameLayout.visibility = View.GONE
-        }
-    }
-
-    override fun onDestroy() {
+    override fun onDestroyView() {
         _binding = null
-        super.onDestroy()
+        super.onDestroyView()
     }
 }

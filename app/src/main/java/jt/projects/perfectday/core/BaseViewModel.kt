@@ -79,9 +79,16 @@ abstract class BaseViewModel(
 
     abstract suspend fun loadScheduledEvents()
 
-    suspend fun loadFriendsFromVk(): List<DataModel> {
+    suspend fun loadFriendsFromVk(): List<DataModel.BirthdayFromVk> {
         if (vkToken == null || vkToken!!.isEmpty()) return emptyList()
-        return getFriendsFromVkUseCase.getFriends(vkToken!!)
+        return try {
+            getFriendsFromVkUseCase.getFriends(vkToken!!)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.e("BaseViewModel", "$e")
+            listOf()
+        }
     }
 
     override fun onCleared() {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_setting"
+    android:orientation="vertical"
+    android:layout_marginTop="25dp"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_bold"
+        android:text="@string/fact_of_day_text"
+        android:textColor="@color/primary_text_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_fact_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/grey_text_color"
+        android:textSize="14sp"
+        tools:text="@tools:sample/lorem" />
+</LinearLayout>

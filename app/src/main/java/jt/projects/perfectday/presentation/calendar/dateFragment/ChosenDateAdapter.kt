@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
-import jt.projects.perfectday.presentation.MainAdapter
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.java.KoinJavaComponent
+import jt.projects.perfectday.presentation.today.adapter.MainAdapter
 
 class ChosenDateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
