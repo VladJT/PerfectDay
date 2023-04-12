@@ -1,11 +1,11 @@
-package jt.projects.perfectday.presentation.today.adapter
+package jt.projects.perfectday.core
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
-import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
+import jt.projects.utils.toStdFormatString
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.java.KoinJavaComponent
 
@@ -22,11 +22,13 @@ class BirthdayFromPhoneViewHolder private constructor(
         if (layoutPosition != RecyclerView.NO_POSITION) {
             with(binding) {
                 tvName.text = data.name
-                tvBirthday.text = data.birthDate.toString()
+                tvBirthday.text = data.birthDate.toStdFormatString()
                 tvAge.text = data.age.toString()
 
-                KoinJavaComponent.getKoin().get<CoilImageLoader>()
-                    .loadToCircleView(ivAvatar, R.drawable.default_avatar)
+                data.photoUri?.let {
+                    KoinJavaComponent.getKoin().get<CoilImageLoader>()
+                        .loadToCircleView(ivAvatar, it)
+                }
                 root.setOnClickListener { listItemClicked(data) }
             }
         }

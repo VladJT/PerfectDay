@@ -4,19 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentReminderBinding
-import jt.projects.perfectday.presentation.today.adapter.MainAdapter
-import jt.projects.utils.REMINDER_PERIOD_DEFAULT
-import jt.projects.utils.REMINDER_PERIOD_KEY
-import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.perfectday.core.MainAdapter
 import jt.projects.utils.showSnackbar
 import jt.projects.utils.showToast
-import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReminderFragment : Fragment() {
@@ -102,11 +99,7 @@ class ReminderFragment : Fragment() {
     }
 
     private fun showLoadingFrame(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingFrameLayout.visibility = View.VISIBLE
-        } else {
-            binding.loadingFrameLayout.visibility = View.GONE
-        }
+        binding.loadingFrameLayout.isVisible = isLoading
     }
 
     override fun onDestroy() {

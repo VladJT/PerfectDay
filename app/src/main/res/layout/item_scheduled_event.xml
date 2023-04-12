@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
     android:layout_marginTop="15dp"
     android:elevation="@dimen/card_elevation"
     app:cardCornerRadius="@dimen/card_corner_radius">
@@ -22,9 +23,9 @@
 
             <ImageView
                 android:id="@+id/item_badge"
-                android:padding="@dimen/padding_small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_small"
                 android:src="@drawable/baseline_notifications_active_24"
                 app:tint="?attr/colorPrimary" />
 

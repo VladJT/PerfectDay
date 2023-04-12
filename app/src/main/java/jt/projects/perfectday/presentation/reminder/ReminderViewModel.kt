@@ -14,14 +14,12 @@ import java.time.LocalDate
 class ReminderViewModel(
     settingsPreferences: SimpleSettingsPreferences,
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-    simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) :
     BaseViewModel(
         settingsPreferences,
         birthdayFromPhoneInteractor,
-        simpleNoticeInteractorImpl,
         getFriendsFromVkUseCase,
         scheduledEventInteractorImpl
     ) {
@@ -47,20 +45,12 @@ class ReminderViewModel(
     }
 
     override suspend fun loadBirthdaysFromPhone() {
-        val dataByDate = birthdayFromPhoneInteractor.getDataByDate(startDate)
+        val dataByDate = birthdayFromPhoneInteractor.getContacts()
         data.addAll(dataByDate)
     }
 
     override suspend fun loadBirthdaysFromVk() {
 
-    }
-
-    override suspend fun loadInterestingFacts() {
-        // на этом фрагменте нет данных
-    }
-
-    override suspend fun loadHolidays() {
-        // на этом фрагменте нет данных
     }
 
     override suspend fun loadScheduledEvents() {

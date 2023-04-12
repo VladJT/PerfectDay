@@ -1,4 +1,4 @@
-package jt.projects.perfectday.presentation.today.adapter
+package jt.projects.perfectday.core
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

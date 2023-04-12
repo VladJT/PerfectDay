@@ -12,12 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/card_header"
-            style="@style/CardHeaderStyle"
-            android:background="?attr/colorSurfaceVariant"
-            android:text="@string/birthday"
-            android:textColor="?attr/colorOnSurfaceVariant" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,7 +24,7 @@
                 android:id="@+id/iv_avatar"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_margin="@dimen/margin_medium"
                 android:src="@drawable/default_avatar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,14 +49,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="80dp" />
+                app:layout_constraintGuide_begin="110dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="271dp" />
+                app:layout_constraintGuide_begin="329dp" />
 
             <TextView
                 android:id="@+id/tv_age_label"

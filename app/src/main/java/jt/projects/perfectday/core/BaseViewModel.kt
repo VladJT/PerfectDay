@@ -22,7 +22,6 @@ import kotlin.reflect.KSuspendFunction0
 abstract class BaseViewModel(
     protected val settingsPreferences: SimpleSettingsPreferences,
     protected val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-    protected val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : ViewModel() {
@@ -41,10 +40,8 @@ abstract class BaseViewModel(
 
         viewModelScope.launch {
             try {
-                tryToExecute(::loadBirthdaysFromPhone, progress = 20)
-                tryToExecute(::loadBirthdaysFromVk, progress = 40)
-                tryToExecute(::loadInterestingFacts, progress = 60)
-                tryToExecute(::loadHolidays, progress = 80)
+                tryToExecute(::loadBirthdaysFromPhone, progress = 30)
+                tryToExecute(::loadBirthdaysFromVk, progress = 60)
                 tryToExecute(::loadScheduledEvents, progress = 100)
 
                 liveData.postValue(AppState.Success(data))
@@ -69,9 +66,6 @@ abstract class BaseViewModel(
         Log.d(LOG_TAG, e.message.toString())
     }
 
-    abstract suspend fun loadHolidays()
-
-    abstract suspend fun loadInterestingFacts()
 
     abstract suspend fun loadBirthdaysFromPhone()
 
