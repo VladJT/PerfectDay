@@ -5,12 +5,30 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.presentation.today.adapter.TodayItem
 
+private const val HOLIDAY_ITEM = 1
+private const val FRIENDS_ITEM = 2
+private const val FACT_OF_DAY_ITEM = 3
+private const val NOTE_ITEM = 4
+
 class MainListAdapter : ListAdapter<TodayItem, RecyclerView.ViewHolder>(TodayDiffUtil()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
-   }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when(viewType) {
+            HOLIDAY_ITEM -> HolidayViewHolder(parent)
+            FRIENDS_ITEM -> FriendsViewHolder(parent)
+            FACT_OF_DAY_ITEM -> FactOfDayViewHolder(parent)
+            NOTE_ITEM -> NoteViewHolder(parent)
+            else -> throw IllegalStateException("Holder is missing for this element")
+        }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         TODO("Not yet implemented")
     }
+
+    override fun getItemViewType(position: Int): Int =
+        when(getItem(position)) {
+            is TodayItem.Holiday -> HOLIDAY_ITEM
+            is TodayItem.Friends -> FRIENDS_ITEM
+            is TodayItem.FactOfDay -> FACT_OF_DAY_ITEM
+            is TodayItem.Notes -> NOTE_ITEM
+        }
 }
