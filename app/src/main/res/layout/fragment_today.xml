@@ -5,59 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <include-->
-<!--        android:id="@+id/header_holiday"-->
-<!--        layout="@layout/item_holiday_day"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="16dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/linearLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="16dp"-->
-<!--        android:layout_marginTop="25dp"-->
-<!--        android:orientation="vertical"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/header_holiday"-->
-<!--        tools:layout_editor_absoluteX="16dp">-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:drawablePadding="8dp"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:text="@string/birth_day_today_text"-->
-<!--            android:textColor="@color/primary_text_color"-->
-<!--            android:textSize="18sp"-->
-<!--            app:drawableEndCompat="@drawable/ic_gift" />-->
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/rv_birthday"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="19dp"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:overScrollMode="never"-->
-<!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--            tools:listitem="@layout/item_birthday" />-->
-<!--    </LinearLayout>-->
-
-<!--    <include-->
-<!--        android:id="@+id/header_fact_of_day"-->
-<!--        layout="@layout/item_fact_of_day"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="16dp"-->
-<!--        android:layout_marginTop="25dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/today_recyclerview"
         android:layout_width="match_parent"
@@ -71,7 +18,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_scheduled_event" />
+        tools:listitem="@layout/item_scheduled_event"/>
+<!--    tools:listitem="@layout/item_holiday_day"-->
+<!--    tools:listitem="@layout/item_fact_of_day"-->
 
     <FrameLayout
         android:id="@+id/loading_frame_layout"

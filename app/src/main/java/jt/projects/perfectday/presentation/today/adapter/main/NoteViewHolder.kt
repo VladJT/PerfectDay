@@ -16,7 +16,19 @@ class NoteViewHolder private constructor(
     )
 
     fun bind(item: TodayItem.Notes) {
+        val data = item.data
 
+
+        with(binding) {
+            tvHeader.text = "${data.date.toStdFormatString()}"
+            tvName.text = data.name
+            tvDescription.text = data.description
+
+//            btnDelete.setOnClickListener {
+////                onDeleteClicked(layoutPosition)
+////                listItemClicked(data)
+//            }
+        }
 
     }
 }
