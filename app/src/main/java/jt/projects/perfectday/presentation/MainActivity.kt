@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_action_today -> {
-                navigateToFragment(TodayFragment.newInstance())
+                navigateToFragment(TodayFragment())
             }
 
             R.id.menu_action_reminder -> {
