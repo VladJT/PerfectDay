@@ -46,8 +46,8 @@
             style="@style/BaseEditTextStyle"
             android:gravity="top|start"
             android:inputType="textMultiLine"
-            android:maxLines="10"
-            android:minLines="10" />
+            android:maxLines="6"
+            android:minLines="6" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -57,21 +57,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_input_layout_event_description" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_choose_date"
+        style="@style/PerfectDay.CalendarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="02.20.2023"
+        app:icon="@drawable/ic_calendar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_description_date" />
 
 
     <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginTop="20dp"
         android:id="@+id/btn_save"
         style="@style/PerfectDay.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_choose_date" />

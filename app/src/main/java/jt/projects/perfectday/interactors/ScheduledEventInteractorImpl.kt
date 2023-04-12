@@ -21,6 +21,17 @@ class ScheduledEventInteractorImpl(
             .filter { it.date == date }
     }
 
+    suspend fun getScheduledEventsByPeriod(
+        startDate: LocalDate,
+        endDate: LocalDate
+    ): List<DataModel.ScheduledEvent> {
+        return repository
+            .getAll()
+            .toList()
+            .filter { it.date in startDate..endDate }
+            .sortedBy { it.date }
+    }
+
     fun getNotesByDate(date: LocalDate): Flow<List<DataModel.ScheduledEvent>> {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val dateFormat = date.format(formatter)

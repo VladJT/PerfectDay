@@ -26,4 +26,5 @@
     <string name="content_desc_settings">Settings button</string>
     <string name="content_desc_floating_button">Add reminder</string>
     <string name="save">Сохранить</string>
+    <string name="Tomorrow">Завтра</string>
 </resources>
