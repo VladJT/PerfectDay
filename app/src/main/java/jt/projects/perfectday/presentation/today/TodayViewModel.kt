@@ -31,6 +31,28 @@ class TodayViewModel(
     private val _friendsFlow = MutableStateFlow(listOf<DataModel.BirthdayFromVk>())
     val friendsFlow get() = _friendsFlow.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            val friendsVk = loadFriendsFromVk()
+            val friendsPhone = birthdayFromPhoneInteractor.getContacts()
+            val facts = simpleNoticeInteractorImpl.getFakeFacts()
+
+
+            scheduledEventInteractorImpl.getNotesByDate(currentDate)
+                .map {
+                    val items = mutableListOf<TodayItem>()
+                    items.apply {
+                        add(TodayItem.Friends(friendsVk, friendsPhone))
+                        add(TodayItem.FactOfDay(facts))
+                        add(TodayItem.Notes(it))
+                    }
+                }
+                .onEach {
+                    Log.d("TAG", "items $it")
+                }
+                .collect()
+        }
+    }
 
     override suspend fun loadBirthdaysFromPhone() {
         val dataByDate = birthdayFromPhoneInteractor.getDataByDate(currentDate)
