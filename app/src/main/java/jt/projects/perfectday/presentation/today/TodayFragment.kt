@@ -16,6 +16,7 @@ import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.databinding.FragmentTodayBinding
 import jt.projects.perfectday.presentation.today.adapter.MainAdapter
 import jt.projects.perfectday.presentation.today.adapter.birth.BirthdayListAdapter
+import jt.projects.perfectday.presentation.today.adapter.main.MainListAdapter
 import jt.projects.utils.showSnackbar
 import jt.projects.utils.showToast
 import kotlinx.coroutines.flow.combine
@@ -33,7 +34,7 @@ class TodayFragment : Fragment() {
 
     private val viewModel: TodayViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
 
-    private val todayAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
+    private val todayAdapter by lazy { MainListAdapter() }
     private val birthdayAdapter by lazy { BirthdayListAdapter() }
 
     private fun onItemClick(data: DataModel) {
@@ -54,38 +55,16 @@ class TodayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initViewModel()
         initRecView()
         observeFriends()
     }
 
-    private fun initViewModel() {
-        viewModel.liveDataForViewToObserve.observe(this@TodayFragment) {
-            renderData(it)
-        }
-        viewModel.loadData()
-    }
-
     private fun initRecView() {
         binding.todayRecyclerview.adapter = todayAdapter
-        binding.rvBirthday.adapter = birthdayAdapter
-    }
 
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                showLoadingFrame(false)
-                val data = appState.data?.let { data ->
-                    todayAdapter.setData(data)
-                }
-            }
-            is AppState.Loading -> {
-                showLoadingFrame(true)
-                appState.progress?.let { showProgress(it) }
-            }
-            is AppState.Error -> {
-                showLoadingFrame(false)
-                showSnackbar(appState.error.message.toString())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.resultRecycler.collect(todayAdapter::submitList)
             }
         }
     }

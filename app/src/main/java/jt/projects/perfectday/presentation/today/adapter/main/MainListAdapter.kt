@@ -21,7 +21,11 @@ class MainListAdapter : ListAdapter<TodayItem, RecyclerView.ViewHolder>(TodayDif
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        when(holder) {
+            is FriendsViewHolder -> holder.bind(getItem(position) as TodayItem.Friends)
+            is FactOfDayViewHolder -> holder.bind(getItem(position) as TodayItem.FactOfDay)
+            is NoteViewHolder -> holder.bind(getItem(position) as TodayItem.Notes)
+        }
     }
 
     override fun getItemViewType(position: Int): Int =

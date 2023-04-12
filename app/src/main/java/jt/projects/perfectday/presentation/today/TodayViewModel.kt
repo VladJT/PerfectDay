@@ -32,6 +32,9 @@ class TodayViewModel(
     ) {
     private val currentDate = LocalDate.now()
 
+    private val _resultRecycler = MutableStateFlow<List<TodayItem>>(listOf())
+    val resultRecycler get() = _resultRecycler.asStateFlow()
+
     private val _friendsFlow = MutableStateFlow(listOf<DataModel.BirthdayFromVk>())
     val friendsFlow get() = _friendsFlow.asStateFlow()
 
@@ -52,6 +55,7 @@ class TodayViewModel(
                     }
                 }
                 .onEach {
+                    _resultRecycler.tryEmit(it)
                     Log.d("TAG", "items $it")
                 }
                 .collect()
