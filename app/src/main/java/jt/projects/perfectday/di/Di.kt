@@ -9,6 +9,7 @@ import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.perfectday.presentation.calendar.CalendarViewModel
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateViewModel
+import jt.projects.perfectday.presentation.reminder.ReminderViewModel
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
@@ -17,13 +18,11 @@ import jt.projects.repository.network.facts.FactsRepository
 import jt.projects.repository.room.LocalRepository
 import jt.projects.repository.room.RoomDatabaseImpl
 import jt.projects.repository.room.ScheduledEventDatabase
-
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.android.ext.koin.androidApplication
-import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -87,6 +86,16 @@ val viewModelModule = module {
 
     viewModel {
         TodayViewModel(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            simpleNoticeInteractorImpl = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractorImpl = get()
+        )
+    }
+
+    viewModel {
+        ReminderViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             simpleNoticeInteractorImpl = get(),
