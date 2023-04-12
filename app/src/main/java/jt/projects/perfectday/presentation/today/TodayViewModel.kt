@@ -44,14 +44,15 @@ class TodayViewModel(
             val friendsPhone = birthdayFromPhoneInteractor.getContacts()
             val facts = simpleNoticeInteractorImpl.getFakeFacts()
 
-
             scheduledEventInteractorImpl.getNotesByDate(currentDate)
                 .map {
+                    val notes = it.map { note -> TodayItem.Notes(note) }
+
                     val items = mutableListOf<TodayItem>()
                     items.apply {
                         add(TodayItem.Friends(friendsVk, friendsPhone))
                         add(TodayItem.FactOfDay(facts))
-                        add(TodayItem.Notes(it))
+                        addAll(notes)
                     }
                 }
                 .onEach {

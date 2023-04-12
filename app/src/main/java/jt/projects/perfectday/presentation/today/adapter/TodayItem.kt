@@ -9,5 +9,5 @@ sealed class TodayItem {
         val friendsPhone: List<DataModel.BirthdayFromPhone>? = null
     ): TodayItem()
     data class FactOfDay(val list: List<DataModel.SimpleNotice>) : TodayItem()
-    data class Notes(val list: List<DataModel.ScheduledEvent>) : TodayItem()
+    data class Notes(val data: DataModel.ScheduledEvent) : TodayItem()
 }
