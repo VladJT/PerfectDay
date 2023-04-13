@@ -39,6 +39,8 @@ class ReminderViewModel(
     }
 
     override suspend fun loadBirthdaysFromVk() {
+        val vkFriends = loadFriendsFromVk()
+        data.addAll(vkFriends)
 
     }
 

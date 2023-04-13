@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small"
-    android:layout_marginTop="@dimen/margin_medium"
+    android:layout_marginHorizontal="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_small"
     android:elevation="@dimen/card_elevation"
     app:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
-        android:layout_marginStart="@dimen/margin_medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
         android:orientation="vertical">
 
         <TextView
@@ -32,7 +32,7 @@
 
             <TextView
                 android:id="@+id/tv_date"
-                style="@style/BaseTextStyle"
+                style="@style/HeaderTextStyle"
                 android:text="12.12.2023"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,9 +45,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/edit"
                 android:textAllCaps="false"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/text_size_standard"
                 app:layout_constraintEnd_toStartOf="@id/btn_delete"
-                android:textSize="@dimen/text_size_standard" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/btn_delete"
@@ -56,9 +56,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/delete"
                 android:textAllCaps="false"
+                android:textSize="@dimen/text_size_standard"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="@dimen/text_size_standard" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
