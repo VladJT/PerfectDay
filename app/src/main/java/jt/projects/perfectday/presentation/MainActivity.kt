@@ -20,9 +20,11 @@ import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
+import jt.projects.utils.REMINDER_PERIOD_KEY
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.showSnackbar
 import org.koin.android.ext.android.getKoin
 
