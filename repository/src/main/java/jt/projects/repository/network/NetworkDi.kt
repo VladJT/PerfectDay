@@ -2,6 +2,8 @@ package jt.projects.repository.network
 
 import android.util.Log
 import jt.projects.repository.BuildConfig
+import jt.projects.repository.network.facts.*
+import jt.projects.repository.network.vk.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -31,4 +33,6 @@ val networkModule = module {
     single<VkNetworkRepository> {
         VkNetworkRepositoryImpl(retrofit = get())
     }
+
+    single<FactsRepository> { FactsRepoImpl(retrofit = get()) }
 }

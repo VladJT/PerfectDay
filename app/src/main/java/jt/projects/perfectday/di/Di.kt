@@ -64,7 +64,6 @@ val roomModule = module {
 
 
 val repoModule = module {
-    single<FactsRepository> { FactsRepoImpl() }
     single<LocalRepository> { RoomDatabaseImpl(dao = get()) }
 }
 
