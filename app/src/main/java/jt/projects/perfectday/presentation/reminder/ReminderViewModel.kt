@@ -4,10 +4,6 @@ import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
-import jt.projects.utils.REMINDER_PERIOD_DEFAULT
-import jt.projects.utils.REMINDER_PERIOD_KEY
-import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import java.time.LocalDate
 
@@ -24,25 +20,18 @@ class ReminderViewModel(
         scheduledEventInteractorImpl
     ) {
 
+    var isShowTomorrow = true
 
-    private var startDate = LocalDate.now().plusDays(1)
-    private var endDate = startDate
-
-    fun setDatesToShowTomorrow() {
-        startDate = LocalDate.now().plusDays(1)
-        endDate = startDate
+    private fun getStartDate(): LocalDate {
+        return if (isShowTomorrow) LocalDate.now().plusDays(1)
+        else LocalDate.now()
     }
 
-    fun setDatesToShowLongPeriod() {
-        startDate = LocalDate.now()
-        endDate = startDate.plusDays(getPeriod())
+    private fun getEndDate(): LocalDate {
+        return if (isShowTomorrow) getStartDate()
+        else getStartDate().plusDays(settingsPreferences.getDaysPeriodForReminderFragment())
     }
 
-    fun getPeriod(): Long {
-        val reminderPeriod = settingsPreferences.getSettings(REMINDER_PERIOD_KEY)
-        return if (reminderPeriod.equals(emptyString())) REMINDER_PERIOD_DEFAULT
-        else reminderPeriod!!.toLong()
-    }
 
     override suspend fun loadBirthdaysFromPhone() {
         val dataByDate = birthdayFromPhoneInteractor.getContacts()
@@ -54,7 +43,8 @@ class ReminderViewModel(
     }
 
     override suspend fun loadScheduledEvents() {
-        val scheduledEvents = scheduledEventInteractorImpl.getScheduledEventsByPeriod(startDate, endDate)
+        val scheduledEvents =
+            scheduledEventInteractorImpl.getScheduledEventsByPeriod(getStartDate(), getEndDate())
         data.addAll(scheduledEvents)
     }
 

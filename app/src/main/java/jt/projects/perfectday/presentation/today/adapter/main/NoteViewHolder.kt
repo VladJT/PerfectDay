@@ -20,7 +20,8 @@ class NoteViewHolder private constructor(
 
 
         with(binding) {
-            tvHeader.text = "${data.date.toStdFormatString()} ${data.name}"
+            tvHeader.text = "${data.name}"
+            tvDate.text = "${data.date.toStdFormatString()}"
             tvDescription.text = data.description
 
             btnDelete.setOnClickListener {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
@@ -106,11 +107,7 @@ class CalendarFragment : Fragment() {
     }
 
     private fun showLoadingFrame(isLoading: Boolean) {
-        if (isLoading) {
-            binding.loadingFrameLayout.visibility = View.VISIBLE
-        } else {
-            binding.loadingFrameLayout.visibility = View.GONE
-        }
+        binding.loadingFrameLayout.isVisible = isLoading
     }
 
     private fun initBirthdayList(data: List<DataModel>) {

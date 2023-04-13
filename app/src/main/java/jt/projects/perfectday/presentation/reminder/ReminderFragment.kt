@@ -13,13 +13,16 @@ import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.core.showScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderBinding
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.showSnackbar
 import jt.projects.utils.showToast
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReminderFragment : Fragment() {
     private var _binding: FragmentReminderBinding? = null
     private val binding get() = _binding!!
+    private val settingsPreferences by inject<SimpleSettingsPreferences>()
 
     companion object {
         fun newInstance() = ReminderFragment()
@@ -55,20 +58,26 @@ class ReminderFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initToggleButtons()
         initViewModel()
         initRecView()
-        initToggleButtons()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun initToggleButtons() {
         binding.buttonTomorrow.setOnClickListener {
-            viewModel.setDatesToShowTomorrow()
+            viewModel.isShowTomorrow = true
             viewModel.loadData()
         }
 
-        binding.buttonAllTime.text = "${viewModel.getPeriod()} Дней"
+        binding.buttonAllTime.text =
+            "${settingsPreferences.getDaysPeriodForReminderFragment()} Дней"
+
         binding.buttonAllTime.setOnClickListener {
-            viewModel.setDatesToShowLongPeriod()
+            viewModel.isShowTomorrow = false
             viewModel.loadData()
         }
     }
@@ -77,6 +86,7 @@ class ReminderFragment : Fragment() {
         viewModel.liveDataForViewToObserve.observe(this@ReminderFragment) {
             renderData(it)
         }
+
         viewModel.loadData()
     }
 

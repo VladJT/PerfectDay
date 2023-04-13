@@ -4,4 +4,6 @@ interface SimpleSettingsPreferences {
     fun saveSettings(key: String, value: String)
 
     fun getSettings(key: String): String?
+
+    fun getDaysPeriodForReminderFragment(): Long
 }
