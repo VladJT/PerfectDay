@@ -1,7 +1,7 @@
 package jt.projects.perfectday.interactors
 
 import jt.projects.model.*
-import jt.projects.repository.network.VkNetworkRepository
+import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
 import java.time.*
 import java.time.format.*
