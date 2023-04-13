@@ -10,7 +10,6 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
@@ -40,10 +39,12 @@ abstract class BaseViewModel(
 
         viewModelScope.launch {
             try {
-                tryToExecute(::loadBirthdaysFromPhone, progress = 30)
-                tryToExecute(::loadBirthdaysFromVk, progress = 60)
-                tryToExecute(::loadScheduledEvents, progress = 100)
+                tryToExecute(::loadScheduledEvents, progress = 33)
+                tryToExecute(::loadBirthdaysFromPhone, progress = 66)
+                tryToExecute(::loadBirthdaysFromVk, progress = 100)
 
+                // здесь можно добавить алгоритм удаления дублей ДР, когда 1 и тот же человек
+                // тянется из АК и ВК
                 liveData.postValue(AppState.Success(data))
             } catch (e: CancellationException) {
                 throw e

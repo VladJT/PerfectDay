@@ -1,4 +1,4 @@
-package jt.projects.perfectday.core
+package jt.projects.perfectday.core.viewholders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

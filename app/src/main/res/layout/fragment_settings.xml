@@ -41,6 +41,7 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/textView"
         style="@style/PerfectDay.SettingsItemStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,6 +51,34 @@
         app:layout_constraintEnd_toEndOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+
+    <TextView
+        android:id="@+id/tv_header"
+        style="@style/HeaderTextStyle"
+        android:layout_marginTop="40dp"
+        android:text="Период для отображения напоминаний"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <!-- Discrete slider -->
+    <com.google.android.material.slider.Slider
+        android:id="@+id/days_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Days"
+        android:stepSize="1.0"
+        android:valueFrom="3.0"
+        android:valueTo="14.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_header" />
+
+    <TextView
+        android:id="@+id/tv_slider_value"
+        style="@style/BaseTextStyle"
+        android:text="7 дней (12.01.2023 - 16.01.2023)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/days_slider" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_vk_logout"

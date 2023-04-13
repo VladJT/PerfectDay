@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
@@ -19,9 +20,11 @@ import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
+import jt.projects.utils.REMINDER_PERIOD_KEY
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.showSnackbar
 import org.koin.android.ext.android.getKoin
 
@@ -55,11 +58,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFab() {
         binding.fBtnAddReminder.setOnClickListener {
-            navigateToFragment(
-                ScheduleEventFragment.newInstance(data = null),
-                isAddToBackStack = true
-            )
+            showScheduledEvent(data = null)
         }
+    }
+
+    fun showScheduledEvent(data: DataModel.ScheduledEvent?) {
+        navigateToFragment(
+            ScheduleEventFragment.newInstance(data = data),
+            isAddToBackStack = true
+        )
     }
 
     fun showFab(isShow: Boolean) {

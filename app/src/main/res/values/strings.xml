@@ -12,6 +12,7 @@
     <string name="birthday">День Рождения</string>
     <string name="My_notice">Напоминание</string>
     <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
 
     <string name="vk_auth_text">Авторизация VK</string>
     <string name="push_settings_text">Настройка push-уведомлений</string>

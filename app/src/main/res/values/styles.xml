@@ -99,7 +99,7 @@
     <style name="PerfectDay.CalendarButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:fontFamily">@font/roboto_medium</item>
         <item name="android:textColor">@color/primary_text_color</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_standard_header</item>
         <item name="android:textAlignment">center</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawablePadding">8dp</item>

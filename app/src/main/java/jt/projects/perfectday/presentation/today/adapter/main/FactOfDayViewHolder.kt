@@ -15,6 +15,7 @@ class FactOfDayViewHolder private constructor(
     )
 
     fun bind(item: TodayItem.FactOfDay) {
-
+        binding.root.isVisible = item.list.isNotEmpty()
+        binding.tvFactDescription.text = item.list.first().description
     }
 }
