@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
@@ -55,11 +56,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFab() {
         binding.fBtnAddReminder.setOnClickListener {
-            navigateToFragment(
-                ScheduleEventFragment.newInstance(data = null),
-                isAddToBackStack = true
-            )
+            showScheduledEvent(data = null)
         }
+    }
+
+    fun showScheduledEvent(data: DataModel.ScheduledEvent?) {
+        navigateToFragment(
+            ScheduleEventFragment.newInstance(data = data),
+            isAddToBackStack = true
+        )
     }
 
     fun showFab(isShow: Boolean) {

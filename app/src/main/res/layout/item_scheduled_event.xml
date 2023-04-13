@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small"
-    android:layout_marginTop="15dp"
+    android:layout_marginTop="@dimen/margin_medium"
     android:elevation="@dimen/card_elevation"
     app:cardCornerRadius="@dimen/card_corner_radius">
 
@@ -13,47 +13,51 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorErrorContainer"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:textColor="?attr/colorOnErrorContainer">
-
-            <ImageView
-                android:id="@+id/item_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_small"
-                android:src="@drawable/baseline_notifications_active_24"
-                app:tint="?attr/colorPrimary" />
-
-            <TextView
-                android:id="@+id/tv_header"
-                style="@style/CardHeaderStyle"
-                android:text="12.12.2023" />
-
-        </LinearLayout>
-
-
         <TextView
-            android:id="@+id/tv_name"
-            style="@style/BaseTextStyle"
-            android:text="Task1"
-            android:textStyle="bold" />
+            android:id="@+id/tv_header"
+            style="@style/HeaderTextStyle"
+            android:text="Task" />
 
         <TextView
             android:id="@+id/tv_description"
             style="@style/BaseTextStyle"
             android:text="Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
-        <Button
-            android:id="@+id/btn_delete"
-            style="?attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="@string/delete" />
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/BaseTextStyle"
+                android:text="12.12.2023"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_edit"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_delete"
+                android:textSize="@dimen/text_size_standard" />
+
+            <Button
+                android:id="@+id/btn_delete"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="@dimen/text_size_standard" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

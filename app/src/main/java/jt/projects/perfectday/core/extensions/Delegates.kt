@@ -1,6 +1,7 @@
 package jt.projects.perfectday.core
 
 import androidx.fragment.app.Fragment
+import jt.projects.model.DataModel
 import jt.projects.perfectday.presentation.MainActivity
 
 
@@ -14,4 +15,8 @@ fun Fragment.showFab(isVisible: Boolean) {
 
 fun Fragment.showButtonBackHome(isVisible: Boolean) {
     (this.requireActivity() as? MainActivity)?.showButtonBackHome(isVisible)
+}
+
+fun Fragment.showScheduledEvent(data: DataModel.ScheduledEvent) {
+    (this.requireActivity() as? MainActivity)?.showScheduledEvent(data)
 }

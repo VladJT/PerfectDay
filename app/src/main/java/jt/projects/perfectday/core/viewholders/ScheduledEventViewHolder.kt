@@ -1,4 +1,4 @@
-package jt.projects.perfectday.core
+package jt.projects.perfectday.core.viewholders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,19 +17,28 @@ class ScheduledEventViewHolder private constructor(
 
     fun bind(
         dataModel: DataModel,
-        listItemClicked: (DataModel) -> Unit,
-        onDeleteClicked: (Int) -> Unit
+        listItemClicked: ((DataModel) -> Unit)?,
+        onDeleteClicked: ((DataModel, Int) -> Unit)?
     ) {
         val data = dataModel as DataModel.ScheduledEvent
         if (layoutPosition != RecyclerView.NO_POSITION) {
             with(binding) {
-                tvHeader.text = "${data.date.toStdFormatString()}"
-                tvName.text = data.name
+                tvHeader.text = "${data.name}"
+                tvDate.text = "${data.date.toStdFormatString()}"
                 tvDescription.text = data.description
 
+                // удаление заметки
                 btnDelete.setOnClickListener {
-                    onDeleteClicked(layoutPosition)
-                    listItemClicked(data)
+                    if (onDeleteClicked != null) {
+                        onDeleteClicked(data, layoutPosition)
+                    }
+                }
+
+                // редактирование заметки
+                btnEdit.setOnClickListener {
+                    if (listItemClicked != null) {
+                        listItemClicked(data)
+                    }
                 }
             }
         }

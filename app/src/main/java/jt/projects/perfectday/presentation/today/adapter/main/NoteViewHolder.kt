@@ -11,7 +11,7 @@ class NoteViewHolder private constructor(
     private val binding: ItemScheduledEventBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    constructor(parent: ViewGroup): this(
+    constructor(parent: ViewGroup) : this(
         ItemScheduledEventBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
@@ -20,8 +20,7 @@ class NoteViewHolder private constructor(
 
 
         with(binding) {
-            tvHeader.text = "${data.date.toStdFormatString()}"
-            tvName.text = data.name
+            tvHeader.text = "${data.date.toStdFormatString()} ${data.name}"
             tvDescription.text = data.description
 
             btnDelete.setOnClickListener {

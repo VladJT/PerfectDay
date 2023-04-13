@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
+import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.showProgress
+import jt.projects.perfectday.core.showScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderBinding
-import jt.projects.perfectday.core.MainAdapter
 import jt.projects.utils.showSnackbar
 import jt.projects.utils.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,13 +27,20 @@ class ReminderFragment : Fragment() {
 
     private val viewModel: ReminderViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
 
-    private val reminderAdapter: MainAdapter by lazy { MainAdapter(::onItemClick) }
+    private val reminderAdapter: BaseAdapter by lazy { BaseAdapter(::onItemClick, ::onItemDelete) }
 
     private fun onItemClick(data: DataModel) {
         if (data is DataModel.ScheduledEvent) {
-            viewModel.deleteScheduledEvent(data.id)
+            showScheduledEvent(data)
         } else {
             requireActivity().showToast(data.toString())
+        }
+    }
+
+    private fun onItemDelete(data: DataModel, position: Int) {
+        if (data is DataModel.ScheduledEvent) {
+            viewModel.deleteScheduledEvent(data.id)
+            reminderAdapter.notifyItemRemoved(position)
         }
     }
 

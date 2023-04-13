@@ -3,30 +3,26 @@ package jt.projects.perfectday.core
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
+import jt.projects.perfectday.core.viewholders.BirthdayFromPhoneViewHolder
+import jt.projects.perfectday.core.viewholders.BirthdayFromVKViewHolder
+import jt.projects.perfectday.core.viewholders.NoticeViewHolder
+import jt.projects.perfectday.core.viewholders.ScheduledEventViewHolder
 
-class MainAdapter(
-    private var onListItemClick: ((DataModel) -> Unit)?
+class BaseAdapter(
+    private var onListItemClick: ((DataModel) -> Unit)?,
+    private var onDeleteClicked: ((DataModel, Int) -> Unit)?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private val onDeleteClicked: (Int) -> Unit = {
-        notifyItemRemoved(it)
-    }
 
     companion object {
         const val BIRTHDAY_FROM_VK = 1
         const val BIRTHDAY_FROM_PHONE = 2
-        const val SIMPLE_NOTICE = 3
-        const val HOLIDAY = 4
+        const val SIMPLE_NOTICE = 3 // сейчас не используется
+        const val HOLIDAY = 4 // сейчас не используется
         const val SCHEDULED_EVENT = 5
         const val UNKNOWN = -1
     }
 
     private var data: List<DataModel> = arrayListOf()
-
-    // Передаём событие во фрагмент
-    private fun listItemClicked(listItemData: DataModel) {
-        onListItemClick?.let { it(listItemData) }
-    }
 
     fun setData(newData: List<DataModel>) {
         this.data = newData
@@ -47,20 +43,24 @@ class MainAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
             BIRTHDAY_FROM_PHONE -> BirthdayFromPhoneViewHolder(parent)
-            SIMPLE_NOTICE -> NoticeViewHolder(parent)
+            BIRTHDAY_FROM_VK -> BirthdayFromVKViewHolder(parent)
+            SIMPLE_NOTICE -> NoticeViewHolder(parent) // сейчас не используется
             SCHEDULED_EVENT -> ScheduledEventViewHolder(parent)
             else -> throw IllegalStateException()
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is BirthdayFromVKViewHolder) {
+            holder.bind(data[position], onListItemClick)
+        }
         if (holder is BirthdayFromPhoneViewHolder) {
-            onListItemClick?.let { holder.bind(data[position], it) }
+            holder.bind(data[position], onListItemClick)
         }
         if (holder is NoticeViewHolder) {
             holder.bind(data[position])
         }
         if (holder is ScheduledEventViewHolder) {
-            onListItemClick?.let { holder.bind(data[position], it, onDeleteClicked) }
+            holder.bind(data[position], onListItemClick, onDeleteClicked)
         }
     }
 
