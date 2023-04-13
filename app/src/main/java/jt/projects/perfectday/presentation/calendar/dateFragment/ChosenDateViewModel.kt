@@ -10,24 +10,15 @@ import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 class ChosenDateViewModel(
     settingsPreferences: SimpleSettingsPreferences,
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-    simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : BaseViewModel(
     settingsPreferences,
     birthdayFromPhoneInteractor,
-    simpleNoticeInteractorImpl,
     getFriendsFromVkUseCase,
     scheduledEventInteractorImpl
 ) {
 
-    override suspend fun loadHolidays() {
-//        TODO("Not yet implemented")
-    }
-
-    override suspend fun loadInterestingFacts() {
-//        TODO("Not yet implemented")
-    }
 
     override suspend fun loadBirthdaysFromPhone() {
         val allData = birthdayFromPhoneInteractor.getContacts()

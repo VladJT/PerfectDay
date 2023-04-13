@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface LocalRepository {
     suspend fun getAll(): Flow<DataModel.ScheduledEvent>
 
+    fun getNotesByDate(date: String): Flow<List<DataModel.ScheduledEvent>>
+
     suspend fun insert(scheduledEvent: DataModel.ScheduledEvent)
 
     suspend fun update(scheduledEvent: DataModel.ScheduledEvent)

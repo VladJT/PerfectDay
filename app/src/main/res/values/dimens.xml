@@ -7,15 +7,19 @@
 
     //PADDING
     <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">6dp</dimen>
 
     //Text size
     <dimen name="text_size_tip">10sp</dimen>
-    <dimen name="text_size_standard">16sp</dimen>
-    <dimen name="text_size_standard_header">18sp</dimen>
+    <dimen name="text_size_standard">14sp</dimen>
+    <dimen name="text_size_standard_header">16sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_large_header">22sp</dimen>
 
     //Corner radius
     <dimen name="card_corner_radius">8dp</dimen>
     <dimen name="card_elevation">8dp</dimen>
+
+    //Button radius
+    <dimen name="button_corner_radius">16dp</dimen>
 </resources>

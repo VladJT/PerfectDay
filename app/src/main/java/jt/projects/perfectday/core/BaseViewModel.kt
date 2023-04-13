@@ -10,7 +10,6 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
@@ -22,7 +21,6 @@ import kotlin.reflect.KSuspendFunction0
 abstract class BaseViewModel(
     protected val settingsPreferences: SimpleSettingsPreferences,
     protected val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-    protected val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : ViewModel() {
@@ -41,12 +39,12 @@ abstract class BaseViewModel(
 
         viewModelScope.launch {
             try {
-                tryToExecute(::loadBirthdaysFromPhone, progress = 20)
-                tryToExecute(::loadBirthdaysFromVk, progress = 40)
-                tryToExecute(::loadInterestingFacts, progress = 60)
-                tryToExecute(::loadHolidays, progress = 80)
-                tryToExecute(::loadScheduledEvents, progress = 100)
+                tryToExecute(::loadScheduledEvents, progress = 33)
+                tryToExecute(::loadBirthdaysFromPhone, progress = 66)
+                tryToExecute(::loadBirthdaysFromVk, progress = 100)
 
+                // здесь можно добавить алгоритм удаления дублей ДР, когда 1 и тот же человек
+                // тянется из АК и ВК
                 liveData.postValue(AppState.Success(data))
             } catch (e: CancellationException) {
                 throw e
@@ -69,9 +67,6 @@ abstract class BaseViewModel(
         Log.d(LOG_TAG, e.message.toString())
     }
 
-    abstract suspend fun loadHolidays()
-
-    abstract suspend fun loadInterestingFacts()
 
     abstract suspend fun loadBirthdaysFromPhone()
 
@@ -79,9 +74,16 @@ abstract class BaseViewModel(
 
     abstract suspend fun loadScheduledEvents()
 
-    suspend fun loadFriendsFromVk(): List<DataModel> {
+    suspend fun loadFriendsFromVk(): List<DataModel.BirthdayFromVk> {
         if (vkToken == null || vkToken!!.isEmpty()) return emptyList()
-        return getFriendsFromVkUseCase.getFriends(vkToken!!)
+        return try {
+            getFriendsFromVkUseCase.getFriends(vkToken!!)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.e("BaseViewModel", "$e")
+            listOf()
+        }
     }
 
     override fun onCleared() {

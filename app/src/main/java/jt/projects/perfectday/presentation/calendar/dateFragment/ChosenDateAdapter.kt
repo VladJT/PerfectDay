@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
-import jt.projects.perfectday.presentation.MainAdapter
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.java.KoinJavaComponent
+import jt.projects.perfectday.core.BaseAdapter
 
 class ChosenDateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -27,15 +27,15 @@ class ChosenDateAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
         return when (data[position]) {
-            is DataModel.BirthdayFromPhone -> MainAdapter.BIRTHDAY_FROM_PHONE
-            is DataModel.SimpleNotice -> MainAdapter.SIMPLE_NOTICE
-            else -> MainAdapter.UNKNOWN
+            is DataModel.BirthdayFromPhone -> BaseAdapter.BIRTHDAY_FROM_PHONE
+            is DataModel.SimpleNotice -> BaseAdapter.SIMPLE_NOTICE
+            else -> BaseAdapter.UNKNOWN
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
-            MainAdapter.BIRTHDAY_FROM_PHONE -> {
+            BaseAdapter.BIRTHDAY_FROM_PHONE -> {
                 val binding = ItemBirthdayFromPhoneBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,

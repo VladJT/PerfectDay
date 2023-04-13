@@ -4,11 +4,15 @@
     <string name="fragment_reminder">Напоминания о Днях Рождения</string>
     <string name="fragment_calendar">Календарь</string>
 
+    <string name="fact_of_day_text">Интересный факт:</string>
+    <string name="birth_day_today_text">Дни рождения сегодня</string>
+
     <string name="vk_error_auth_text">Ошибка авторизации. Попробуйте позже.</string>
     <string name="age">Возраст</string>
     <string name="birthday">День Рождения</string>
     <string name="My_notice">Напоминание</string>
     <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
 
     <string name="vk_auth_text">Авторизация VK</string>
     <string name="push_settings_text">Настройка push-уведомлений</string>
@@ -16,4 +20,12 @@
 
     <!--Нужно для нормальной работы - это id нашего приложения, которое зарегистрировано в VK-->
     <integer name="com_vk_sdk_AppId">51605520</integer>
+
+
+    <string name="content_desc_logo">Logo application</string>
+    <string name="content_desc_back">Back home button</string>
+    <string name="content_desc_settings">Settings button</string>
+    <string name="content_desc_floating_button">Add reminder</string>
+    <string name="save">Сохранить</string>
+    <string name="Tomorrow">Завтра</string>
 </resources>

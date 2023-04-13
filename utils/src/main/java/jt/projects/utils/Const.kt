@@ -4,12 +4,23 @@ package jt.projects.utils
  * URLS
  */
 const val FACTS_BASE_URL_LOCATIONS = "http://numbersapi.com/"
+const val HOLIDAY_BASE_URL_LOCATION = "https://holidays.abstractapi.com/"
+const val HOLIDAY_COUNTRY = "Ru"
+
+
+/**
+ * SHARED PREFERENCES KEYS
+ */
+const val REMINDER_PERIOD_KEY =
+    "REMINDER_PERIOD_KEY" // ключ shared_pref - количество дней для отображения напоминаний на вкладке REMINDER
 
 /**
  * COMMON SETTINGS
  */
 const val FACTS_COUNT = 1 // кол-во интересных фактов для отображения на вкладке "Today"
 const val FACT_HEADER = "Интересный факт" // заголовок для полученного факта (name)
+const val REMINDER_PERIOD_DEFAULT =
+    7L // количество дней для отображения напоминаний на вкладке REMINDER
 
 /**
  * EXCEPTIONS
@@ -43,3 +54,8 @@ const val REAL = "REAL"
  */
 const val REQUEST_CODE_READ_CONTACTS = 4513
 var permissionGranted = false
+
+/*
+* FOR DEBUG LO
+ */
+val DEBUG: Boolean = BuildConfig.DEBUG && true

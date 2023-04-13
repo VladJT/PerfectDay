@@ -1,23 +1,36 @@
 package jt.projects.perfectday.presentation.settings
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
+import com.google.android.material.slider.Slider
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
+import jt.projects.perfectday.core.showButtonBackHome
+import jt.projects.perfectday.core.showFab
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
+import jt.projects.utils.REMINDER_PERIOD_KEY
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.showSnackbar
+import jt.projects.utils.toStdFormatString
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
+    private val settingsPreferences by inject<SimpleSettingsPreferences>()
 
     private val viewModel: SettingsViewModel by viewModel()
     private val launcherVk =
@@ -40,6 +53,34 @@ class SettingsFragment : Fragment() {
         setOnButtonsListener()
         observeVisibleProfile()
         observeUserInfo()
+        initDaySliderForReminderFragment()
+        showFab(false)
+        showButtonBackHome(true)
+    }
+
+    private fun initDaySliderForReminderFragment() {
+        binding.daysSlider.value = settingsPreferences.getDaysPeriodForReminderFragment().toFloat()
+        setSliderValueLabel(binding.daysSlider.value)
+
+        binding.daysSlider.addOnChangeListener { slider, value, fromUser ->
+            setSliderValueLabel(slider.value)
+        }
+
+        binding.daysSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                saveSettings()
+            }
+        })
+    }
+
+    private fun setSliderValueLabel(value: Float) {
+        val startDate = LocalDate.now()
+        val endDate = startDate.plusDays(value.toLong())
+        binding.tvSliderValue.text =
+            "${value.toInt()} Дней (${startDate.toStdFormatString()} - ${endDate.toStdFormatString()})"
     }
 
     private fun observeError() {
@@ -107,8 +148,17 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun saveSettings() {
+        settingsPreferences.saveSettings(
+            REMINDER_PERIOD_KEY,
+            binding.daysSlider.value.toInt().toString()
+        )
+    }
+
     override fun onDestroyView() {
         _binding = null
+        showButtonBackHome(false)
+        showFab(true)
         super.onDestroyView()
     }
 }
