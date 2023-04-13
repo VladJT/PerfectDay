@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.databinding.LayoutBithdayFriendsBinding
 import jt.projects.perfectday.presentation.today.adapter.birth.BirthdayListAdapter
 import jt.projects.utils.extensions.hideViewInRecycler
+import jt.projects.utils.extensions.showViewInRecycler
 
 class FriendsViewHolder private constructor(
     binding: LayoutBithdayFriendsBinding
@@ -25,6 +26,7 @@ class FriendsViewHolder private constructor(
             itemView.hideViewInRecycler()
             return
         }
+        itemView.showViewInRecycler()
         birthdayAdapter.submitList(item.friendsVk)
     }
 }

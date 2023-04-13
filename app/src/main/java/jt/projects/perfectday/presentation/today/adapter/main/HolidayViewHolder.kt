@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.databinding.ItemHolidayDayBinding
 import jt.projects.utils.extensions.hideViewInRecycler
+import jt.projects.utils.extensions.showViewInRecycler
 
 class HolidayViewHolder private constructor(
     private val binding: ItemHolidayDayBinding
@@ -20,7 +21,7 @@ class HolidayViewHolder private constructor(
             itemView.hideViewInRecycler()
             return
         }
-        itemView.isVisible = true
+        itemView.showViewInRecycler()
     }
 
 }
