@@ -49,28 +49,90 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
     ): List<DataModel.BirthdayFromPhone> {
         val returnList = mutableListOf<DataModel.BirthdayFromPhone>()
         prefilteredList.forEach {
-            if (
-                startIntervalDate <= LocalDate.of(
+            if (startIntervalDate.year == endIntervalDate.year) {
+                if (
+                    startIntervalDate <= LocalDate.of(
+                        startIntervalDate.year,
+                        it.birthDate.monthValue,
+                        it.birthDate.dayOfMonth
+                    ) &&
+                    endIntervalDate >= LocalDate.of(
+                        startIntervalDate.year,
+                        it.birthDate.monthValue,
+                        it.birthDate.dayOfMonth
+                    )
+                ) {
+                    returnList.add(it)
+                } else {
+                    if (
+                        startIntervalDate <= LocalDate.of(
+                            startIntervalDate.year,
+                            it.birthDate.monthValue,
+                            it.birthDate.dayOfMonth
+                        ) ||
+                        endIntervalDate >= LocalDate.of(
+                            endIntervalDate.year,
+                            it.birthDate.monthValue,
+                            it.birthDate.dayOfMonth
+                        )
+                    ) {
+                        returnList.add(it)
+                    }
+                }
+            }
+        }
+        if (startIntervalDate.year == endIntervalDate.year) {
+            return sortListByDate(returnList)
+        } else {
+            return sortListByDateDifferentYear(returnList, startIntervalDate)
+        }
+    }
+
+    private fun sortListByDate(
+        returnList: MutableList<DataModel.BirthdayFromPhone>
+    ): List<DataModel.BirthdayFromPhone> {
+        return returnList.toList().sortedBy {
+            LocalDate.of(LocalDate.now().year, it.birthDate.monthValue, it.birthDate.dayOfMonth)
+        }
+    }
+
+    private fun sortListByDateDifferentYear(
+        returnList: MutableList<DataModel.BirthdayFromPhone>,
+        startIntervalDate: LocalDate
+    ): List<DataModel.BirthdayFromPhone> {
+
+        val thisYearList = mutableListOf<DataModel.BirthdayFromPhone>()
+        val nextYearList = mutableListOf<DataModel.BirthdayFromPhone>()
+
+        returnList.forEach {
+            if (startIntervalDate <= LocalDate.of(
                     startIntervalDate.year,
-                    it.birthDate.monthValue,
-                    it.birthDate.dayOfMonth
-                ) &&
-                endIntervalDate >= LocalDate.of(
-                    endIntervalDate.year,
                     it.birthDate.monthValue,
                     it.birthDate.dayOfMonth
                 )
             ) {
-                returnList.add(it)
+                thisYearList.add(it)
+            } else {
+                nextYearList.add(it)
             }
         }
-        return sortListByDate(returnList)
-    }
 
-    private fun sortListByDate(returnList: MutableList<DataModel.BirthdayFromPhone>): List<DataModel.BirthdayFromPhone> {
-        return returnList.toList().sortedBy {
-            LocalDate.of(LocalDate.now().year, it.birthDate.monthValue, it.birthDate.dayOfMonth)
+        thisYearList.toList().sortedBy {
+            LocalDate.of(
+                LocalDate.now().year,
+                it.birthDate.monthValue,
+                it.birthDate.dayOfMonth
+            )
         }
+        nextYearList.toList().sortedBy {
+            LocalDate.of(
+                LocalDate.now().year + 1,
+                it.birthDate.monthValue,
+                it.birthDate.dayOfMonth
+            )
+        }
+
+        return thisYearList + nextYearList
     }
 
     private fun makeBirthdayListByDay(
