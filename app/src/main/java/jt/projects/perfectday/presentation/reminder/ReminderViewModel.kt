@@ -62,7 +62,6 @@ class ReminderViewModel(
                     birthdayFromPhoneInteractor.getContactsInInterval(
                         getStartDate(),
                         getEndDate()
-                            .plusDays(40)// TODO DELETE
                     )
             }
             currentEndDate = getEndDate()
