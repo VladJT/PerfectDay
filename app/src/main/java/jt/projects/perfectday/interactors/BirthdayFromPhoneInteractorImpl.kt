@@ -63,22 +63,23 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
                     )
                 ) {
                     returnList.add(it)
-                } else {
-                    if (
-                        startIntervalDate <= LocalDate.of(
-                            startIntervalDate.year,
-                            it.birthDate.monthValue,
-                            it.birthDate.dayOfMonth
-                        ) ||
-                        endIntervalDate >= LocalDate.of(
-                            endIntervalDate.year,
-                            it.birthDate.monthValue,
-                            it.birthDate.dayOfMonth
-                        )
-                    ) {
-                        returnList.add(it)
-                    }
                 }
+            } else {
+                if (
+                    startIntervalDate <= LocalDate.of(
+                        startIntervalDate.year,
+                        it.birthDate.monthValue,
+                        it.birthDate.dayOfMonth
+                    ) ||
+                    endIntervalDate >= LocalDate.of(
+                        endIntervalDate.year,
+                        it.birthDate.monthValue,
+                        it.birthDate.dayOfMonth
+                    )
+                ) {
+                    returnList.add(it)
+                }
+
             }
         }
         if (startIntervalDate.year == endIntervalDate.year) {
