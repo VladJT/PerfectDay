@@ -2,9 +2,10 @@ package jt.projects.perfectday.presentation.today.adapter.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.databinding.ItemScheduledEventBinding
-import jt.projects.perfectday.presentation.today.adapter.TodayItem
+import jt.projects.utils.getAlertStringHowManyDaysBefore
 import jt.projects.utils.toStdFormatString
 
 class NoteViewHolder private constructor(
@@ -23,6 +24,9 @@ class NoteViewHolder private constructor(
             tvHeader.text = "${data.name}"
             tvDate.text = "${data.date.toStdFormatString()}"
             tvDescription.text = data.description
+
+            tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.date)
+            tvDaysToEvent.isVisible = false
 
             btnDelete.setOnClickListener {
                 onClickDeleteNote.invoke(data.id)

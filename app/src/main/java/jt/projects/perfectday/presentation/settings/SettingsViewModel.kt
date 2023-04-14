@@ -7,7 +7,7 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthenticationResult
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
-import jt.projects.repository.network.VkNetworkRepository
+import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN

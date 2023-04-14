@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
+import jt.projects.utils.getAlertStringHowManyDaysBefore
 import jt.projects.utils.toStdFormatString
 import jt.projects.utils.ui.CoilImageLoader
 import org.koin.java.KoinJavaComponent
@@ -24,6 +25,8 @@ class BirthdayFromPhoneViewHolder private constructor(
                 tvName.text = data.name
                 tvBirthday.text = data.birthDate.toStdFormatString()
                 tvAge.text = data.age.toString()
+
+                tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.birthDate)
 
                 data.photoUri?.let {
                     KoinJavaComponent.getKoin().get<CoilImageLoader>()

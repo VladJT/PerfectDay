@@ -1,4 +1,4 @@
-package jt.projects.perfectday.presentation.today.adapter
+package jt.projects.perfectday.presentation.today.adapter.main
 
 import jt.projects.model.DataModel
 

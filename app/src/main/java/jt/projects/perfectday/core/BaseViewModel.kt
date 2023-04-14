@@ -30,7 +30,7 @@ abstract class BaseViewModel(
             return liveData
         }
 
-    private val vkToken: String? by lazy { settingsPreferences.getSettings(VK_AUTH_TOKEN) }
+    internal val vkToken: String? by lazy { settingsPreferences.getSettings(VK_AUTH_TOKEN) }
     protected val data = mutableListOf<DataModel>()
 
     fun loadData() {
@@ -45,6 +45,8 @@ abstract class BaseViewModel(
 
                 // здесь можно добавить алгоритм удаления дублей ДР, когда 1 и тот же человек
                 // тянется из АК и ВК
+                preparePostValue()
+
                 liveData.postValue(AppState.Success(data))
             } catch (e: CancellationException) {
                 throw e
@@ -67,24 +69,13 @@ abstract class BaseViewModel(
         Log.d(LOG_TAG, e.message.toString())
     }
 
+    open fun preparePostValue() {}
 
     abstract suspend fun loadBirthdaysFromPhone()
 
     abstract suspend fun loadBirthdaysFromVk()
 
     abstract suspend fun loadScheduledEvents()
-
-    suspend fun loadFriendsFromVk(): List<DataModel.BirthdayFromVk> {
-        if (vkToken == null || vkToken!!.isEmpty()) return emptyList()
-        return try {
-            getFriendsFromVkUseCase.getFriends(vkToken!!)
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            Log.e("BaseViewModel", "$e")
-            listOf()
-        }
-    }
 
     override fun onCleared() {
         liveData.value = AppState.Success(null)

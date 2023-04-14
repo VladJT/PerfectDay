@@ -1,4 +1,4 @@
-package jt.projects.repository.network
+package jt.projects.repository.network.vk
 
 import jt.projects.repository.BuildConfig
 import jt.projects.repository.network.model.*
