@@ -5,7 +5,9 @@ import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
+import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 
 class CalendarViewModel(
     settingsPreferences: SimpleSettingsPreferences,
@@ -26,10 +28,13 @@ class CalendarViewModel(
     }
 
     override suspend fun loadBirthdaysFromVk() {
-//        TODO("Not yet implemented")
+        val token = settingsPreferences.getSettings(VK_AUTH_TOKEN)
+        val allData = getFriendsFromVkUseCase.getAllFriends(token)
+        data.addAll(allData)
     }
 
     override suspend fun loadScheduledEvents() {
-//        TODO("Not yet implemented")
+        val allData = scheduledEventInteractorImpl.getAll()
+        data.addAll(allData)
     }
 }

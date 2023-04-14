@@ -44,7 +44,6 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initCalendarViewModel()
     }
 
@@ -82,6 +81,7 @@ class CalendarFragment : Fragment() {
                 firstDayOfWeek = Calendar.MONDAY,
                 showYearSelectionView = true
             )
+            indicatorsList.clear()
             initBirthdayList(data)
 
             datesIndicators = indicatorsList
@@ -114,11 +114,12 @@ class CalendarFragment : Fragment() {
         val calendarSetter = Calendar.getInstance()
         for (index in data.indices) {
             when (data[index]) {
+
                 is DataModel.BirthdayFromPhone -> {
                     val birthdayData = data[index] as DataModel.BirthdayFromPhone
-                    if(birthdayData.birthDate.monthValue < LocalDate.now().monthValue ||
+                    if (birthdayData.birthDate.monthValue < LocalDate.now().monthValue ||
                         (birthdayData.birthDate.monthValue.equals(LocalDate.now().monthValue) && (birthdayData.birthDate.dayOfMonth < LocalDate.now().dayOfMonth))
-                    ){
+                    ) {
                         calendarSetter.set(
                             CalendarDate.today.year + 1,
                             birthdayData.birthDate.monthValue - 1,
@@ -134,7 +135,59 @@ class CalendarFragment : Fragment() {
 
                     indicatorsList.add(
                         DateIndicator(
-                            resources.getColor(R.color.color_primary),
+                            resources.getColor(R.color.md_theme_light_primary),
+                            CalendarDate(calendarSetter.time)
+                        )
+                    )
+                }
+
+                is DataModel.BirthdayFromVk -> {
+                    val birthdayData = data[index] as DataModel.BirthdayFromVk
+                    if (birthdayData.birthDate.monthValue < LocalDate.now().monthValue ||
+                        (birthdayData.birthDate.monthValue.equals(LocalDate.now().monthValue) && (birthdayData.birthDate.dayOfMonth < LocalDate.now().dayOfMonth))
+                    ) {
+                        calendarSetter.set(
+                            CalendarDate.today.year + 1,
+                            birthdayData.birthDate.monthValue - 1,
+                            birthdayData.birthDate.dayOfMonth
+                        )
+                    } else {
+                        calendarSetter.set(
+                            CalendarDate.today.year,
+                            birthdayData.birthDate.monthValue - 1,
+                            birthdayData.birthDate.dayOfMonth
+                        )
+                    }
+
+                    indicatorsList.add(
+                        DateIndicator(
+                            resources.getColor(R.color.md_theme_light_primary),
+                            CalendarDate(calendarSetter.time)
+                        )
+                    )
+                }
+
+                is DataModel.ScheduledEvent -> {
+                    val eventData = data[index] as DataModel.ScheduledEvent
+                    if (eventData.date.monthValue < LocalDate.now().monthValue ||
+                        ((eventData.date.monthValue.equals(LocalDate.now().monthValue) && (eventData.date.dayOfMonth < LocalDate.now().dayOfMonth)))
+                    ) {
+                        calendarSetter.set(
+                            CalendarDate.today.year + 1,
+                            eventData.date.monthValue - 1,
+                            eventData.date.dayOfMonth
+                        )
+                    } else {
+                        calendarSetter.set(
+                            CalendarDate.today.year,
+                            eventData.date.monthValue - 1,
+                            eventData.date.dayOfMonth
+                        )
+                    }
+
+                    indicatorsList.add(
+                        DateIndicator(
+                            resources.getColor(R.color.md_theme_light_error),
                             CalendarDate(calendarSetter.time)
                         )
                     )
@@ -143,7 +196,6 @@ class CalendarFragment : Fragment() {
             }
         }
     }
-
 
     override fun onDestroy() {
         _binding = null
