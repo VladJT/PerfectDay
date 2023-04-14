@@ -3,10 +3,7 @@ package jt.projects.perfectday.core
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
-import jt.projects.perfectday.core.viewholders.BirthdayFromPhoneViewHolder
-import jt.projects.perfectday.core.viewholders.BirthdayFromVKViewHolder
-import jt.projects.perfectday.core.viewholders.NoticeViewHolder
-import jt.projects.perfectday.core.viewholders.ScheduledEventViewHolder
+import jt.projects.perfectday.core.viewholders.*
 
 class BaseAdapter(
     private var onListItemClick: ((DataModel) -> Unit)?,
@@ -44,7 +41,7 @@ class BaseAdapter(
         when (viewType) {
             BIRTHDAY_FROM_PHONE -> BirthdayFromPhoneViewHolder(parent)
             BIRTHDAY_FROM_VK -> BirthdayFromVKViewHolder(parent)
-            SIMPLE_NOTICE -> NoticeViewHolder(parent) // сейчас не используется
+            SIMPLE_NOTICE -> NoticeHeaderOnlyViewHolder(parent) // сейчас не используется
             SCHEDULED_EVENT -> ScheduledEventViewHolder(parent)
             else -> throw IllegalStateException()
         }
@@ -57,6 +54,9 @@ class BaseAdapter(
             holder.bind(data[position], onListItemClick)
         }
         if (holder is NoticeViewHolder) {
+            holder.bind(data[position])
+        }
+        if (holder is NoticeHeaderOnlyViewHolder) {
             holder.bind(data[position])
         }
         if (holder is ScheduledEventViewHolder) {

@@ -3,29 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
+    android:layout_marginTop="@dimen/margin_small"
     android:elevation="@dimen/card_elevation"
     app:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_days_to_event"
+            style="@style/CardHeaderStyle"
+            android:background="?attr/colorSurfaceVariant"
+            android:text="__ дней до события"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <TextView
             android:id="@+id/tv_header"
             style="@style/HeaderTextStyle"
+            android:layout_marginStart="@dimen/margin_medium"
             android:text="Task" />
 
         <TextView
             android:id="@+id/tv_description"
             style="@style/BaseTextStyle"
+            android:layout_marginStart="@dimen/margin_medium"
             android:text="Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
             android:gravity="end"
             android:orientation="horizontal">
 

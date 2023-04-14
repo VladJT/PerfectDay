@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 
 /**
@@ -38,10 +39,31 @@ fun Fragment.showSnackbar(text: String) {
     ).show()
 }
 
-fun LocalDate.toStdFormatString(): String{
+fun LocalDate.toStdFormatString(): String {
     return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 }
 
-fun String.toStdLocalDate(): LocalDate{
+fun String.toStdLocalDate(): LocalDate {
     return LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 }
+
+
+/**
+ * LOCAL_DATE EXTENSIONS
+ */
+
+fun getAlertStringHowManyDaysBefore(birthDate: LocalDate): String {
+    val endDate = LocalDate.of(
+        LocalDate.now().year,
+        birthDate.month,
+        birthDate.dayOfMonth
+    )
+    return when (val daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), endDate)) {
+        0L -> "Сегодня"
+        1L -> "Завтра"
+        2L -> "Послезавтра"
+        else -> "$daysBeforeEventCount дней до события"
+    }
+}
+
+

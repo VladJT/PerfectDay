@@ -63,10 +63,6 @@ class ReminderFragment : Fragment() {
         initRecView()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun initToggleButtons() {
         binding.buttonTomorrow.setOnClickListener {
             viewModel.isShowTomorrow = true

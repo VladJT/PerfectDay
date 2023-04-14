@@ -45,6 +45,8 @@ abstract class BaseViewModel(
 
                 // здесь можно добавить алгоритм удаления дублей ДР, когда 1 и тот же человек
                 // тянется из АК и ВК
+                preparePostValue()
+
                 liveData.postValue(AppState.Success(data))
             } catch (e: CancellationException) {
                 throw e
@@ -67,6 +69,7 @@ abstract class BaseViewModel(
         Log.d(LOG_TAG, e.message.toString())
     }
 
+    open fun preparePostValue() {}
 
     abstract suspend fun loadBirthdaysFromPhone()
 

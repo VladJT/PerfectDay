@@ -12,6 +12,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tv_days_to_event"
+            style="@style/CardHeaderStyle"
+            android:background="?attr/colorSurfaceVariant"
+            android:text="__ дней до события"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -57,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="338dp" />
+                app:layout_constraintGuide_begin="314dp" />
 
             <ImageView
                 android:id="@+id/tv_age_label"
