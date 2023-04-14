@@ -19,6 +19,17 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
         )
     }
 
+    suspend fun getContactsByDay(localDate: LocalDate): List<DataModel.BirthdayFromPhone> {
+        return makeBirthdayListByDay(getContacts(), localDate)
+    }
+
+    suspend fun getContactsInInterval(
+        startIntervalDate: LocalDate,
+        endIntervalDate: LocalDate
+    ): List<DataModel.BirthdayFromPhone> {
+        return makeBirthdayListInInterval(getContacts(), startIntervalDate, endIntervalDate)
+    }
+
     suspend fun getContacts(): List<DataModel.BirthdayFromPhone> {
         val contentResolver: ContentResolver = context.contentResolver
         val cursorWithContacts: Cursor? = contentResolver.query(
@@ -29,6 +40,53 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
             ContactsContract.Contacts.DISPLAY_NAME + " ASC"
         )
         return makeBirthdayList(cursorWithContacts)
+    }
+
+    private fun makeBirthdayListInInterval(
+        prefilteredList: List<DataModel.BirthdayFromPhone>,
+        startIntervalDate: LocalDate,
+        endIntervalDate: LocalDate
+    ): List<DataModel.BirthdayFromPhone> {
+        val returnList = mutableListOf<DataModel.BirthdayFromPhone>()
+        prefilteredList.forEach {
+            if (
+                startIntervalDate <= LocalDate.of(
+                    startIntervalDate.year,
+                    it.birthDate.monthValue,
+                    it.birthDate.dayOfMonth
+                ) &&
+                endIntervalDate >= LocalDate.of(
+                    endIntervalDate.year,
+                    it.birthDate.monthValue,
+                    it.birthDate.dayOfMonth
+                )
+            ) {
+                returnList.add(it)
+            }
+        }
+        return sortListByDate(returnList)
+    }
+
+    private fun sortListByDate(returnList: MutableList<DataModel.BirthdayFromPhone>): List<DataModel.BirthdayFromPhone> {
+        return returnList.toList().sortedBy {
+            LocalDate.of(LocalDate.now().year, it.birthDate.monthValue, it.birthDate.dayOfMonth)
+        }
+    }
+
+    private fun makeBirthdayListByDay(
+        prefilteredList: List<DataModel.BirthdayFromPhone>,
+        localDate: LocalDate
+    ): List<DataModel.BirthdayFromPhone> {
+        val returnList = mutableListOf<DataModel.BirthdayFromPhone>()
+        prefilteredList.forEach {
+            if (
+                it.birthDate.monthValue == localDate.monthValue &&
+                it.birthDate.dayOfMonth == localDate.dayOfMonth
+            ) {
+                returnList.add(it)
+            }
+        }
+        return returnList
     }
 
     private fun makeBirthdayList(cursorWithContacts: Cursor?): List<DataModel.BirthdayFromPhone> {
@@ -52,12 +110,23 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
             if (birthDateCursor!!.count > 0) {
                 while (birthDateCursor.moveToNext()) {
                     if (!birthDateCursor.getString(0).isNullOrEmpty()) {
-                        val year = (birthDateCursor.getString(0)[0].toString() + birthDateCursor.getString(0)[1]
-                            .toString() + birthDateCursor.getString(0)[2].toString() + birthDateCursor.getString(0)[3].toString()).toInt()
-                        val month = (birthDateCursor.getString(0)[5].toString() + birthDateCursor.getString(0)[6]
-                            .toString()).toInt()
-                        val day = (birthDateCursor.getString(0)[8].toString() + birthDateCursor.getString(0)[9]
-                            .toString()).toInt()
+                        val year =
+                            (birthDateCursor.getString(0)[0].toString() + birthDateCursor.getString(
+                                0
+                            )[1]
+                                .toString() + birthDateCursor.getString(0)[2].toString() + birthDateCursor.getString(
+                                0
+                            )[3].toString()).toInt()
+                        val month =
+                            (birthDateCursor.getString(0)[5].toString() + birthDateCursor.getString(
+                                0
+                            )[6]
+                                .toString()).toInt()
+                        val day =
+                            (birthDateCursor.getString(0)[8].toString() + birthDateCursor.getString(
+                                0
+                            )[9]
+                                .toString()).toInt()
                         localDate = LocalDate.of(year, month, day)
                         val age = getAge(localDate)
                         returnList.add(DataModel.BirthdayFromPhone(name, localDate, age, photoUri))
