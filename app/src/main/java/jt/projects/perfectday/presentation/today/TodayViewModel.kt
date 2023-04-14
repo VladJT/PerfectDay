@@ -38,7 +38,7 @@ class TodayViewModel(
 
             val loadHoliday = async { loadContent { holidayInteractor.getHolidayByDate(currentDate) }}
             val loadPhoneFriends = async { loadContent(birthdayFromPhoneInteractor::getContacts) }
-            val loadVkFriends = async { loadFriendsFromVk() }
+            val loadVkFriends = async { loadContent { getFriendsFromVkUseCase.getFriends(vkToken) }}
             val loadFacts = async {
                 loadContent {
                     simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
@@ -93,13 +93,6 @@ class TodayViewModel(
             age = Period.between(birthDate, LocalDate.now()).years,
             photoUrl = photoUri ?: emptyString()
         )
-    }
-
-    private suspend fun loadFriendsFromVk(): List<DataModel> {
-        if (vkToken == null || vkToken!!.isEmpty()) return emptyList()
-        return loadContent {
-            getFriendsFromVkUseCase.getFriends(vkToken!!)
-        }
     }
 
     private suspend fun loadContent(listener: suspend () -> List<DataModel>): List<DataModel> =
