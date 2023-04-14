@@ -19,8 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_scheduled_event"/>
-<!--    tools:listitem="@layout/item_holiday_day"-->
-<!--    tools:listitem="@layout/item_fact_of_day"-->
+<!--    tools:listitem="@layout/item_holiday_day"/>-->
+<!--    tools:listitem="@layout/item_fact_of_day"/>-->
 
     <FrameLayout
         android:id="@+id/loading_frame_layout"

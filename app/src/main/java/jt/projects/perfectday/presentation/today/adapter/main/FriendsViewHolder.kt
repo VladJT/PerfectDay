@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.databinding.LayoutBithdayFriendsBinding
-import jt.projects.perfectday.presentation.today.adapter.TodayItem
 import jt.projects.perfectday.presentation.today.adapter.birth.BirthdayListAdapter
+import jt.projects.utils.extensions.hideViewInRecycler
+import jt.projects.utils.extensions.showViewInRecycler
 
 class FriendsViewHolder private constructor(
     binding: LayoutBithdayFriendsBinding
@@ -21,6 +22,11 @@ class FriendsViewHolder private constructor(
     )
 
     fun bind(item: TodayItem.Friends) {
+        if (item.friendsVk.isEmpty()) {
+            itemView.hideViewInRecycler()
+            return
+        }
+        itemView.showViewInRecycler()
         birthdayAdapter.submitList(item.friendsVk)
     }
 }

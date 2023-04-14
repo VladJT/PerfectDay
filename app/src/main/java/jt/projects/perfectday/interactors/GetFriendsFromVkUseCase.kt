@@ -1,7 +1,7 @@
 package jt.projects.perfectday.interactors
 
 import jt.projects.model.*
-import jt.projects.repository.network.VkNetworkRepository
+import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
 import java.time.*
 import java.time.format.*
@@ -10,7 +10,39 @@ class GetFriendsFromVkUseCase(
     private val vkNetworkRepository: VkNetworkRepository
 ) {
 
-    suspend fun getFriends(userToken: String): List<DataModel.BirthdayFromVk> {
+    suspend fun getFriendsByDate(
+        userToken: String?,
+        date: LocalDate
+    ): List<DataModel.BirthdayFromVk> {
+        val formatter = DateTimeFormatter.ofPattern("dd.MM")
+        return getAllFriends(userToken)
+            .filter { it.birthDate.format(formatter) == date.format(formatter) }
+    }
+
+    //region Дата рождения от и до...
+    suspend fun getFriendsByPeriodDate(
+        userToken: String?,
+        startDate: LocalDate,
+        endDate: LocalDate
+    ): List<DataModel.BirthdayFromVk> =
+        getAllFriends(userToken)
+            .filter { isPeriodBirthdayDate(startDate, endDate, it.birthDate) }
+
+    private fun isPeriodBirthdayDate(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        birthDate: LocalDate
+    ): Boolean = isDateAfterStart(startDate, birthDate) && isDateBeforeEndDate(endDate, birthDate)
+
+    private fun isDateAfterStart(startDate: LocalDate, birthDate: LocalDate): Boolean =
+        birthDate.dayOfMonth >= startDate.dayOfMonth && birthDate.monthValue >= startDate.monthValue
+
+    private fun isDateBeforeEndDate(endDate: LocalDate, birthDate: LocalDate): Boolean =
+        birthDate.dayOfMonth <= endDate.dayOfMonth && birthDate.monthValue <= endDate.monthValue
+    //endregion
+
+    suspend fun getAllFriends(userToken: String?): List<DataModel.BirthdayFromVk> {
+        if (userToken == null || userToken.isEmpty()) return emptyList()
         val vkInfo = vkNetworkRepository.getUserFriends(userToken)
         return createBirthdayFromVkList(vkInfo.friends)
     }

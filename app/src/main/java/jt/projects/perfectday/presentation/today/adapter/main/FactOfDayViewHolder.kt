@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.databinding.ItemFactOfDayBinding
-import jt.projects.perfectday.presentation.today.adapter.TodayItem
+import jt.projects.utils.extensions.hideViewInRecycler
+import jt.projects.utils.extensions.showViewInRecycler
 
 class FactOfDayViewHolder private constructor(
     private val binding: ItemFactOfDayBinding
@@ -16,7 +17,11 @@ class FactOfDayViewHolder private constructor(
     )
 
     fun bind(item: TodayItem.FactOfDay) {
-        binding.root.isVisible = item.list.isNotEmpty()
+        if (item.list.isEmpty()) {
+            itemView.hideViewInRecycler()
+            return
+        }
+        itemView.showViewInRecycler()
         binding.tvFactDescription.text = item.list.first().description
     }
 }

@@ -3,7 +3,6 @@ package jt.projects.perfectday.presentation.today.adapter.main
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import jt.projects.perfectday.presentation.today.adapter.TodayItem
 
 private const val HOLIDAY_ITEM = 1
 private const val FRIENDS_ITEM = 2
@@ -24,6 +23,7 @@ class MainListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
+            is HolidayViewHolder -> holder.bind(getItem(position) as TodayItem.Holiday)
             is FriendsViewHolder -> holder.bind(getItem(position) as TodayItem.Friends)
             is FactOfDayViewHolder -> holder.bind(getItem(position) as TodayItem.FactOfDay)
             is NoteViewHolder -> holder.bind(getItem(position) as TodayItem.Notes, onClickDeleteNote)
