@@ -10,7 +10,7 @@ class GetFriendsFromVkUseCase(
     private val vkNetworkRepository: VkNetworkRepository
 ) {
 
-    suspend fun getFriends(userToken: String?): List<DataModel.BirthdayFromVk> {
+    suspend fun getAllFriends(userToken: String?): List<DataModel.BirthdayFromVk> {
         if (userToken == null || userToken.isEmpty()) return emptyList()
         val vkInfo = vkNetworkRepository.getUserFriends(userToken)
         return createBirthdayFromVkList(vkInfo.friends)
