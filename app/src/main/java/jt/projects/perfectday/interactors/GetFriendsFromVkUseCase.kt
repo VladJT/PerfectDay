@@ -10,6 +10,15 @@ class GetFriendsFromVkUseCase(
     private val vkNetworkRepository: VkNetworkRepository
 ) {
 
+    suspend fun getFriendsByDate(
+        userToken: String?,
+        date: LocalDate
+    ): List<DataModel.BirthdayFromVk> {
+        val formatter = DateTimeFormatter.ofPattern("dd.MM")
+        return getAllFriends(userToken)
+            .filter { it.birthDate.format(formatter) == date.format(formatter) }
+    }
+
     suspend fun getAllFriends(userToken: String?): List<DataModel.BirthdayFromVk> {
         if (userToken == null || userToken.isEmpty()) return emptyList()
         val vkInfo = vkNetworkRepository.getUserFriends(userToken)

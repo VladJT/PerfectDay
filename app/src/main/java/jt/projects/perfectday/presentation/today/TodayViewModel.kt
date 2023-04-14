@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 import java.time.Period
+import java.time.format.DateTimeFormatter
 
 private const val TAG = "TodayViewModel"
 
@@ -36,13 +37,23 @@ class TodayViewModel(
         viewModelScope.launch {
             //Запускаем параллельно загрузку данных
 
+            launch {
+                val date = LocalDate.parse("23.08.1993", DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+
+
+                val friendsByDate = getFriendsFromVkUseCase.getFriendsByDate(vkToken, date)
+                Log.w("TAG", "fri= $friendsByDate")
+
+
+            }
+
             val loadHoliday = async { loadContent { holidayInteractor.getHolidayByDate(currentDate) }}
             val loadPhoneFriends = async { loadContent(birthdayFromPhoneInteractor::getContacts) }
-            val loadVkFriends = async { loadContent { getFriendsFromVkUseCase.getAllFriends(vkToken) }}
+            val loadVkFriends = async {
+                loadContent { getFriendsFromVkUseCase.getFriendsByDate(vkToken, currentDate) }
+            }
             val loadFacts = async {
-                loadContent {
-                    simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
-                }
+                loadContent { simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT) }
             }
 
             //Ждём загрузку всех данных, чтобы пришли(и приводим к нужному типу)
