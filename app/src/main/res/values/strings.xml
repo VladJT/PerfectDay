@@ -6,6 +6,7 @@
 
     <string name="fact_of_day_text">Интересный факт:</string>
     <string name="birth_day_today_text">Дни рождения сегодня</string>
+    <string name="empty_birthdays_text">Дней рождения нет</string>
     <string name="holiday_day">%d %s</string>
     <string name="holiday_description">%s\n%s</string>
 
