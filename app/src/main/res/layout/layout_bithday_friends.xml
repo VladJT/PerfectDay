@@ -12,19 +12,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="8dp"
+        android:fontFamily="@font/lora_bold"
         android:gravity="center_vertical"
         android:text="@string/birth_day_today_text"
         android:textColor="@color/primary_text_color"
         android:textSize="18sp"
         app:drawableEndCompat="@drawable/ic_gift" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_birthday"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:orientation="horizontal"
-        android:overScrollMode="never"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_birthday" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_birthday" />
+
+        <TextView
+            android:id="@+id/tv_empty_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:fontFamily="@font/lora_medium"
+            android:gravity="center_vertical"
+            android:text="@string/empty_birthdays_text"
+            android:textColor="@color/primary_text_color"
+            android:textSize="18sp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </FrameLayout>
 </LinearLayout>
