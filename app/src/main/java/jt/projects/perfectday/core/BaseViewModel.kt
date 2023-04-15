@@ -14,6 +14,7 @@ import jt.projects.utils.LOG_TAG
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.reflect.KSuspendFunction0
 
@@ -24,6 +25,10 @@ abstract class BaseViewModel(
     protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : ViewModel() {
+    companion object {
+        const val FAKE_DELAY = 10L
+    }
+
     protected val liveData: MutableLiveData<AppState> = MutableLiveData()
     val liveDataForViewToObserve: LiveData<AppState>
         get() {
@@ -34,17 +39,21 @@ abstract class BaseViewModel(
     protected val data = mutableListOf<DataModel>()
 
     fun loadData() {
-        liveData.value = AppState.Loading(0)
+        liveData.value = AppState.Loading(20)
         data.clear()
 
         viewModelScope.launch {
             try {
-                tryToExecute(::loadScheduledEvents, progress = 33)
-                tryToExecute(::loadBirthdaysFromPhone, progress = 66)
-                tryToExecute(::loadBirthdaysFromVk, progress = 100)
+                tryToExecute(::loadScheduledEvents, progress = 40, "Загружаем планы")
+                delay(FAKE_DELAY)
 
-                // здесь можно добавить алгоритм удаления дублей ДР, когда 1 и тот же человек
-                // тянется из АК и ВК
+                tryToExecute(::loadBirthdaysFromPhone, progress = 70, "Загружаем контакты телефона")
+                delay(FAKE_DELAY)
+
+                tryToExecute(::loadBirthdaysFromVk, progress = 100, "Загружаем контакты из VK.com")
+                delay(FAKE_DELAY)
+
+                // можно добавить алгоритм удаления дублей, когда  человек есть и в АК, и ВК
                 preparePostValue()
 
                 liveData.postValue(AppState.Success(data))
@@ -56,10 +65,14 @@ abstract class BaseViewModel(
         }
     }
 
-    private suspend fun tryToExecute(method: KSuspendFunction0<Unit>, progress: Int) {
+    private suspend fun tryToExecute(
+        method: KSuspendFunction0<Unit>,
+        progress: Int,
+        progressStatus: String?
+    ) {
         try {
             method.invoke()
-            liveData.value = AppState.Loading(progress)
+            liveData.value = AppState.Loading(progress, progressStatus)
         } catch (e: Exception) {
             handleError(e)
         }

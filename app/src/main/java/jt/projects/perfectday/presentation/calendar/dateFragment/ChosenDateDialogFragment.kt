@@ -12,6 +12,7 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.showProgress
 import jt.projects.perfectday.core.showScheduledEvent
+import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
 import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.showSnackbar

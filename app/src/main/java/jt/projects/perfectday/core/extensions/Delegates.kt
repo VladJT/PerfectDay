@@ -1,12 +1,12 @@
-package jt.projects.perfectday.core
+package jt.projects.perfectday.core.extensions
 
 import androidx.fragment.app.Fragment
 import jt.projects.model.DataModel
 import jt.projects.perfectday.presentation.MainActivity
 
 
-fun Fragment.showProgress(progress: Int) {
-    (this.requireActivity() as? MainActivity)?.showProgress(progress)
+fun Fragment.showProgress(progress: Int, status: String? = null) {
+    (this.requireActivity() as? MainActivity)?.showProgress(progress, status)
 }
 
 fun Fragment.showFab(isVisible: Boolean) {

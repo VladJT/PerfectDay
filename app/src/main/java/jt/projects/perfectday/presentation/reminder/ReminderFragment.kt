@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.BaseAdapter
-import jt.projects.perfectday.core.showProgress
-import jt.projects.perfectday.core.showScheduledEvent
+import jt.projects.perfectday.core.extensions.showProgress
+import jt.projects.perfectday.core.extensions.showScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderBinding
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.showSnackbar
@@ -103,7 +103,7 @@ class ReminderFragment : Fragment() {
             }
             is AppState.Loading -> {
                 showLoadingFrame(true)
-                appState.progress?.let { showProgress(it) }
+                appState.progress?.let { showProgress(it, appState.status) }
             }
             is AppState.Error -> {
                 showLoadingFrame(false)
