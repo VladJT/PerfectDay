@@ -1,7 +1,9 @@
 package jt.projects.repository.network.vk
 
 import jt.projects.repository.BuildConfig
-import jt.projects.repository.network.model.*
+import jt.projects.repository.network.vk.model.VkInfoResponse
+import jt.projects.repository.network.vk.model.VkResponse
+import jt.projects.repository.network.vk.model.VkUserResponse
 import retrofit2.http.*
 
 private const val ORDER_BY = "hints"

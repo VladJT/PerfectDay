@@ -1,7 +1,9 @@
 package jt.projects.repository.network.mapper
 
 import jt.projects.model.*
-import jt.projects.repository.network.model.*
+import jt.projects.repository.network.vk.model.VkFriendResponse
+import jt.projects.repository.network.vk.model.VkInfoResponse
+import jt.projects.repository.network.vk.model.VkUserResponse
 
 internal fun VkInfoResponse.toVkInfo(): VkInfo = this.run {
     VkInfo(
