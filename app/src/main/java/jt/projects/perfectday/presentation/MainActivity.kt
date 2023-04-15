@@ -181,14 +181,6 @@ class MainActivity : AppCompatActivity() {
                 .show()
         } else {
             permissionRequest(Manifest.permission.READ_CONTACTS)
-            AlertDialog.Builder(this)
-                .setTitle("Доступ к контактам")
-                .setMessage("Доступ к контактам отсутствует. Доступ можно будет предоставить только в настройках приложения.")
-                .setPositiveButton("Закрыть сообщение") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
         }
     }
 
