@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
-import jt.projects.perfectday.core.showProgress
+import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
 import jt.projects.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel

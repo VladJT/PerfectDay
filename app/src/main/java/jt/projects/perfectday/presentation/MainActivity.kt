@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun showProgress(progress: Int, status: String?) {
+    fun showProgress(progress: Int, status: String? = null) {
         val hProgressBar = findViewById<LinearProgressIndicator>(R.id.progress_bar_horizontal)
         val animator =
             ObjectAnimator.ofInt(hProgressBar, "progress", hProgressBar.progress, progress)

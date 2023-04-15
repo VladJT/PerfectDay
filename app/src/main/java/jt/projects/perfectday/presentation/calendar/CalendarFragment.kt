@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.showProgress
+import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
 import jt.projects.utils.showSnackbar

@@ -1,4 +1,4 @@
-package jt.projects.perfectday.core
+package jt.projects.perfectday.core.extensions
 
 import androidx.fragment.app.Fragment
 import jt.projects.model.DataModel

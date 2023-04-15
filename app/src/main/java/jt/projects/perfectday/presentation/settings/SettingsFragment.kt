@@ -14,8 +14,8 @@ import coil.load
 import com.google.android.material.slider.Slider
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
-import jt.projects.perfectday.core.showButtonBackHome
-import jt.projects.perfectday.core.showFab
+import jt.projects.perfectday.core.extensions.showButtonBackHome
+import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
 import jt.projects.utils.REMINDER_PERIOD_KEY
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences

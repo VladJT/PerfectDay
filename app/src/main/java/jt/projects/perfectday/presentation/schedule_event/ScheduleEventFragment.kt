@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnticipateOvershootInterpolator
-import android.view.animation.LinearInterpolator
-import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
-import jt.projects.perfectday.R
-import jt.projects.perfectday.core.showButtonBackHome
-import jt.projects.perfectday.core.showFab
+import jt.projects.perfectday.core.extensions.showButtonBackHome
+import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.showToast
 import jt.projects.utils.toStdFormatString
