@@ -1,17 +1,20 @@
 package jt.projects.perfectday.presentation
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
@@ -147,8 +150,18 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    fun showProgress(progress: Int) {
-        findViewById<ProgressBar>(R.id.progress_bar_horizontal).progress = progress
+
+    fun showProgress(progress: Int, status: String?) {
+        val hProgressBar = findViewById<LinearProgressIndicator>(R.id.progress_bar_horizontal)
+        val animator =
+            ObjectAnimator.ofInt(hProgressBar, "progress", hProgressBar.progress, progress)
+        animator.interpolator = DecelerateInterpolator(2f)
+        animator.start()
+        hProgressBar.progress = progress
+
+        status?.let {
+            findViewById<TextView>(R.id.tv_progress_bar_label).text = it
+        }
     }
 
     private fun checkPermission() {

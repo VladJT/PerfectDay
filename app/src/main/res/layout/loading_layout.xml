@@ -1,19 +1,31 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/loading_frame_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="0.8"
     android:background="?attr/colorSurface"
+    android:clickable="true"
     android:visibility="visible">
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar_horizontal"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        app:trackThickness="4dp" />
 
     <ProgressBar
         android:id="@+id/progress_bar_round"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/tv_progress_bar_label"
+        style="@style/BaseTextStyle"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="@string/loading" />
+
 </FrameLayout>

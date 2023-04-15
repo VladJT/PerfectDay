@@ -103,7 +103,7 @@ class ReminderFragment : Fragment() {
             }
             is AppState.Loading -> {
                 showLoadingFrame(true)
-                appState.progress?.let { showProgress(it) }
+                appState.progress?.let { showProgress(it, appState.status) }
             }
             is AppState.Error -> {
                 showLoadingFrame(false)
