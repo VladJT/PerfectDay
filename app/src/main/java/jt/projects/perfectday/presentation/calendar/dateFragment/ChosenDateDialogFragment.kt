@@ -9,27 +9,50 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
+import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.showProgress
+import jt.projects.perfectday.core.showScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
+import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.showSnackbar
+import jt.projects.utils.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
+import java.time.LocalDate
 
 class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
 
-    private val chosenDate = date
+    private val chosenDate:LocalDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
 
     private var _binding: ChosenDateDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val chosenDateAdapter: ChosenDateAdapter by lazy { ChosenDateAdapter() }
-
     private val viewModel: ChosenDateViewModel by viewModel()
 
+    private val chosenDateAdapter: BaseAdapter by lazy { BaseAdapter(::onItemClick, ::onItemDelete) }
+
+    private fun onItemClick(data: DataModel) {
+        if (data is DataModel.ScheduledEvent) {
+            showScheduledEvent(data)
+            dismiss()
+        } else {
+            requireActivity().showToast(data.toString())
+        }
+    }
+
+    private fun onItemDelete(data: DataModel, position: Int) {
+        if (data is DataModel.ScheduledEvent) {
+            viewModel.deleteScheduledEvent(data.id)
+            chosenDateAdapter.notifyItemRemoved(position)
+        }
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        chosenCalendarDate = chosenDate
         _binding = ChosenDateDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,11 +64,11 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initCalendarViewModel()
+        initViewModel()
         initRecyclerView()
     }
 
-    private fun initCalendarViewModel() {
+    private fun initViewModel() {
         viewModel.liveDataForViewToObserve.observe(this@ChosenDateDialogFragment) {
             renderData(it)
         }
@@ -57,7 +80,7 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
             is AppState.Success -> {
                 showLoadingFrame(false)
                 appState.data?.let { data ->
-                    chosenDateAdapter.setData(initChosenDayList(data))
+                    chosenDateAdapter.setData(data)
                 }
             }
             is AppState.Loading -> {
@@ -71,27 +94,9 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
         }
     }
 
-    private fun initChosenDayList(data: List<DataModel>): List<DataModel> {
-        val chosenDateList: MutableList<DataModel> = mutableListOf()
-        for (index in data.indices) {
-            when (data[index]) {
-                is DataModel.BirthdayFromPhone -> {
-                    val birthdayData = data[index] as DataModel.BirthdayFromPhone
-                    if (
-                        birthdayData.birthDate.dayOfMonth.equals(chosenDate.dayOfMonth) &&
-                        (birthdayData.birthDate.monthValue - 1).equals(chosenDate.month)
-                    ) {
-                        chosenDateList.add(data[index])
-                    }
-                }
-                else -> {}
-            }
-        }
-        return chosenDateList
-    }
 
     private fun initRecyclerView() {
-        with(binding.dateOnCalendarRecyclerView) {
+        with(binding.chosenDateRecyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = chosenDateAdapter
         }
@@ -103,5 +108,10 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
         } else {
             binding.loadingFrameLayout.visibility = View.GONE
         }
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 }

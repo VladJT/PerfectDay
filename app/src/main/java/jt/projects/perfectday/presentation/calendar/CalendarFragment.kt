@@ -118,7 +118,7 @@ class CalendarFragment : Fragment() {
                 is DataModel.BirthdayFromPhone -> {
                     val birthdayData = data[index] as DataModel.BirthdayFromPhone
                     if (birthdayData.birthDate.monthValue < LocalDate.now().monthValue ||
-                        (birthdayData.birthDate.monthValue.equals(LocalDate.now().monthValue) && (birthdayData.birthDate.dayOfMonth < LocalDate.now().dayOfMonth))
+                        (birthdayData.birthDate.monthValue == LocalDate.now().monthValue && (birthdayData.birthDate.dayOfMonth < LocalDate.now().dayOfMonth))
                     ) {
                         calendarSetter.set(
                             CalendarDate.today.year + 1,
@@ -144,7 +144,7 @@ class CalendarFragment : Fragment() {
                 is DataModel.BirthdayFromVk -> {
                     val birthdayData = data[index] as DataModel.BirthdayFromVk
                     if (birthdayData.birthDate.monthValue < LocalDate.now().monthValue ||
-                        (birthdayData.birthDate.monthValue.equals(LocalDate.now().monthValue) && (birthdayData.birthDate.dayOfMonth < LocalDate.now().dayOfMonth))
+                        (birthdayData.birthDate.monthValue == LocalDate.now().monthValue && (birthdayData.birthDate.dayOfMonth < LocalDate.now().dayOfMonth))
                     ) {
                         calendarSetter.set(
                             CalendarDate.today.year + 1,
@@ -170,7 +170,7 @@ class CalendarFragment : Fragment() {
                 is DataModel.ScheduledEvent -> {
                     val eventData = data[index] as DataModel.ScheduledEvent
                     if (eventData.date.monthValue < LocalDate.now().monthValue ||
-                        ((eventData.date.monthValue.equals(LocalDate.now().monthValue) && (eventData.date.dayOfMonth < LocalDate.now().dayOfMonth)))
+                        ((eventData.date.monthValue == LocalDate.now().monthValue && (eventData.date.dayOfMonth < LocalDate.now().dayOfMonth)))
                     ) {
                         calendarSetter.set(
                             CalendarDate.today.year + 1,

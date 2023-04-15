@@ -1,5 +1,7 @@
 package jt.projects.utils
 
+import java.time.LocalDate
+
 /**
  * URLS
  */
@@ -59,3 +61,8 @@ var permissionGranted = false
 * FOR DEBUG LO
  */
 val DEBUG: Boolean = BuildConfig.DEBUG && true
+
+/*
+* CHOSEN DATE VARIABLE
+ */
+var chosenCalendarDate: LocalDate = LocalDate.now()
