@@ -92,5 +92,5 @@ class GetFriendsFromVkUseCase(
     }
 
     private fun getAge(birthDate: LocalDate): Int =
-        Period.between(birthDate, LocalDate.now()).years
+        Period.between(birthDate, LocalDate.now()).years.plus(1)
 }

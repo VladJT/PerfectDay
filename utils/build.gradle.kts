@@ -30,6 +30,8 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.model))
+
     // AndroidX
     implementation(Design.appcompat)
 
