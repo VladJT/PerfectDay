@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import jt.projects.model.DataModel
+import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class ScheduleEventViewModel(
-    private val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+    private val scheduledEventInteractorImpl: ScheduledEventInteractorImpl,
+    private val dataCache: AppDataCache
 ) : ViewModel() {
 
     private val liveData: MutableLiveData<DataModel.ScheduledEvent> = MutableLiveData()
@@ -26,7 +28,7 @@ class ScheduleEventViewModel(
         liveData.postValue(data)
     }
 
-    fun updateData(name: String?=null, description:String?=null, date: LocalDate?=null) {
+    fun updateData(name: String? = null, description: String? = null, date: LocalDate? = null) {
         val newData = liveDataForViewToObserve.value
         name?.let { newData?.name = it }
         description?.let { newData?.description = it }
@@ -35,6 +37,7 @@ class ScheduleEventViewModel(
         liveData.postValue(newData)
     }
 
+    // сохраняем изменения в базу данных
     fun saveData() {
         liveDataForViewToObserve.value?.let {
             CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
@@ -44,6 +47,7 @@ class ScheduleEventViewModel(
                     scheduledEventInteractorImpl.update(it)
                 }
             }
+            dataCache.cleanScheduledEventsCache()
         }
     }
 }

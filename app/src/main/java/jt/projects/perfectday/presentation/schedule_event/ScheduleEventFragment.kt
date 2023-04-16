@@ -110,6 +110,7 @@ class ScheduleEventFragment() : Fragment() {
                     description = binding.scheduledEventDescription.text.toString()
                 )
                 viewModel.saveData()
+
             } catch (e: Exception) {
                 requireActivity().showToast(e.message.toString())
             }

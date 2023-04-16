@@ -3,6 +3,7 @@ package jt.projects.perfectday.di
 import android.content.Context
 import androidx.room.Room
 import jt.projects.perfectday.App
+import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.interactors.*
 import jt.projects.perfectday.presentation.calendar.CalendarViewModel
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateViewModel
@@ -10,8 +11,6 @@ import jt.projects.perfectday.presentation.reminder.ReminderViewModel
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
-import jt.projects.repository.network.facts.FactsRepoImpl
-import jt.projects.repository.network.facts.FactsRepository
 import jt.projects.repository.network.retrofit.DataSourceHoliday
 import jt.projects.repository.network.retrofit.holiday.HolidayRepository
 import jt.projects.repository.network.retrofit.holiday.HolidayRepositoryImpl
@@ -50,6 +49,18 @@ val application = module {
             )
         )
     }
+
+    // глобальный кэш данных приложения
+    single<AppDataCache> {
+        AppDataCache(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            simpleNoticeInteractor = get(),
+            holidayInteractor = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractor = get()
+        )
+    }
 }
 
 
@@ -82,13 +93,6 @@ val interactorsModule = module {
 
 
 val viewModelModule = module {
-    viewModel {
-        SettingsViewModel(settingsPref = get(), vkRepository = get())
-    }
-
-    viewModel {
-        ScheduleEventViewModel(scheduledEventInteractorImpl = get())
-    }
 
     viewModel {
         TodayViewModel(
@@ -102,29 +106,22 @@ val viewModelModule = module {
     }
 
     viewModel {
-        ReminderViewModel(
-            settingsPreferences = get(),
-            birthdayFromPhoneInteractor = get(),
-            getFriendsFromVkUseCase = get(),
-            scheduledEventInteractorImpl = get()
-        )
+        ReminderViewModel(settingsPreferences = get(), dataCache = get())
     }
 
     viewModel {
-        CalendarViewModel(
-            settingsPreferences = get(),
-            birthdayFromPhoneInteractor = get(),
-            getFriendsFromVkUseCase = get(),
-            scheduledEventInteractorImpl = get()
-        )
+        CalendarViewModel(settingsPreferences = get(), dataCache = get())
     }
 
     viewModel {
-        ChosenDateViewModel(
-            settingsPreferences = get(),
-            birthdayFromPhoneInteractor = get(),
-            getFriendsFromVkUseCase = get(),
-            scheduledEventInteractorImpl = get()
-        )
+        ChosenDateViewModel(settingsPreferences = get(), dataCache = get())
+    }
+
+    viewModel {
+        ScheduleEventViewModel(scheduledEventInteractorImpl = get(), dataCache = get())
+    }
+
+    viewModel {
+        SettingsViewModel(settingsPref = get(), vkRepository = get())
     }
 }

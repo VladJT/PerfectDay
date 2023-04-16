@@ -69,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_description_date" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/btn_save"
         style="@style/PerfectDay.Button"
         android:layout_width="match_parent"

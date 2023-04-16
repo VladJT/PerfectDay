@@ -16,6 +16,7 @@
             android:id="@+id/tv_days_to_event"
             style="@style/CardHeaderStyle"
             android:background="?attr/colorSurfaceVariant"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:text="__ дней до события"
             app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toBottomOf="@+id/tv_name" />

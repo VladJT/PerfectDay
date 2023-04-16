@@ -1,4 +1,4 @@
-package jt.projects.repository.network.model
+package jt.projects.repository.network.vk.model
 
 import com.google.gson.annotations.SerializedName
 

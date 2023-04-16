@@ -31,7 +31,7 @@ sealed class DataModel {
         val country: String,
         val type: String,
         val description: String?,
-        val photoUrl: String?
+        val date: LocalDate
     ) : DataModel()
 
     @Parcelize

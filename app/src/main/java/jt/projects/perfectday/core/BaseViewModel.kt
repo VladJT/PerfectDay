@@ -7,12 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
-import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
-import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,10 +17,9 @@ import kotlin.reflect.KSuspendFunction0
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
 abstract class BaseViewModel(
     protected val settingsPreferences: SimpleSettingsPreferences,
-    protected val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-    protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
-    protected val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
+    protected val dataCache: AppDataCache
 ) : ViewModel() {
+
     companion object {
         const val FAKE_DELAY = 10L
     }
@@ -35,7 +30,6 @@ abstract class BaseViewModel(
             return liveData
         }
 
-    internal val vkToken: String? by lazy { settingsPreferences.getSettings(VK_AUTH_TOKEN) }
     protected val data = mutableListOf<DataModel>()
 
     fun loadData() {
@@ -53,9 +47,8 @@ abstract class BaseViewModel(
                 tryToExecute(::loadBirthdaysFromVk, progress = 100, "Загружаем контакты из VK.com")
                 delay(FAKE_DELAY)
 
-                // можно добавить алгоритм удаления дублей, когда  человек есть и в АК, и ВК
-                preparePostValue()
 
+                preparePostValue()
                 liveData.postValue(AppState.Success(data))
             } catch (e: CancellationException) {
                 throw e
@@ -97,7 +90,7 @@ abstract class BaseViewModel(
 
     fun deleteScheduledEvent(id: Int) {
         viewModelScope.launch {
-            scheduledEventInteractorImpl.deleteScheduledEventById(id)
+            dataCache.deleteScheduledEventById(id)
             data.removeAll { it is DataModel.ScheduledEvent && it.id == id }
         }
     }

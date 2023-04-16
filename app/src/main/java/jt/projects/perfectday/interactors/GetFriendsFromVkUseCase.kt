@@ -9,6 +9,15 @@ import java.time.format.*
 class GetFriendsFromVkUseCase(
     private val vkNetworkRepository: VkNetworkRepository
 ) {
+    private val sortComparatorByMonthAndDay = Comparator<DataModel.BirthdayFromVk> { o1, o2 ->
+        val date1 = o1.birthDate
+        val date2 = o2.birthDate
+        val month1 = date1.monthValue
+        val month2 = date2.monthValue
+
+        if (month1 == month2) return@Comparator date1.dayOfMonth.compareTo(date2.dayOfMonth)
+        return@Comparator month1.compareTo(month2)
+    }
 
     suspend fun getFriendsByDate(
         userToken: String?,
@@ -27,6 +36,7 @@ class GetFriendsFromVkUseCase(
     ): List<DataModel.BirthdayFromVk> =
         getAllFriends(userToken)
             .filter { isPeriodBirthdayDate(startDate, endDate, it.birthDate) }
+            .sortedWith(sortComparatorByMonthAndDay)
 
     private fun isPeriodBirthdayDate(
         startDate: LocalDate,
@@ -82,5 +92,5 @@ class GetFriendsFromVkUseCase(
     }
 
     private fun getAge(birthDate: LocalDate): Int =
-        Period.between(birthDate, LocalDate.now()).years
+        Period.between(birthDate, LocalDate.now()).years.plus(1)
 }
