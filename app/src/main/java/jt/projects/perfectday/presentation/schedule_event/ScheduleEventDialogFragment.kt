@@ -8,6 +8,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
+import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.showToast
 import jt.projects.utils.toStdFormatString
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -65,7 +66,7 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
             data = DataModel.ScheduledEvent(
                 id = 0,
                 name = "",
-                date = LocalDate.now(),
+                date = chosenCalendarDate,
                 description = ""
             )
         }
@@ -114,6 +115,7 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
 
     override fun onDestroyView() {
         _binding = null
+        chosenCalendarDate = LocalDate.now()
         super.onDestroyView()
     }
 }

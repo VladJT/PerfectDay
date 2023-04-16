@@ -12,6 +12,8 @@ import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
+import jt.projects.perfectday.presentation.schedule_event.ScheduleEventDialogFragment
+import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
@@ -91,11 +93,18 @@ class CalendarFragment : Fragment() {
             }
 
             onDateLongClickListener = { date ->
-                indicatorsList.add(DateIndicator(R.color.teal_700, date))
-                datesIndicators = indicatorsList
+                chosenCalendarDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
+                showScheduledEvent()
             }
         }
+    }
 
+    fun showScheduledEvent() {
+        val scheduleEventDialogFragment = ScheduleEventDialogFragment()
+        scheduleEventDialogFragment.show(
+            requireActivity().supportFragmentManager,
+            "ScheduleEventDialogFragment"
+        )
     }
 
     private fun showChosenDateDialogFragmentDialog(date: CalendarDate) {

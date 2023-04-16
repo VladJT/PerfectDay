@@ -43,7 +43,7 @@ class ChosenDateViewModel(
                 )
         }
         if (birthdaysFromVKChosenDate!!.isNotEmpty()) {
-            addHeaderRow("Дни рождения контактов")
+            addHeaderRow("Дни рождения Вконтакте")
             data.addAll(birthdaysFromVKChosenDate ?: listOf())
         }
     }
