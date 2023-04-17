@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/grey_dark</item>
         <item name="colorOnPrimary">@color/color_primary</item>
         <item name="colorSecondary">@color/color_primary</item>
-        <item name="colorOnSecondary">@color/grey_text_color</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorSurface">@color/grey_dark</item>
         <item name="colorOnSurface">@color/grey_text_color</item>
         <item name="android:colorBackground">@color/background_dark</item>
@@ -14,6 +14,7 @@
 
         <item name="background_item">@color/grey_dark</item>
         <item name="bottom_nav_pressed_icon_color">@color/white</item>
+        <item name="holiday_text_color">@color/color_primary</item>
     </style>
 
 
