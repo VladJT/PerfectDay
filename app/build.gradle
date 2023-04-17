@@ -79,6 +79,8 @@ dependencies {
     implementation("com.vk:android-sdk-core:3.5.1")
     implementation("com.vk:android-sdk-api:3.5.1")
 
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
     // splash screen
     implementation("androidx.core:core-splashscreen:1.0.0")
 

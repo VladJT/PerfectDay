@@ -27,8 +27,16 @@ class TodayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setSwipeToRefreshMove()
         initRecView()
         setLoadingVisible()
+    }
+
+    private fun setSwipeToRefreshMove() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.onSwipeToRefreshMove()
+            binding.swipeToRefresh.isRefreshing = false
+        }
     }
 
     private fun initRecView() {
