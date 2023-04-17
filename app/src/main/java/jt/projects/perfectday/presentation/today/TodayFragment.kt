@@ -8,13 +8,13 @@ import androidx.lifecycle.*
 import jt.projects.perfectday.databinding.FragmentTodayBinding
 import jt.projects.perfectday.presentation.today.adapter.main.MainListAdapter
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class TodayFragment : Fragment() {
     private var _binding: FragmentTodayBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TodayViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
+    private val viewModel: TodayViewModel by activityViewModel()
     private val todayAdapter by lazy { MainListAdapter(viewModel::onDeleteNoteClicked) }
 
     override fun onCreateView(
