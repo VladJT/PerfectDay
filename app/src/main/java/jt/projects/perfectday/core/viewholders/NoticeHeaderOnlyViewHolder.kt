@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
-import jt.projects.perfectday.databinding.ItemSimpleNoticeBinding
 import jt.projects.perfectday.databinding.ItemSimpleNoticeHeaderOnlyBinding
 
 class NoticeHeaderOnlyViewHolder private constructor(

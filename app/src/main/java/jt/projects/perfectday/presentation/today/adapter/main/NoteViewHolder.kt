@@ -2,12 +2,8 @@ package jt.projects.perfectday.presentation.today.adapter.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemNoteBinding
-import jt.projects.perfectday.databinding.ItemScheduledEventBinding
-import jt.projects.utils.getAlertStringHowManyDaysBefore
 import jt.projects.utils.toStdFormatString
 
 class NoteViewHolder private constructor(

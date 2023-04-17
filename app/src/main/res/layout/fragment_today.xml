@@ -23,7 +23,7 @@
             android:layout_marginBottom="15dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_scheduled_event" />
+            tools:listitem="@layout/item_note" />
         <!--    tools:listitem="@layout/item_holiday_day"/>-->
         <!--    tools:listitem="@layout/item_fact_of_day"/>-->
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
