@@ -17,6 +17,8 @@
         <item name="holiday_text_color">@color/color_primary</item>
         <item name="item_menu_color">@color/white</item>
         <item name="background_item">@color/grey_dark</item>
+        <item name="text_color_primary_to_primary_app">@color/color_primary</item>
+        <item name="text_color_primary_to_white">@color/white</item>
     </style>
 
 
