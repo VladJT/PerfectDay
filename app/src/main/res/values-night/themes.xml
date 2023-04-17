@@ -15,6 +15,7 @@
         <item name="background_item">@color/grey_dark</item>
         <item name="bottom_nav_pressed_icon_color">@color/white</item>
         <item name="holiday_text_color">@color/color_primary</item>
+        <item name="item_menu_color">@color/white</item>
     </style>
 
 

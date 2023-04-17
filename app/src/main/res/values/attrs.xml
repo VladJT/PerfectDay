@@ -3,4 +3,5 @@
     <attr name="background_item" format="color" />
     <attr name="bottom_nav_pressed_icon_color" format="color" />
     <attr name="holiday_text_color" format="color" />
+    <attr name="item_menu_color" format="color" />
 </resources>

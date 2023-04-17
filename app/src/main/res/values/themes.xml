@@ -15,6 +15,7 @@
         <item name="background_item">@color/color_primary</item>z
         <item name="bottom_nav_pressed_icon_color">@color/primary_text_color</item>
         <item name="holiday_text_color">@color/white</item>
+        <item name="item_menu_color">@color/primary_text_color</item>
     </style>
 
 
