@@ -19,6 +19,7 @@
         <item name="background_item">@color/white</item>
         <item name="text_color_primary_to_primary_app">@color/primary_text_color</item>
         <item name="text_color_primary_to_white">@color/primary_text_color</item>
+        <item name="text_color_fact_of_the_day">@color/grey_text_color</item>
     </style>
 
 
