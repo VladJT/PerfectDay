@@ -26,10 +26,12 @@ class PushBirthdayRepoImpl(
     override fun getDataTest(): List<DataPush> {
         return listOf(
             DataPush(
+                "channel_birthday",
                 "test",
                 "test"
             ),
             DataPush(
+                "channel_event",
                 "test",
                 "test"
 
