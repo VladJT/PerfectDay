@@ -31,6 +31,7 @@
         <item name="android:colorBackground">@color/background</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="background_item">@color/color_primary</item>
     </style>
 
 

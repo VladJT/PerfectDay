@@ -17,7 +17,6 @@
     <color name="grey_text_color">#8A989B</color>
     <color name="background_dark">#121212</color>
     <color name="grey_dark">#181D1E</color>
-    <color name="container_dark_color">#181D1E</color>
 
     <color name="seed">#34618e</color>
     <color name="md_theme_light_primary">#0062A2</color>
