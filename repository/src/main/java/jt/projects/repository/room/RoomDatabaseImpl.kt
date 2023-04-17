@@ -13,9 +13,12 @@ class RoomDatabaseImpl(private val dao: ScheduledEventDao) : LocalRepository {
     override suspend fun getAll(): Flow<DataModel.ScheduledEvent> =
         dao.getAll().asFlow().map { it.toScheduledEvent() }
 
-    override fun getNotesByDate(date: String): Flow<List<DataModel.ScheduledEvent>> =
+    override fun getNotesByDate(date: Long): Flow<List<DataModel.ScheduledEvent>> =
         dao.getNotesByDate(date)
             .map { list -> list.map(ScheduledEventEntity::toScheduledEvent) }
+
+    override suspend fun getEventsCountBeforeDate(date: Long): Int =
+        dao.getEventsCountBeforeDate(date)
 
     override suspend fun insert(scheduledEvent: DataModel.ScheduledEvent) =
         dao.insert(scheduledEvent.toRoomEntity())
@@ -23,9 +26,9 @@ class RoomDatabaseImpl(private val dao: ScheduledEventDao) : LocalRepository {
     override suspend fun update(scheduledEvent: DataModel.ScheduledEvent) =
         dao.update(scheduledEvent.toRoomEntity())
 
-    override suspend fun deleteById(id: Int) =
-        dao.deleteById(id)
+    override suspend fun deleteById(id: Int) = dao.deleteById(id)
 
-    override suspend fun deleteAll() =
-        dao.deleteAll()
+    override suspend fun deleteBeforeDate(date: Long) = dao.deleteBeforeDate(date)
+
+    override suspend fun deleteAll() = dao.deleteAll()
 }

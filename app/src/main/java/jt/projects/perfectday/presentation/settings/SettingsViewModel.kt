@@ -1,23 +1,30 @@
 package jt.projects.perfectday.presentation.settings
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthenticationResult
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class SettingsViewModel(
     private val settingsPref: SimpleSettingsPreferences,
-    private val vkRepository: VkNetworkRepository
+    private val vkRepository: VkNetworkRepository,
+    private val dataCache: AppDataCache
 ) : ViewModel() {
     private val _isLoadingProfile = MutableStateFlow(true)
     val isLoadingProfile get() = _isLoadingProfile.asStateFlow()
@@ -30,6 +37,12 @@ class SettingsViewModel(
 
     private val _errorFlow = createMutableSingleEventFlow<Int>()
     val errorFlow get() = _errorFlow.asSharedFlow()
+
+    private val countOfDeletedEventsLiveData: MutableLiveData<Int> = MutableLiveData()
+    val countOfDeletedEvents: LiveData<Int>
+        get() {
+            return countOfDeletedEventsLiveData
+        }
 
     init {
         checkAuthorizedUser()
@@ -70,9 +83,18 @@ class SettingsViewModel(
                 _errorFlow.tryEmit(R.string.vk_error_auth_text)
         }
     }
+
     fun onClickButtonLogOut() {
         VK.logout()
         settingsPref.saveSettings(VK_AUTH_TOKEN, emptyString())
         _isAuthorized.tryEmit(false)
+    }
+
+    fun deleteOldScheduledEvents() {
+        viewModelScope.launch {
+            val countOfDeletedScheduledEvents =
+                dataCache.deleteScheduledEventBeforeDate(LocalDate.now())
+            countOfDeletedEventsLiveData.postValue(countOfDeletedScheduledEvents)
+        }
     }
 }
