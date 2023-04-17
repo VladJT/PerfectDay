@@ -6,7 +6,6 @@ import jt.projects.repository.room.LocalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class ScheduledEventInteractorImpl(
     private val repository: LocalRepository
@@ -33,9 +32,9 @@ class ScheduledEventInteractorImpl(
     }
 
     fun getNotesByDate(date: LocalDate): Flow<List<DataModel.ScheduledEvent>> {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        val dateFormat = date.format(formatter)
-        return repository.getNotesByDate(dateFormat)
+        //  val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        //  val dateFormat = date.format(formatter)
+        return repository.getNotesByDate(date.toEpochDay())
     }
 
     suspend fun insert(scheduledEvent: DataModel.ScheduledEvent) =
@@ -46,6 +45,12 @@ class ScheduledEventInteractorImpl(
 
     suspend fun deleteScheduledEventById(id: Int) =
         repository.deleteById(id)
+
+    suspend fun getScheduledEventCountBeforeDate(date: LocalDate): Int =
+        repository.getEventsCountBeforeDate(date.toEpochDay())
+
+    suspend fun deleteScheduledEventBeforeDate(date: LocalDate) =
+        repository.deleteBeforeDate(date.toEpochDay())
 
     suspend fun deleteAll() =
         repository.deleteAll()

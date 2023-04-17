@@ -2,34 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:orientation="horizontal"
-    android:background="?android:statusBarColor">
+    android:background="?android:statusBarColor"
+    android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/btn_back"
-        android:visibility="gone"
-        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:alpha="0"
         android:backgroundTint="@color/transparent"
         android:contentDescription="@string/content_desc_back"
-        android:src="@drawable/baseline_arrow_back_ios_new_24" />
+        android:src="@drawable/baseline_arrow_back_ios_new_24"
+        android:visibility="gone" />
 
     <ImageView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
-        android:paddingVertical="11dp"
         android:layout_weight="1"
         android:contentDescription="@string/content_desc_logo"
+        android:paddingVertical="11dp"
         android:src="@drawable/ic_logo_perfect_day" />
 
     <Space
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.5" />
+
+    <ImageButton
+        android:id="@+id/btn_clear_cache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:backgroundTint="@color/transparent"
+        android:contentDescription="@string/content_desc_clear_cache"
+        android:src="@drawable/baseline_sync_24" />
 
     <ImageButton
         android:id="@+id/btn_settings"

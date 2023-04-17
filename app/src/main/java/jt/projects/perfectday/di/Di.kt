@@ -67,6 +67,7 @@ val application = module {
 val roomModule = module {
     single {
         Room.databaseBuilder(get(), ScheduledEventDatabase::class.java, "scheduledEvents.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 
@@ -122,6 +123,10 @@ val viewModelModule = module {
     }
 
     viewModel {
-        SettingsViewModel(settingsPref = get(), vkRepository = get())
+        SettingsViewModel(
+            settingsPref = get(),
+            vkRepository = get(),
+            dataCache = get()
+        )
     }
 }

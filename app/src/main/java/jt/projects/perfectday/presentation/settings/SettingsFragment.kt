@@ -51,11 +51,25 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeError()
         setOnButtonsListener()
+        initDeleteOldScheduledEvents()
         observeVisibleProfile()
         observeUserInfo()
         initDaySliderForReminderFragment()
         showFab(false)
         showButtonBackHome(true)
+    }
+
+    private fun initDeleteOldScheduledEvents() {
+        binding.btnDeleteOldSheduledEvents.setOnClickListener {
+            viewModel.deleteOldScheduledEvents()
+        }
+
+        viewModel.countOfDeletedEvents.observe(this@SettingsFragment) {
+            if (it == 0)
+                showSnackbar("Нет прошедших событий для удаления")
+            else
+                showSnackbar("Удалено $it прошедших событий")
+        }
     }
 
     private fun initDaySliderForReminderFragment() {

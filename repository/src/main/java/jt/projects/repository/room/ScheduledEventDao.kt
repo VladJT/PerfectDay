@@ -15,10 +15,13 @@ interface ScheduledEventDao {
     suspend fun getAll(): List<ScheduledEventEntity>
 
     @Query("SELECT * FROM ScheduledEventEntity WHERE date = :date")
-    fun getNotesByDate(date: String): Flow<List<ScheduledEventEntity>>
+    fun getNotesByDate(date: Long): Flow<List<ScheduledEventEntity>>
 
     @Query("select * from ScheduledEventEntity where id = :id")
     suspend fun getDataById(id: Int): ScheduledEventEntity?
+
+    @Query("select count(*) from ScheduledEventEntity WHERE date < :date")
+    suspend fun getEventsCountBeforeDate(date: Long): Int
 
 
     /**
@@ -49,4 +52,7 @@ interface ScheduledEventDao {
 
     @Query("delete from ScheduledEventEntity")
     suspend fun deleteAll()
+
+    @Query("delete from ScheduledEventEntity WHERE date < :date")
+    suspend fun deleteBeforeDate(date: Long)
 }

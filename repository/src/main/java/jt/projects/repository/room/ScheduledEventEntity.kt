@@ -18,5 +18,5 @@ data class ScheduledEventEntity(
     val description: String,
 
     @field: ColumnInfo(name = "date")
-    val date: String
+    val date: Long
 )

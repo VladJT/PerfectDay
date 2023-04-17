@@ -100,8 +100,21 @@ class AppDataCache(
         scheduledEventInteractor.deleteScheduledEventById(id)
     }
 
-    fun cleanScheduledEventsCache(){
+    suspend fun deleteScheduledEventBeforeDate(date: LocalDate) : Int {
+        val countToDelete = scheduledEventInteractor.getScheduledEventCountBeforeDate(date)
+        scheduledEventInteractor.deleteScheduledEventBeforeDate(date)
+        return countToDelete
+    }
+
+    fun cleanScheduledEventsCache() {
         scheduledEvents = null
     }
 
+    fun cleanAllCacheData() {
+        birthdaysFromPhone = null
+        birthdaysFromVk = null
+        scheduledEvents = null
+        facts = null
+        holidays = null
+    }
 }
