@@ -31,7 +31,9 @@ class BirthdayFromPhoneViewHolder private constructor(
                 tvVkLabel.isVisible = false
 
                 ivAvatar.loadWithPlaceHolder(data.photoUri ?: emptyString())
-                root.setOnClickListener {
+
+                // по нажатию на тортик вызов окна для поздравления контакта
+                tvAgeLabel.setOnClickListener {
                     if (listItemClicked != null) {
                         listItemClicked(data)
                     }

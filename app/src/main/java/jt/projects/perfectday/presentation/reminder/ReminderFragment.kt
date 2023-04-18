@@ -5,21 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.AppState
-import jt.projects.model.DataModel
-import jt.projects.perfectday.core.BaseAdapter
+import jt.projects.perfectday.core.BaseFragment
 import jt.projects.perfectday.core.extensions.showProgress
-import jt.projects.perfectday.core.extensions.showScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderBinding
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.showSnackbar
-import jt.projects.utils.showToast
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ReminderFragment : Fragment() {
+class ReminderFragment : BaseFragment() {
     private var _binding: FragmentReminderBinding? = null
     private val binding get() = _binding!!
     private val settingsPreferences by inject<SimpleSettingsPreferences>()
@@ -28,25 +24,7 @@ class ReminderFragment : Fragment() {
         fun newInstance() = ReminderFragment()
     }
 
-    private val viewModel: ReminderViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
-
-    private val reminderAdapter: BaseAdapter by lazy { BaseAdapter(::onItemClick, ::onItemDelete) }
-
-    private fun onItemClick(data: DataModel) {
-        if (data is DataModel.ScheduledEvent) {
-            showScheduledEvent(data)
-        } else {
-            requireActivity().showToast(data.toString())
-        }
-    }
-
-    private fun onItemDelete(data: DataModel, position: Int) {
-        if (data is DataModel.ScheduledEvent) {
-            viewModel.deleteScheduledEvent(data.id)
-            reminderAdapter.notifyItemRemoved(position)
-        }
-    }
-
+    override val viewModel: ReminderViewModel by viewModel() // НЕ привязана к жизненному циклу Activity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,7 +67,7 @@ class ReminderFragment : Fragment() {
     private fun initRecView() {
         with(binding.reminderRecyclerview) {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = reminderAdapter
+            adapter = baseAdapter
         }
     }
 
@@ -98,7 +76,7 @@ class ReminderFragment : Fragment() {
             is AppState.Success -> {
                 showLoadingFrame(false)
                 val data = appState.data?.let { data ->
-                    reminderAdapter.setData(data)
+                    baseAdapter.setData(data)
                 }
             }
             is AppState.Loading -> {
