@@ -83,10 +83,10 @@ fun isPeriodBirthdayDate(
 ): Boolean = isDateAfterStart(startDate, birthDate) && isDateBeforeEndDate(endDate, birthDate)
 
 fun isDateAfterStart(startDate: LocalDate, birthDate: LocalDate): Boolean =
-    birthDate.dayOfMonth >= startDate.dayOfMonth && birthDate.monthValue >= startDate.monthValue
+    LocalDate.of(LocalDate.now().year, birthDate.month, birthDate.dayOfMonth) >= startDate
 
 fun isDateBeforeEndDate(endDate: LocalDate, birthDate: LocalDate): Boolean =
-    birthDate.dayOfMonth <= endDate.dayOfMonth && birthDate.monthValue <= endDate.monthValue
+    LocalDate.of(LocalDate.now().year, birthDate.month, birthDate.dayOfMonth) <= endDate
 
 val sortComparatorByMonthAndDay = Comparator<DataModel> { o1, o2 ->
     if (o1 is DataModel.BirthdayFromVk && o2 is DataModel.BirthdayFromVk) {

@@ -100,7 +100,7 @@ class AppDataCache(
         scheduledEventInteractor.deleteScheduledEventById(id)
     }
 
-    suspend fun deleteScheduledEventBeforeDate(date: LocalDate) : Int {
+    suspend fun deleteScheduledEventBeforeDate(date: LocalDate): Int {
         val countToDelete = scheduledEventInteractor.getScheduledEventCountBeforeDate(date)
         scheduledEventInteractor.deleteScheduledEventBeforeDate(date)
         return countToDelete

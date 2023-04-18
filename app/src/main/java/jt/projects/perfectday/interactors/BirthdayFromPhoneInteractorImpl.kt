@@ -14,8 +14,8 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
 
     fun getDataByDate(date: LocalDate): List<DataModel.BirthdayFromPhone> {
         return listOf(
-            DataModel.BirthdayFromPhone("Ivan", LocalDate.now(), 30, "url"),
-            DataModel.BirthdayFromPhone("Semen", LocalDate.now(), 23, "url2"),
+            DataModel.BirthdayFromPhone("1", "Ivan", LocalDate.now(), 30, "url"),
+            DataModel.BirthdayFromPhone("2", "Semen", LocalDate.now(), 23, "url2"),
         )
     }
 
@@ -192,7 +192,15 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
                                 .toString()).toInt()
                         localDate = LocalDate.of(year, month, day)
                         val age = getAge(localDate)
-                        returnList.add(DataModel.BirthdayFromPhone(name, localDate, age, photoUri))
+                        returnList.add(
+                            DataModel.BirthdayFromPhone(
+                                id,
+                                name,
+                                localDate,
+                                age,
+                                photoUri
+                            )
+                        )
                     }
                 }
             }
