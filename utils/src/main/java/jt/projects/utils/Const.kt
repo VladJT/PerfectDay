@@ -15,6 +15,8 @@ const val HOLIDAY_COUNTRY = "Ru"
  */
 const val REMINDER_PERIOD_KEY =
     "REMINDER_PERIOD_KEY" // ключ shared_pref - количество дней для отображения напоминаний на вкладке REMINDER
+const val IS_FIRST_TIME_START_APP_KEY =
+    "isFirstTimeStartAppKey" // признак первого запуска приложения
 
 /**
  * COMMON SETTINGS

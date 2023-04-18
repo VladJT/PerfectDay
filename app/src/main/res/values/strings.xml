@@ -33,4 +33,10 @@
     <string name="save">Сохранить</string>
     <string name="Tomorrow">Завтра</string>
     <string name="loading">Идет загрузка...</string>
+
+
+    // INTRO
+    <string name="intro1_description">Социальное приложение «PerfectDay» поможет пользователю ориентироваться
+        в ближайших днях рождения друзей, расскажет о событиях и праздниках, отмечаемых в текущий день.
+</string>
 </resources>
