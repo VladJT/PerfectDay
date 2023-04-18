@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="background_holiday_item" format="color" />
+    <attr name="bottom_nav_pressed_icon_color" format="color" />
+    <attr name="holiday_text_color" format="color" />
+    <attr name="item_menu_color" format="color" />
+    <attr name="background_item" format="color" />
+    <attr name="text_color_primary_to_primary_app" format="color" />
+    <attr name="text_color_primary_to_white" format="color" />
+    <attr name="text_color_fact_of_the_day" format="color" />
+
+    <!--region Аттрибуты для material group button в remind fragment-->
+    <attr name="text_color_not_checked_button" format="color" />
+    <attr name="text_color_checked_button" format="color" />
+    <!--endregion -->
+</resources>

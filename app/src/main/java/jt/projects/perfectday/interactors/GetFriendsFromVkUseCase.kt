@@ -4,10 +4,9 @@ import jt.projects.model.DataModel
 import jt.projects.model.VkFriend
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
-import java.time.LocalDate
-import java.time.Period
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
+import jt.projects.utils.isPeriodBirthdayDate
+import java.time.*
+import java.time.format.*
 
 class GetFriendsFromVkUseCase(
     private val vkNetworkRepository: VkNetworkRepository
@@ -31,7 +30,6 @@ class GetFriendsFromVkUseCase(
             .filter { it.birthDate.format(formatter) == date.format(formatter) }
     }
 
-    //region Дата рождения от и до...
     suspend fun getFriendsByPeriodDate(
         userToken: String?,
         startDate: LocalDate,
@@ -40,19 +38,6 @@ class GetFriendsFromVkUseCase(
         getAllFriends(userToken)
             .filter { isPeriodBirthdayDate(startDate, endDate, it.birthDate) }
             .sortedWith(sortComparatorByMonthAndDay)
-
-    private fun isPeriodBirthdayDate(
-        startDate: LocalDate,
-        endDate: LocalDate,
-        birthDate: LocalDate
-    ): Boolean = isDateAfterStart(startDate, birthDate) && isDateBeforeEndDate(endDate, birthDate)
-
-    private fun isDateAfterStart(startDate: LocalDate, birthDate: LocalDate): Boolean =
-        birthDate.dayOfMonth >= startDate.dayOfMonth && birthDate.monthValue >= startDate.monthValue
-
-    private fun isDateBeforeEndDate(endDate: LocalDate, birthDate: LocalDate): Boolean =
-        birthDate.dayOfMonth <= endDate.dayOfMonth && birthDate.monthValue <= endDate.monthValue
-    //endregion
 
     suspend fun getAllFriends(userToken: String?): List<DataModel.BirthdayFromVk> {
         if (userToken == null || userToken.isEmpty()) return emptyList()

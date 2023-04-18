@@ -13,7 +13,7 @@ class BaseAdapter(
     companion object {
         const val BIRTHDAY_FROM_VK = 1
         const val BIRTHDAY_FROM_PHONE = 2
-        const val SIMPLE_NOTICE = 3 // сейчас не используется
+        const val SIMPLE_NOTICE = 3
         const val HOLIDAY = 4 // сейчас не используется
         const val SCHEDULED_EVENT = 5
         const val UNKNOWN = -1
@@ -41,7 +41,7 @@ class BaseAdapter(
         when (viewType) {
             BIRTHDAY_FROM_PHONE -> BirthdayFromPhoneViewHolder(parent)
             BIRTHDAY_FROM_VK -> BirthdayFromVKViewHolder(parent)
-            SIMPLE_NOTICE -> NoticeHeaderOnlyViewHolder(parent) // сейчас не используется
+            SIMPLE_NOTICE -> NoticeHeaderOnlyViewHolder(parent)
             SCHEDULED_EVENT -> ScheduledEventViewHolder(parent)
             else -> throw IllegalStateException()
         }
@@ -52,9 +52,6 @@ class BaseAdapter(
         }
         if (holder is BirthdayFromPhoneViewHolder) {
             holder.bind(data[position], onListItemClick)
-        }
-        if (holder is NoticeViewHolder) {
-            holder.bind(data[position])
         }
         if (holder is NoticeHeaderOnlyViewHolder) {
             holder.bind(data[position])

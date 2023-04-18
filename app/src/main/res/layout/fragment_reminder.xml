@@ -16,26 +16,32 @@
         app:selectionRequired="true"
         app:singleSelection="true">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonTomorrow"
             style="@style/PerfectDay.RoundedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Tomorrow" />
+            android:backgroundTint="@color/bg_color_buttons_group"
+            android:text="@string/Tomorrow"
+            android:textColor="@color/text_color_in_buttons_group"
+            app:strokeColor="@color/color_primary" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonAllTime"
             style="@style/PerfectDay.RoundedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="__ Дней" />
+            android:backgroundTint="@color/bg_color_buttons_group"
+            android:text="__ Дней"
+            android:textColor="@color/text_color_in_buttons_group"
+            app:strokeColor="@color/color_primary" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reminder_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="@dimen/padding_medium"
+        android:paddingHorizontal="16dp"
         android:paddingBottom="@dimen/padding_medium"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -15,6 +15,10 @@
     <color name="background">#F6F6F6</color>
     <color name="primary_text_color">#03424F</color>
     <color name="grey_text_color">#8A989B</color>
+    <color name="background_dark">#121212</color>
+    <color name="grey_dark">#181D1E</color>
+    <color name="white_with_80_alpha">#CCFFFFFF</color>
+    <color name="red">#BA1A1A</color>
 
     <color name="seed">#34618e</color>
     <color name="md_theme_light_primary">#0062A2</color>
@@ -29,7 +33,7 @@
     <color name="md_theme_light_onTertiary">#FFFFFF</color>
     <color name="md_theme_light_tertiaryContainer">#F2DAFF</color>
     <color name="md_theme_light_onTertiaryContainer">#251432</color>
-    <color name="md_theme_light_error">#BA1A1A</color>
+    <color name="md_theme_dark_errorContainer">#93000A</color>
     <color name="md_theme_light_errorContainer">#FFDAD6</color>
     <color name="md_theme_light_onError">#FFFFFF</color>
     <color name="md_theme_light_onErrorContainer">#410002</color>
@@ -60,7 +64,6 @@
     <color name="md_theme_dark_tertiaryContainer">#524060</color>
     <color name="md_theme_dark_onTertiaryContainer">#F2DAFF</color>
     <color name="md_theme_dark_error">#FFB4AB</color>
-    <color name="md_theme_dark_errorContainer">#93000A</color>
     <color name="md_theme_dark_onError">#690005</color>
     <color name="md_theme_dark_onErrorContainer">#FFDAD6</color>
     <color name="md_theme_dark_background">#1A1C1E</color>

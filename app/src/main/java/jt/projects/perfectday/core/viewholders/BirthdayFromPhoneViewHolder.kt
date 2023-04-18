@@ -2,20 +2,21 @@ package jt.projects.perfectday.core.viewholders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
-import jt.projects.perfectday.databinding.ItemBirthdayFromPhoneBinding
+import jt.projects.perfectday.databinding.ItemGeneralBirthdayBinding
+import jt.projects.utils.extensions.emptyString
+import jt.projects.utils.extensions.loadWithPlaceHolder
 import jt.projects.utils.getAlertStringHowManyDaysBefore
 import jt.projects.utils.toStdFormatString
-import jt.projects.utils.ui.CoilImageLoader
-import org.koin.java.KoinJavaComponent
 
 class BirthdayFromPhoneViewHolder private constructor(
-    private val binding: ItemBirthdayFromPhoneBinding
+    private val binding: ItemGeneralBirthdayBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     constructor(parent: ViewGroup) : this(
-        ItemBirthdayFromPhoneBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ItemGeneralBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     fun bind(dataModel: DataModel, listItemClicked: ((DataModel) -> Unit)?) {
@@ -27,11 +28,9 @@ class BirthdayFromPhoneViewHolder private constructor(
                 tvAge.text = data.age.toString()
 
                 tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.birthDate)
+                tvVkLabel.isVisible = false
 
-                data.photoUri?.let {
-                    KoinJavaComponent.getKoin().get<CoilImageLoader>()
-                        .loadToCircleView(ivAvatar, it)
-                }
+                ivAvatar.loadWithPlaceHolder(data.photoUri ?: emptyString())
 
                 // по нажатию на тортик вызов окна для поздравления контакта
                 tvAgeLabel.setOnClickListener {

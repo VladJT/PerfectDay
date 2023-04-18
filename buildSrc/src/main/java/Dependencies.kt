@@ -47,7 +47,7 @@ object Versions {
     const val adapterRxjava2 = "1.0.0"
 
     //Koin
-    const val koin = "3.2.0"
+    const val koin = "3.4.0"
 
     //Coil
     const val coil = "2.2.2"

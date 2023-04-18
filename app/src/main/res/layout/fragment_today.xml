@@ -5,22 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/today_recyclerview"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="15dp"
-        android:overScrollMode="never"
-        android:layout_marginBottom="15dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_scheduled_event"/>
-<!--    tools:listitem="@layout/item_holiday_day"/>-->
-<!--    tools:listitem="@layout/item_fact_of_day"/>-->
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Не встречал такого. В общем я обернул recyler
+             во framelayout т.к., если recycler будет лежать под
+             swipelayout, то когда элемент header допустим holiday скрывается
+             то swipe to regfresh не работает. Поэтому пришлось обернуть в еще один
+             контейнер -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/today_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_note" />
+            <!--    tools:listitem="@layout/item_holiday_day"/>-->
+            <!--    tools:listitem="@layout/item_fact_of_day"/>-->
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <FrameLayout
         android:id="@+id/loading_frame_layout"

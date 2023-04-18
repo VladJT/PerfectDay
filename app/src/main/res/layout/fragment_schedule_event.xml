@@ -1,49 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/margin_large">
+    android:padding="@dimen/margin_large">
 
     <TextView
         android:id="@+id/tv_header_label"
         style="@style/HeaderTextStyle"
-        android:text="Заголовок заметки"
+        android:text="@string/header_note_text"
+        android:textColor="?attr/text_color_primary_to_primary_app"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_input_layout_event_header"
         style="@style/BaseTextInputLayout"
-        android:hint="Введите заголовок заметки"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_header_note_hint"
+        android:theme="@style/PerfectDay.TextInputEditText.CursorColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_header_label">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/scheduled_event_header"
-            style="@style/BaseEditTextStyle" />
+            style="@style/BaseEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_description_label"
         style="@style/HeaderTextStyle"
-        android:text="Текст заметки"
+        android:text="@string/header_descr_note_text"
+        android:textColor="?attr/text_color_primary_to_primary_app"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_input_layout_event_header" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_input_layout_event_description"
         style="@style/BaseTextInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите текст заметки"
+        android:hint="@string/edit_descr_note_hint"
+        android:theme="@style/PerfectDay.TextInputEditText.CursorColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_description_label">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/scheduled_event_description"
             style="@style/BaseEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="top|start"
             android:inputType="textMultiLine"
             android:maxLines="6"
@@ -54,30 +64,36 @@
     <TextView
         android:id="@+id/tv_description_date"
         style="@style/HeaderTextStyle"
-        android:text="Дата события"
+        android:text="@string/header_date_note_text"
+        android:textColor="?attr/text_color_primary_to_primary_app"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_input_layout_event_description" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_choose_date"
-        style="@style/PerfectDay.CalendarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="02.20.2023"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="?attr/text_color_primary_to_primary_app"
+        android:textSize="14sp"
         app:icon="@drawable/ic_calendar"
+        app:iconPadding="5dp"
+        app:iconTint="?attr/text_color_primary_to_primary_app"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description_date" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_description_date"
+        tools:text="02.20.2023" />
 
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save"
-        style="@style/PerfectDay.Button"
+        style="@style/PerfectDay.ButtonLogoutVkStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginTop="20dp"
+        android:backgroundTint="@color/color_primary"
         android:text="@string/save"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_choose_date" />
-
+        app:layout_constraintTop_toBottomOf="@+id/btn_choose_date"
+        app:strokeColor="@color/color_primary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

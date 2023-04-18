@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?android:statusBarColor"
@@ -14,7 +15,8 @@
         android:backgroundTint="@color/transparent"
         android:contentDescription="@string/content_desc_back"
         android:src="@drawable/baseline_arrow_back_ios_new_24"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:tint="?attr/item_menu_color" />
 
     <ImageView
         android:layout_width="0dp"
@@ -38,7 +40,8 @@
         android:layout_gravity="center_vertical"
         android:backgroundTint="@color/transparent"
         android:contentDescription="@string/content_desc_clear_cache"
-        android:src="@drawable/baseline_sync_24" />
+        android:src="@drawable/baseline_sync_24"
+        app:tint="?attr/item_menu_color" />
 
     <ImageButton
         android:id="@+id/btn_settings"
@@ -47,5 +50,6 @@
         android:layout_gravity="center_vertical"
         android:backgroundTint="@color/transparent"
         android:contentDescription="@string/content_desc_settings"
-        android:src="@drawable/ic_settings" />
+        android:src="@drawable/ic_settings"
+        app:tint="?attr/item_menu_color" />
 </LinearLayout>

@@ -24,6 +24,11 @@
     <!--Нужно для нормальной работы - это id нашего приложения, которое зарегистрировано в VK-->
     <integer name="com_vk_sdk_AppId">51605520</integer>
 
+    <string name="header_note_text">Заголовок заметки</string>
+    <string name="header_descr_note_text">Текст заметки</string>
+    <string name="header_date_note_text">Дата события</string>
+    <string name="edit_header_note_hint">Введите заголовок заметки</string>
+    <string name="edit_descr_note_hint">Введите текст заметки</string>
 
     <string name="content_desc_logo">Logo application</string>
     <string name="content_desc_back">Back home button</string>

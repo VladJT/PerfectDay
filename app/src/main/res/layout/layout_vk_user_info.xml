@@ -11,6 +11,7 @@
         android:id="@+id/iv_vk_user"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
         tools:src="@tools:sample/avatars" />
 
@@ -22,7 +23,7 @@
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/primary_text_color"
+        android:textColor="?attr/text_color_primary_to_primary_app"
         android:textSize="16sp"
         tools:text="Иван Иванов" />
 </LinearLayout>

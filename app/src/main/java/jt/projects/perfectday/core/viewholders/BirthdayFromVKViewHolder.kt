@@ -4,18 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
-import jt.projects.perfectday.databinding.ItemBirthdayFromVkBinding
+import jt.projects.perfectday.databinding.ItemGeneralBirthdayBinding
+import jt.projects.utils.extensions.loadWithPlaceHolder
 import jt.projects.utils.getAlertStringHowManyDaysBefore
 import jt.projects.utils.toStdFormatString
-import jt.projects.utils.ui.CoilImageLoader
-import org.koin.java.KoinJavaComponent
 
 class BirthdayFromVKViewHolder private constructor(
-    private val binding: ItemBirthdayFromVkBinding
+    private val binding: ItemGeneralBirthdayBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     constructor(parent: ViewGroup) : this(
-        ItemBirthdayFromVkBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ItemGeneralBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     fun bind(dataModel: DataModel, listItemClicked: ((DataModel) -> Unit)?) {
@@ -27,11 +26,8 @@ class BirthdayFromVKViewHolder private constructor(
                 tvAge.text = data.age.toString()
 
                 tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.birthDate)
+                ivAvatar.loadWithPlaceHolder(data.photoUrl)
 
-                data.photoUrl?.let {
-                    KoinJavaComponent.getKoin().get<CoilImageLoader>()
-                        .loadToCircleView(ivAvatar, it)
-                }
                 root.setOnClickListener {
                     if (listItemClicked != null) {
                         listItemClicked(data)

@@ -39,11 +39,13 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
-        style="@style/Widget.Material3.BottomNavigationView.ActiveIndicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:elevation="0dp"
         app:itemHorizontalTranslationEnabled="true"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/menu_bottom_bar" />
 </LinearLayout>

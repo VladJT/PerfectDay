@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="16dp">
@@ -71,7 +72,12 @@
         android:valueFrom="3.0"
         android:valueTo="14.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_header" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_header"
+        app:thumbColor="@color/color_primary"
+        app:tickColor="@color/grey_text_color"
+        app:trackColorActive="@color/color_primary"
+        app:trackColorInactive="@color/white"
+        tools:value="5.0" />
 
     <TextView
         android:id="@+id/tv_slider_value"
@@ -80,13 +86,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/days_slider" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_delete_old_sheduled_events"
-        style="@style/PerfectDay.Button"
+        style="@style/PerfectDay.ButtonLogoutVkStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_marginTop="20dp"
+        android:backgroundTint="@color/color_primary"
+        app:strokeColor="@color/color_primary"
         android:text="Удалить прошедшие напоминания"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_slider_value" />
 
