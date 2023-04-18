@@ -15,6 +15,7 @@ sealed class DataModel {
     ) : DataModel()
 
     data class BirthdayFromPhone(
+        val id: String,
         val name: String,
         val birthDate: LocalDate,
         val age: Int?,

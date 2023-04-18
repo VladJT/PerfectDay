@@ -32,7 +32,9 @@ class BirthdayFromPhoneViewHolder private constructor(
                     KoinJavaComponent.getKoin().get<CoilImageLoader>()
                         .loadToCircleView(ivAvatar, it)
                 }
-                root.setOnClickListener {
+
+                // по нажатию на тортик вызов окна для поздравления контакта
+                tvAgeLabel.setOnClickListener {
                     if (listItemClicked != null) {
                         listItemClicked(data)
                     }
