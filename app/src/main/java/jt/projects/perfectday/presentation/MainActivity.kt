@@ -42,9 +42,11 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // убираем splash screen для Android 10 и ниже
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             setTheme(R.style.Theme_PerfectDay)
         }
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -34,8 +34,8 @@
     </style>
 
 
-    <!-- FOR ANDROID < 12 -->
+    <!-- FOR ANDROID < 11 -->
     <style name="Theme.PerfectDaySplashScreenTheme" parent="Theme.PerfectDay">
-        <!--  <item name="android:windowBackground">@drawable/bg_2</item>-->
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 </resources>
