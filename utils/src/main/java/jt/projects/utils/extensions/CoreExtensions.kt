@@ -2,8 +2,11 @@ package jt.projects.utils.extensions
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import jt.projects.utils.R
 
 fun emptyString(): String = ""
 
@@ -17,4 +20,10 @@ fun View.showViewInRecycler() {
     val height = ViewGroup.LayoutParams.WRAP_CONTENT
     this.isVisible = true
     this.layoutParams = RecyclerView.LayoutParams(width, height)
+}
+
+fun ImageView.loadWithPlaceHolder(imageUrl: String) {
+    this.load(imageUrl) {
+        error(R.drawable.dr_place_holder)
+    }
 }

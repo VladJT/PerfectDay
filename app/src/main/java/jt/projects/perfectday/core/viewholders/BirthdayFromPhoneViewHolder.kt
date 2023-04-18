@@ -6,10 +6,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.ItemGeneralBirthdayBinding
+import jt.projects.utils.extensions.emptyString
+import jt.projects.utils.extensions.loadWithPlaceHolder
 import jt.projects.utils.getAlertStringHowManyDaysBefore
 import jt.projects.utils.toStdFormatString
-import jt.projects.utils.ui.CoilImageLoader
-import org.koin.java.KoinJavaComponent
 
 class BirthdayFromPhoneViewHolder private constructor(
     private val binding: ItemGeneralBirthdayBinding
@@ -30,10 +30,7 @@ class BirthdayFromPhoneViewHolder private constructor(
                 tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.birthDate)
                 tvVkLabel.isVisible = false
 
-                data.photoUri?.let {
-                    KoinJavaComponent.getKoin().get<CoilImageLoader>()
-                        .loadToCircleView(ivAvatar, it)
-                }
+                ivAvatar.loadWithPlaceHolder(data.photoUri ?: emptyString())
                 root.setOnClickListener {
                     if (listItemClicked != null) {
                         listItemClicked(data)
