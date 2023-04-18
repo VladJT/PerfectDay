@@ -10,8 +10,8 @@ import jt.projects.model.AppState
 import jt.projects.perfectday.core.BaseFragment
 import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.databinding.FragmentReminderBinding
+import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import jt.projects.utils.showSnackbar
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

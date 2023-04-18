@@ -9,7 +9,7 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.chosenCalendarDate
-import jt.projects.utils.showToast
+import jt.projects.utils.extensions.showToast
 import jt.projects.utils.toStdFormatString
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -38,7 +38,8 @@ class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = FragmentScheduleEventBinding.inflate(requireActivity().layoutInflater, null, false)
+        _binding =
+            FragmentScheduleEventBinding.inflate(requireActivity().layoutInflater, null, false)
 
         initViewModel()
         setButtonChooseDateListener()

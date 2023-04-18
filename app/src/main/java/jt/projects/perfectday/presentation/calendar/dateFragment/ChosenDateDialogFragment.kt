@@ -14,22 +14,27 @@ import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.core.extensions.showScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
 import jt.projects.utils.chosenCalendarDate
-import jt.projects.utils.showSnackbar
-import jt.projects.utils.showToast
+import jt.projects.utils.extensions.showSnackbar
+import jt.projects.utils.extensions.showToast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
 import java.time.LocalDate
 
 class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
 
-    private val chosenDate:LocalDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
+    private val chosenDate: LocalDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
 
     private var _binding: ChosenDateDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ChosenDateViewModel by viewModel()
 
-    private val chosenDateAdapter: BaseAdapter by lazy { BaseAdapter(::onItemClick, ::onItemDelete) }
+    private val chosenDateAdapter: BaseAdapter by lazy {
+        BaseAdapter(
+            ::onItemClick,
+            ::onItemDelete
+        )
+    }
 
     private fun onItemClick(data: DataModel) {
         if (data is DataModel.ScheduledEvent) {
@@ -59,7 +64,10 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

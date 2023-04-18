@@ -10,7 +10,7 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.core.extensions.showButtonBackHome
 import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
-import jt.projects.utils.showToast
+import jt.projects.utils.extensions.showToast
 import jt.projects.utils.toStdFormatString
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat

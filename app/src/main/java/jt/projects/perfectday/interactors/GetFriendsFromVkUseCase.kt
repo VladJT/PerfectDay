@@ -1,10 +1,13 @@
 package jt.projects.perfectday.interactors
 
-import jt.projects.model.*
+import jt.projects.model.DataModel
+import jt.projects.model.VkFriend
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
-import java.time.*
-import java.time.format.*
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 class GetFriendsFromVkUseCase(
     private val vkNetworkRepository: VkNetworkRepository
