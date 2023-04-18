@@ -1,6 +1,7 @@
 package jt.projects.perfectday.interactors
 
-import jt.projects.model.*
+import jt.projects.model.DataModel
+import jt.projects.model.VkFriend
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.isPeriodBirthdayDate

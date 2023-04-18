@@ -1,8 +1,7 @@
 package jt.projects.perfectday.presentation.calendar.dateFragment
 
-import jt.projects.model.DataModel
-import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.core.AppDataCache
+import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 
@@ -18,7 +17,7 @@ class ChosenDateViewModel(
         val dataPhone =
             dataCache.getBirthdaysFromPhoneByDate(chosenCalendarDate)
         if (dataPhone.isNotEmpty()) {
-            addHeaderRow("Дни рождения контактов телефона")
+            addHeaderRow(PHONE_GROUP_LABEL)
             data.addAll(dataPhone)
         }
     }
@@ -26,7 +25,7 @@ class ChosenDateViewModel(
     override suspend fun loadBirthdaysFromVk() {
         val dataVk = dataCache.getBirthdaysFromVkByDate(chosenCalendarDate)
         if (dataVk.isNotEmpty()) {
-            addHeaderRow("Дни рождения друзей ВКонтакте")
+            addHeaderRow(VK_GROUP_LABEL)
             data.addAll(dataVk)
         }
     }
@@ -34,12 +33,8 @@ class ChosenDateViewModel(
     override suspend fun loadScheduledEvents() {
         val scheduledEvents = dataCache.getScheduledEventsByDate(chosenCalendarDate)
         if (scheduledEvents.isNotEmpty()) {
-            addHeaderRow("Запланированные события")
+            addHeaderRow(SCHEDULED_EVENT_GROUP_LABEL)
             data.addAll(scheduledEvents)
         }
-    }
-
-    fun addHeaderRow(name: String) {
-        data.add(DataModel.SimpleNotice(name, ""))
     }
 }

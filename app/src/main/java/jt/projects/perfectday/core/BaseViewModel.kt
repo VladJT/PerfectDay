@@ -22,6 +22,10 @@ abstract class BaseViewModel(
 
     companion object {
         const val FAKE_DELAY = 10L
+
+        const val PHONE_GROUP_LABEL = "Дни рождения контактов телефона"
+        const val VK_GROUP_LABEL = "Дни рождения друзей ВКонтакте"
+        const val SCHEDULED_EVENT_GROUP_LABEL = "Запланированные события"
     }
 
     protected val liveData: MutableLiveData<AppState> = MutableLiveData()
@@ -73,6 +77,10 @@ abstract class BaseViewModel(
 
     protected fun handleError(e: Exception) {
         Log.d(LOG_TAG, e.message.toString())
+    }
+
+    protected fun addHeaderRow(name: String) {
+        data.add(DataModel.SimpleNotice(name, ""))
     }
 
     open fun preparePostValue() {}

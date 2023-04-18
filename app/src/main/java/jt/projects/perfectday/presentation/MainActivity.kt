@@ -25,9 +25,9 @@ import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
+import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
-import jt.projects.utils.showSnackbar
 import org.koin.android.ext.android.getKoin
 
 class MainActivity : AppCompatActivity() {
