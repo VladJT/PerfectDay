@@ -3,6 +3,7 @@ package jt.projects.perfectday.presentation.today
 import android.util.Log
 import androidx.lifecycle.*
 import jt.projects.model.DataModel
+import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.interactors.*
 import jt.projects.perfectday.presentation.today.adapter.main.TodayItem
 import jt.projects.utils.FACTS_COUNT
@@ -30,6 +31,9 @@ class TodayViewModel(
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading get() = _isLoading.asStateFlow()
+
+    private val _noteFlow = createMutableSingleEventFlow<DataModel.ScheduledEvent>()
+    val noteFlow get() = _noteFlow.asSharedFlow()
 
     private var job: Job? = null
 
@@ -118,6 +122,10 @@ class TodayViewModel(
         viewModelScope.launch {
             scheduledEventInteractorImpl.deleteScheduledEventById(id)
         }
+    }
+
+    fun onEditNoteClicked(dataModel: DataModel) {
+        if (dataModel is DataModel.ScheduledEvent) _noteFlow.tryEmit(dataModel)
     }
 
     fun onSwipeToRefreshMove(): Unit = loadAllContent()
