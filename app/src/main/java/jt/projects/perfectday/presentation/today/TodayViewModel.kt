@@ -48,8 +48,7 @@ class TodayViewModel(
             val loadHoliday = async { loadContent { holidayInteractor.getHolidayByDate(currentDate) }}
             val loadPhoneFriends = async { loadContent { birthdayFromPhoneInteractor.getContactsByDay(currentDate) }}
             val loadVkFriends = async {
-//                loadContent { getFriendsFromVkUseCase.getFriendsByDate(vkToken, currentDate) }
-                loadContent { getFriendsFromVkUseCase.getAllFriends(vkToken) }
+                loadContent { getFriendsFromVkUseCase.getFriendsByDate(vkToken, currentDate) }
             }
             val loadFacts = async {
                 loadContent { simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT) }
