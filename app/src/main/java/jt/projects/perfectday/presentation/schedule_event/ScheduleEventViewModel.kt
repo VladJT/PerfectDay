@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class ScheduleEventViewModel(
-    private val scheduledEventInteractorImpl: ScheduledEventInteractorImpl,
     private val dataCache: AppDataCache
 ) : ViewModel() {
 
@@ -42,12 +41,11 @@ class ScheduleEventViewModel(
         liveDataForViewToObserve.value?.let {
             CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
                 if (it.id == 0) {
-                    scheduledEventInteractorImpl.insert(it)
+                    dataCache.insertScheduledEvent(it)
                 } else {
-                    scheduledEventInteractorImpl.update(it)
+                    dataCache.updateScheduledEvent(it)
                 }
             }
-            dataCache.cleanScheduledEventsCache()
         }
     }
 }

@@ -96,8 +96,22 @@ class AppDataCache(
     ): List<DataModel.ScheduledEvent> =
         getScheduledEventsByPeriod(date, date)
 
+    // INSERT & UPDATE
+    suspend fun insertScheduledEvent(data: DataModel.ScheduledEvent) {
+        scheduledEventInteractor.insert(data)
+        cleanScheduledEventsCache()
+    }
+
+    suspend fun updateScheduledEvent(data: DataModel.ScheduledEvent) {
+        scheduledEventInteractor.update(data)
+        cleanScheduledEventsCache()
+    }
+
+
+    // DELETE
     suspend fun deleteScheduledEventById(id: Int) {
         scheduledEventInteractor.deleteScheduledEventById(id)
+        cleanScheduledEventsCache()
     }
 
     suspend fun deleteScheduledEventBeforeDate(date: LocalDate): Int {
@@ -106,7 +120,11 @@ class AppDataCache(
         return countToDelete
     }
 
-    fun cleanScheduledEventsCache() {
+
+    /**
+     * CLEAN CACHE
+     */
+    private fun cleanScheduledEventsCache() {
         scheduledEvents = null
     }
 

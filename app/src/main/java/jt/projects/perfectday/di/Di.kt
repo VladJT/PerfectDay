@@ -119,7 +119,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        ScheduleEventViewModel(scheduledEventInteractorImpl = get(), dataCache = get())
+        ScheduleEventViewModel(dataCache = get())
     }
 
     viewModel {

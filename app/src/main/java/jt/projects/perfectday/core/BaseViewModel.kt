@@ -96,10 +96,10 @@ abstract class BaseViewModel(
         super.onCleared()
     }
 
-    fun deleteScheduledEvent(id: Int) {
+    fun deleteScheduledEvent(eventId: Int) {
         viewModelScope.launch {
-            dataCache.deleteScheduledEventById(id)
-            data.removeAll { it is DataModel.ScheduledEvent && it.id == id }
+            dataCache.deleteScheduledEventById(eventId)
+            data.removeAll { it is DataModel.ScheduledEvent && it.id == eventId }
         }
     }
 }
