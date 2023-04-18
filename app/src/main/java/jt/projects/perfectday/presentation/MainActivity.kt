@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClickSettings() {
         binding.layoutToolbar.btnSettings.setOnClickListener {
             it.animate()
-                .rotationBy(180f)
+                .rotationBy(-180f)
                 .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
         }
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClickClearCache() {
         binding.layoutToolbar.btnClearCache.setOnClickListener {
             it.animate()
-                .rotationBy(180f)
+                .rotationBy(-180f)
                 .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
 
             getKoin().get<AppDataCache>().cleanAllCacheData()
