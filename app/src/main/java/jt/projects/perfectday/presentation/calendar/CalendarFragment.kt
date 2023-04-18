@@ -196,7 +196,7 @@ class CalendarFragment : Fragment() {
 
                     indicatorsList.add(
                         DateIndicator(
-                            resources.getColor(R.color.md_theme_light_error),
+                            resources.getColor(R.color.red),
                             CalendarDate(calendarSetter.time)
                         )
                     )

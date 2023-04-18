@@ -7,7 +7,15 @@
     <ru.cleverpumpkin.calendar.CalendarView
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:calendar_year_selection_background="?attr/background_item"
+        app:calendar_year_selection_arrows_color="?attr/item_menu_color"
+        app:calendar_year_selection_text_color="?attr/item_menu_color"
+        app:calendar_day_bar_background="?attr/background_item"
+        app:calendar_day_bar_text_color="?attr/item_menu_color"
+        app:calendar_day_bar_weekend_text_color="@color/red"
+        app:calendar_date_text_color="@color/grey_text_color"
+        app:calendar_month_text_color="?attr/text_color_primary_to_primary_app"/>
 
     <FrameLayout
         android:id="@+id/loading_frame_layout"
