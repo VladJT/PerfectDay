@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_header_note_hint"
+        android:theme="@style/PerfectDay.TextInputEditText.CursorColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_header_label">
 
@@ -44,14 +45,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/edit_descr_note_hint"
+        android:theme="@style/PerfectDay.TextInputEditText.CursorColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_description_label">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/scheduled_event_description"
+            style="@style/BaseEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/BaseEditTextStyle"
             android:gravity="top|start"
             android:inputType="textMultiLine"
             android:maxLines="6"
