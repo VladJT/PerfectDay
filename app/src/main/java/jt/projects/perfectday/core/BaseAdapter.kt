@@ -41,7 +41,7 @@ class BaseAdapter(
         when (viewType) {
             BIRTHDAY_FROM_PHONE -> BirthdayFromPhoneViewHolder(parent)
             BIRTHDAY_FROM_VK -> BirthdayFromVKViewHolder(parent)
-            SIMPLE_NOTICE -> NoticeHeaderOnlyViewHolder(parent) // сейчас не используется
+            SIMPLE_NOTICE -> NoticeHeaderOnlyViewHolder(parent)
             SCHEDULED_EVENT -> ScheduledEventViewHolder(parent)
             else -> throw IllegalStateException()
         }
