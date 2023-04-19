@@ -19,7 +19,7 @@ class BirthdayFromPhoneViewHolder private constructor(
         ItemGeneralBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    fun bind(dataModel: DataModel, listItemClicked: ((DataModel) -> Unit)?) {
+    fun bind(dataModel: DataModel, onItemClicked: ((DataModel) -> Unit)?) {
         val data = dataModel as DataModel.BirthdayFromPhone
         if (layoutPosition != RecyclerView.NO_POSITION) {
             with(binding) {
@@ -32,11 +32,9 @@ class BirthdayFromPhoneViewHolder private constructor(
 
                 ivAvatar.loadWithPlaceHolder(data.photoUri ?: emptyString())
 
-                // по нажатию на тортик вызов окна для поздравления контакта
-                tvAgeLabel.setOnClickListener {
-                    if (listItemClicked != null) {
-                        listItemClicked(data)
-                    }
+                // по нажатию - вызов окна для поздравления контакта
+                btnCallContact.setOnClickListener {
+                    onItemClicked?.invoke(data)
                 }
             }
         }

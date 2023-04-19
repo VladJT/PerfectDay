@@ -24,7 +24,8 @@ abstract class BaseChildFragment : Fragment() {
     private val reminderAdapter by lazy {
         BaseAdapter(
             viewModel::onEditNoteClicked,
-            viewModel::onDeleteNoteClicked
+            viewModel::onDeleteNoteClicked,
+            viewModel::onItemClicked
         )
     }
 

@@ -33,7 +33,7 @@ class ScheduleEventViewModel(
         description?.let { newData?.description = it }
         date?.let { newData?.date = it }
 
-        liveData.postValue(newData)
+        liveData.postValue(newData!!)
     }
 
     // сохраняем изменения в базу данных

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import jt.projects.perfectday.databinding.FragmentReminderBinding
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import org.koin.android.ext.android.inject
@@ -73,7 +73,8 @@ class ReminderFragment : Fragment() {
     private fun navigateToChildFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(binding.reminderFragmentContainer.id, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+            .setTransition(TRANSIT_FRAGMENT_FADE)
             .commit()
 
     }

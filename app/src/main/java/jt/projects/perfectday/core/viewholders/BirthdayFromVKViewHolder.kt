@@ -2,6 +2,7 @@ package jt.projects.perfectday.core.viewholders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.ItemGeneralBirthdayBinding
@@ -17,7 +18,7 @@ class BirthdayFromVKViewHolder private constructor(
         ItemGeneralBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    fun bind(dataModel: DataModel, listItemClicked: ((DataModel) -> Unit)?) {
+    fun bind(dataModel: DataModel, onItemClicked: ((DataModel) -> Unit)?) {
         val data = dataModel as DataModel.BirthdayFromVk
         if (layoutPosition != RecyclerView.NO_POSITION) {
             with(binding) {
@@ -28,10 +29,10 @@ class BirthdayFromVKViewHolder private constructor(
                 tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.birthDate)
                 ivAvatar.loadWithPlaceHolder(data.photoUrl)
 
+                btnCallContact.isVisible = false
+
                 root.setOnClickListener {
-                    if (listItemClicked != null) {
-                        listItemClicked(data)
-                    }
+                    onItemClicked?.invoke(data)
                 }
             }
         }
