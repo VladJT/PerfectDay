@@ -61,7 +61,7 @@ class ScheduleEventFragment() : Fragment() {
         arguments?.getParcelable(BUNDLE_KEY) as? DataModel.ScheduledEvent
 
     private fun initViewModel() {
-        viewModel.liveDataForViewToObserve.observe(this@ScheduleEventFragment) {
+        viewModel.liveDataForViewToObserve.observe(viewLifecycleOwner) {
             renderData(it)
         }
 

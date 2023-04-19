@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
+import jt.projects.perfectday.core.viewholders.PhoneBookProvider
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
@@ -27,7 +28,8 @@ abstract class BaseChildViewModel(
     protected val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
-    private val scheduledEventInteractor: ScheduledEventInteractorImpl
+    private val scheduledEventInteractor: ScheduledEventInteractorImpl,
+    private val phoneBookProvider: PhoneBookProvider
 ) :
     ViewModel() {
 
@@ -135,6 +137,12 @@ abstract class BaseChildViewModel(
 
     fun onEditNoteClicked(dataModel: DataModel) {
         if (dataModel is DataModel.ScheduledEvent) _noteFlow.tryEmit(dataModel)
+    }
+
+    fun onItemClicked(data: DataModel) {
+        if (data is DataModel.BirthdayFromPhone) {
+            phoneBookProvider.openContact(data)
+        }
     }
 
     fun onSwipeToRefreshMove(): Unit = loadAllContent()

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import jt.projects.perfectday.App
 import jt.projects.perfectday.core.AppDataCache
+import jt.projects.perfectday.core.viewholders.PhoneBookProvider
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.HolidayInteractorImpl
@@ -54,6 +55,9 @@ val application = module {
             )
         )
     }
+
+    // работа с телефонной книгой
+    single<PhoneBookProvider> { PhoneBookProvider(context = get()) }
 
     // глобальный кэш данных приложения
     single<AppDataCache> {
@@ -116,7 +120,8 @@ val viewModelModule = module {
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
-            scheduledEventInteractor = get()
+            scheduledEventInteractor = get(),
+            phoneBookProvider = get()
         )
     }
 
@@ -125,7 +130,8 @@ val viewModelModule = module {
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
-            scheduledEventInteractor = get()
+            scheduledEventInteractor = get(),
+            phoneBookProvider = get()
         )
     }
 
