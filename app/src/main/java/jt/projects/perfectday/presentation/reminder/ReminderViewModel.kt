@@ -39,7 +39,7 @@ class ReminderViewModel(
         const val SCHEDULED_EVENT_GROUP_LABEL = "Запланированные события"
     }
 
-    var isShowTomorrow = false
+    var isShowTomorrow = true
 
     private fun getStartDate(): LocalDate {
 //        return if (isShowTomorrow) LocalDate.now().plusDays(1)
@@ -152,5 +152,5 @@ class ReminderViewModel(
         if (dataModel is DataModel.ScheduledEvent) _noteFlow.tryEmit(dataModel)
     }
 
-    fun onSwipeToRefreshMove(): Unit = loadAllContent()
+    fun refreshData(): Unit = loadAllContent()
 }

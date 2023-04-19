@@ -63,7 +63,7 @@ class ReminderFragment : Fragment() {
     private fun initToggleButtons() {
         binding.buttonTomorrow.setOnClickListener {
             viewModel.isShowTomorrow = true
-            //viewModel.loadData()
+            viewModel.refreshData()
         }
 
         binding.buttonAllTime.text =
@@ -71,17 +71,9 @@ class ReminderFragment : Fragment() {
 
         binding.buttonAllTime.setOnClickListener {
             viewModel.isShowTomorrow = false
-            // viewModel.loadData()
+            viewModel.refreshData()
         }
     }
-
-//    private fun initViewModel() {
-//        viewModel.liveDataForViewToObserve.observe(this@ReminderFragment) {
-//            renderData(it)
-//        }
-//
-//        viewModel.loadData()
-//    }
 
     private fun initRecView() {
         with(binding.reminderRecyclerview) {
@@ -135,10 +127,6 @@ class ReminderFragment : Fragment() {
 //                showSnackbar(appState.error.message.toString())
 //            }
 //        }
-//    }
-//
-//    private fun showLoadingFrame(isLoading: Boolean) {
-//        binding.loadingFrameLayout.isVisible = isLoading
 //    }
 
     override fun onDestroy() {
