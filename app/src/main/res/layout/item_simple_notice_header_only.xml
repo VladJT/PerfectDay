@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_large"
     android:backgroundTint="@color/color_primary"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <TextView
         android:id="@+id/card_header"
@@ -17,6 +17,6 @@
         android:paddingVertical="3dp"
         android:textAllCaps="true"
         android:textColor="@color/white_with_80_alpha"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_standard"
         tools:text="Header" />
 </androidx.cardview.widget.CardView>

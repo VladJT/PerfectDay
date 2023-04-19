@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="@dimen/margin_medium"
     android:background="@drawable/bg_setting"
-    android:paddingVertical="20dp">
+    android:paddingVertical="@dimen/padding_medium">
 
     <TextView
         android:id="@+id/tv_days_to_event"
