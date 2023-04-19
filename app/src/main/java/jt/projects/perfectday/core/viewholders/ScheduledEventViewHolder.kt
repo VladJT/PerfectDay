@@ -19,8 +19,8 @@ class ScheduledEventViewHolder private constructor(
 
     fun bind(
         dataModel: DataModel,
-        listItemClicked: ((DataModel) -> Unit)?,
-        onDeleteClicked: ((DataModel, Int) -> Unit)?
+        onEditNoteClicked: ((DataModel) -> Unit)?,
+        onDeleteClicked: ((Int) -> Unit)?
     ) {
         val data = dataModel as DataModel.ScheduledEvent
         if (layoutPosition != RecyclerView.NO_POSITION) {
@@ -34,16 +34,12 @@ class ScheduledEventViewHolder private constructor(
 
                 // удаление заметки
                 btnDelete.setOnClickListener {
-                    if (onDeleteClicked != null) {
-                        onDeleteClicked(data, layoutPosition)
-                    }
+                    onDeleteClicked?.invoke(data.id)
                 }
 
                 // редактирование заметки
                 btnEdit.setOnClickListener {
-                    if (listItemClicked != null) {
-                        listItemClicked(data)
-                    }
+                    onEditNoteClicked?.invoke(data)
                 }
             }
         }

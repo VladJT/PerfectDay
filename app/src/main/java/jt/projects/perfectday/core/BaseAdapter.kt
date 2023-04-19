@@ -6,8 +6,8 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.core.viewholders.*
 
 class BaseAdapter(
-    private var onListItemClick: ((DataModel) -> Unit)?,
-    private var onDeleteClicked: ((DataModel, Int) -> Unit)?
+    private var onEditNoteClicked: ((DataModel) -> Unit)?,
+    private var onDeleteClicked: ((Int) -> Unit)?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -48,16 +48,16 @@ class BaseAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is BirthdayFromVKViewHolder) {
-            holder.bind(data[position], onListItemClick)
+            holder.bind(data[position], onEditNoteClicked)
         }
         if (holder is BirthdayFromPhoneViewHolder) {
-            holder.bind(data[position], onListItemClick)
+            holder.bind(data[position], onEditNoteClicked)
         }
         if (holder is NoticeHeaderOnlyViewHolder) {
             holder.bind(data[position])
         }
         if (holder is ScheduledEventViewHolder) {
-            holder.bind(data[position], onListItemClick, onDeleteClicked)
+            holder.bind(data[position], onEditNoteClicked, onDeleteClicked)
         }
     }
 

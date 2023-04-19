@@ -14,6 +14,9 @@ interface ScheduledEventDao {
     @Query("select * from ScheduledEventEntity")
     suspend fun getAll(): List<ScheduledEventEntity>
 
+    @Query("select * from ScheduledEventEntity")
+    fun getAllNotes(): Flow<List<ScheduledEventEntity>>
+
     @Query("SELECT * FROM ScheduledEventEntity WHERE date = :date")
     fun getNotesByDate(date: Long): Flow<List<ScheduledEventEntity>>
 
