@@ -19,6 +19,11 @@ class ReminderFragment : Fragment() {
 
     companion object {
         fun newInstance() = ReminderFragment()
+
+        const val LEFT_CHILD = "left"
+        const val RIGHT_CHILD = "right"
+
+        var currentFragment = LEFT_CHILD
     }
 
     override fun onCreateView(
@@ -31,20 +36,37 @@ class ReminderFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        navigateToChildFragment(LeftChildFragment.newInstance())
+        initCurrentChild()
         initToggleButtons()
     }
 
-    private fun initToggleButtons() {
-        binding.buttonTomorrow.setOnClickListener {
+    private fun initCurrentChild() {
+        if (currentFragment == LEFT_CHILD) {
+            binding.toggleButtons.check(binding.buttonLeftChildFragment.id)
             navigateToChildFragment(LeftChildFragment.newInstance())
-        }
-
-        binding.buttonAllTime.setOnClickListener {
+        } else {
+            binding.toggleButtons.check(binding.buttonRightChildFragment.id)
             navigateToChildFragment(RightChildFragment.newInstance())
         }
+    }
 
-        binding.buttonAllTime.text =
+    private fun initToggleButtons() {
+        // LEFT SIDE
+        binding.buttonLeftChildFragment.setOnClickListener {
+            if (currentFragment != LEFT_CHILD) {
+                navigateToChildFragment(LeftChildFragment.newInstance())
+                currentFragment = LEFT_CHILD
+            }
+        }
+
+        // RIGHT SIDE
+        binding.buttonRightChildFragment.setOnClickListener {
+            if (currentFragment != RIGHT_CHILD) {
+                navigateToChildFragment(RightChildFragment.newInstance())
+                currentFragment = RIGHT_CHILD
+            }
+        }
+        binding.buttonRightChildFragment.text =
             "${settingsPreferences.getDaysPeriodForReminderFragment()} Дней"
     }
 

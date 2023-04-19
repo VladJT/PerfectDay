@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large"
-        app:checkedButton="@id/buttonTomorrow"
+        app:checkedButton="@id/button_left_child_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -17,7 +17,7 @@
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonTomorrow"
+            android:id="@+id/button_left_child_fragment"
             style="@style/PerfectDay.RoundedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             app:strokeColor="@color/color_primary" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonAllTime"
+            android:id="@+id/button_right_child_fragment"
             style="@style/PerfectDay.RoundedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
