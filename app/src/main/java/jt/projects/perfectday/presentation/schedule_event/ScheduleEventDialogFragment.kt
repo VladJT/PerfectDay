@@ -1,122 +1,96 @@
 package jt.projects.perfectday.presentation.schedule_event
 
-import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDialogFragment
+import android.view.*
+import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.*
 import com.google.android.material.datepicker.MaterialDatePicker
-import jt.projects.model.DataModel
-import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
-import jt.projects.utils.chosenCalendarDate
-import jt.projects.utils.extensions.showToast
-import jt.projects.utils.toStdFormatString
+import jt.projects.utils.*
+import jt.projects.utils.extensions.emptyString
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
+import java.time.*
 
+private const val DATE_PICKER_TAG = "DATE_PICKER_TAG"
 
-class ScheduleEventDialogFragment() : AppCompatDialogFragment() {
+class ScheduleEventDialogFragment : DialogFragment() {
     private var _binding: FragmentScheduleEventBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleEventViewModel by viewModel()
 
-    companion object {
-        const val TAG = "ScheduleEventDialogFragment"
-        const val DATE_PICKER_TAG = "DATE_PICKER_TAG"
-        private const val BUNDLE_KEY = "BUNDLE_KEY"
-
-        fun newInstance(data: DataModel.ScheduledEvent?): ScheduleEventDialogFragment {
-            val dialogFragment = ScheduleEventDialogFragment()
-            val args = Bundle()
-            args.putParcelable(BUNDLE_KEY, data)
-            dialogFragment.arguments = args
-            return dialogFragment
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentScheduleEventBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding =
-            FragmentScheduleEventBinding.inflate(requireActivity().layoutInflater, null, false)
-
-        initViewModel()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setDateInButton()
         setButtonChooseDateListener()
-        setButtonSaveListener()
-
-        return AlertDialog
-            .Builder(requireContext())
-            .setTitle(getString(R.string.My_notice))
-            .setView(binding.root)
-            .setIcon(R.drawable.baseline_notification_add_24)
-            .setCancelable(false)
-            .create()
+        setSaveButtonClick()
     }
 
-    private fun getDataFromBundle(): DataModel.ScheduledEvent? =
-        arguments?.getParcelable(BUNDLE_KEY) as? DataModel.ScheduledEvent
-
-    private fun initViewModel() {
-        viewModel.liveDataForViewToObserve.observe(this@ScheduleEventDialogFragment) {
-            renderData(it)
-        }
-
-        var data = getDataFromBundle()
-        if (data == null) {
-            data = DataModel.ScheduledEvent(
-                id = 0,
-                name = "",
-                date = chosenCalendarDate,
-                description = ""
-            )
-        }
-        viewModel.setData(data)
+    override fun onResume() {
+        super.onResume()
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
-    private fun renderData(data: DataModel.ScheduledEvent) {
-        binding.btnChooseDate.text = data.date.toStdFormatString()
-        binding.scheduledEventHeader.setText(data.name)
-        binding.scheduledEventDescription.setText(data.description)
+    private fun setDateInButton() {
+        binding.btnChooseDate.text = arguments?.getString(DATE_STRING_KEY) ?: emptyString()
     }
 
     private fun setButtonChooseDateListener() {
         binding.btnChooseDate.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder
-                .datePicker().build()
-            datePicker.show(requireActivity().supportFragmentManager, DATE_PICKER_TAG)
-
-            datePicker.addOnPositiveButtonClickListener {
-                val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
-                val date = dateFormatter.format(Date(it))
-                val newDate = LocalDate.parse(date)
-                viewModel.updateData(
-                    date = newDate,
-                    name = binding.scheduledEventHeader.text.toString(),
-                    description = binding.scheduledEventDescription.text.toString()
-                )
-            }
+            MaterialDatePicker.Builder
+                .datePicker()
+                .build()
+                .apply {
+                    addOnPositiveButtonClickListener {
+                        val date =
+                            Instant.ofEpochMilli(it)
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate()
+                                .toStdFormatString()
+                        binding.btnChooseDate.text = date
+                    }
+                }
+                .show(requireActivity().supportFragmentManager, DATE_PICKER_TAG)
         }
     }
 
-    private fun setButtonSaveListener() {
-        binding.btnSave.setOnClickListener {
-            try {
-                viewModel.updateData(
-                    name = binding.scheduledEventHeader.text.toString(),
-                    description = binding.scheduledEventDescription.text.toString()
-                )
-                viewModel.saveData()
-            } catch (e: Exception) {
-                requireActivity().showToast(e.message.toString())
+    private fun setSaveButtonClick() {
+        with(binding) {
+            btnSave.setOnClickListener {
+                val headerNote = scheduledEventHeader.text.toString()
+                val description = scheduledEventDescription.text.toString()
+                val date = btnChooseDate.text.toString()
+                viewModel.saveData(headerNote, description, date)
             }
-            this.dismiss()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isCloseDialog.collect { dismiss() }
+            }
         }
     }
 
     override fun onDestroyView() {
         _binding = null
-        chosenCalendarDate = LocalDate.now()
         super.onDestroyView()
+    }
+
+    companion object {
+        private const val DATE_STRING_KEY = "date_key"
+
+        fun newInstance(date: String): ScheduleEventDialogFragment =
+            ScheduleEventDialogFragment().apply {
+                arguments = bundleOf(DATE_STRING_KEY to date)
+            }
     }
 }

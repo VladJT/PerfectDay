@@ -15,10 +15,12 @@ import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialo
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventDialogFragment
 import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.extensions.showSnackbar
+import jt.projects.utils.toStdFormatString
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 
 
@@ -93,14 +95,16 @@ class CalendarFragment : Fragment() {
             }
 
             onDateLongClickListener = { date ->
-                chosenCalendarDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
-                showScheduledEvent()
+                val localDate = date.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                chosenCalendarDate = localDate
+                showScheduledEvent(localDate.toStdFormatString())
             }
         }
     }
 
-    fun showScheduledEvent() {
-        val scheduleEventDialogFragment = ScheduleEventDialogFragment()
+    private fun showScheduledEvent(date: String) {
+        val scheduleEventDialogFragment = ScheduleEventDialogFragment.newInstance(date)
+
         scheduleEventDialogFragment.show(
             requireActivity().supportFragmentManager,
             "ScheduleEventDialogFragment"
