@@ -4,7 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import jt.projects.perfectday.App
 import jt.projects.perfectday.core.AppDataCache
-import jt.projects.perfectday.interactors.*
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.HolidayInteractorImpl
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
+import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.perfectday.presentation.calendar.CalendarViewModel
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateViewModel
 import jt.projects.perfectday.presentation.reminder.ReminderViewModel
@@ -107,7 +111,12 @@ val viewModelModule = module {
     }
 
     viewModel {
-        ReminderViewModel(settingsPreferences = get(), dataCache = get())
+        ReminderViewModel(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractor = get()
+        )
     }
 
     viewModel {

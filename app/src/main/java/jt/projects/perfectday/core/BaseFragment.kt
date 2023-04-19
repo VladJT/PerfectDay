@@ -36,10 +36,10 @@ abstract class BaseFragment : Fragment() {
     }
 
     // удаление запланированного события
-    private fun onItemDelete(data: DataModel, position: Int) {
-        if (data is DataModel.ScheduledEvent) {
-            viewModel.deleteScheduledEvent(data.id)
-            baseAdapter.notifyItemRemoved(position)
-        }
+    private fun onItemDelete(position: Int) {
+//        if (data is DataModel.ScheduledEvent) {
+//            viewModel.deleteScheduledEvent(data.id)
+//            baseAdapter.notifyItemRemoved(position)
+//        }
     }
 }

@@ -4,6 +4,7 @@ package jt.projects.perfectday.interactors
 import jt.projects.model.DataModel
 import jt.projects.repository.room.LocalRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import java.time.LocalDate
 
@@ -20,15 +21,16 @@ class ScheduledEventInteractorImpl(
             .filter { it.date == date }
     }
 
-    suspend fun getScheduledEventsByPeriod(
+    fun getScheduledEventsByPeriod(
         startDate: LocalDate,
         endDate: LocalDate
-    ): List<DataModel.ScheduledEvent> {
+    ): Flow<List<DataModel.ScheduledEvent>> {
         return repository
-            .getAll()
-            .toList()
-            .filter { it.date in startDate..endDate }
-            .sortedBy { it.date }
+            .getAllNotes()
+            .map {
+                it.filter { it.date in startDate..endDate }
+            }
+            .map { it -> it.sortedBy { it.date } }
     }
 
     fun getNotesByDate(date: LocalDate): Flow<List<DataModel.ScheduledEvent>> {

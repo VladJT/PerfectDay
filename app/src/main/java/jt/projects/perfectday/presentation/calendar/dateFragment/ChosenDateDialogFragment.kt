@@ -45,11 +45,11 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
         }
     }
 
-    private fun onItemDelete(data: DataModel, position: Int) {
-        if (data is DataModel.ScheduledEvent) {
-            viewModel.deleteScheduledEvent(data.id)
-            chosenDateAdapter.notifyItemRemoved(position)
-        }
+    private fun onItemDelete(position: Int) {
+//        if (data is DataModel.ScheduledEvent) {
+//            viewModel.deleteScheduledEvent(data.id)
+//            chosenDateAdapter.notifyItemRemoved(position)
+//        }
     }
 
     override fun onCreateView(
@@ -91,10 +91,12 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
                     chosenDateAdapter.setData(data)
                 }
             }
+
             is AppState.Loading -> {
                 showLoadingFrame(true)
                 appState.progress?.let { showProgress(it) }
             }
+
             is AppState.Error -> {
                 showLoadingFrame(false)
                 showSnackbar(appState.error.message.toString())
