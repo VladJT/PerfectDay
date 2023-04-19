@@ -2,6 +2,7 @@ package jt.projects.perfectday.presentation
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -20,15 +21,19 @@ import jt.projects.perfectday.R
 import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
+import jt.projects.perfectday.presentation.intro.IntroActivity
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
+import jt.projects.utils.IS_FIRST_TIME_START_APP_KEY
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
 import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import org.koin.android.ext.android.getKoin
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -36,9 +41,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityMainBinding
-    private val reminderFragment by lazy { ReminderFragment.newInstance() }
-    private val todayFragment by lazy { TodayFragment() }
-    private val calendarFragment by lazy { CalendarFragment.newInstance() }
+
+    private val settingsPreferences by inject<SimpleSettingsPreferences>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +52,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        if (isFirstTimeStartApp()) {
+            startIntoActivity()
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initBottomNavView()
@@ -57,6 +66,20 @@ class MainActivity : AppCompatActivity() {
         checkPermission()
         initButtonBackHome()
         //    subscribeToNetworkStatusChange()
+    }
+
+    private fun startIntoActivity() {
+        startActivity(Intent(this, IntroActivity::class.java))
+    }
+
+    private fun isFirstTimeStartApp(): Boolean {
+        val result = settingsPreferences.getSettings(IS_FIRST_TIME_START_APP_KEY)
+        return if (!result.equals("false")) {
+            settingsPreferences.saveSettings(IS_FIRST_TIME_START_APP_KEY, "false")
+            true
+        } else {
+            false
+        }
     }
 
     private fun initButtonBackHome() {

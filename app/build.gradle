@@ -84,6 +84,9 @@ dependencies {
     // splash screen
     implementation("androidx.core:core-splashscreen:1.0.0")
 
+    // circleindicator (https://github.com/ongakuer/CircleIndicator)
+    implementation("me.relex:circleindicator:2.1.6")
+
     // Coil
     implementation(Coil.coil)
 

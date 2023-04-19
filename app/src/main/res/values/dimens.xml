@@ -13,8 +13,8 @@
     <dimen name="text_size_tip">10sp</dimen>
     <dimen name="text_size_standard">14sp</dimen>
     <dimen name="text_size_standard_header">16sp</dimen>
-    <dimen name="text_size_large">20sp</dimen>
-    <dimen name="text_size_large_header">22sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_large_header">20sp</dimen>
 
     //Corner radius
     <dimen name="card_corner_radius">8dp</dimen>
