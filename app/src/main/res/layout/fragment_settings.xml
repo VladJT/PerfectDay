@@ -70,7 +70,7 @@
         android:contentDescription="Days"
         android:stepSize="1.0"
         android:valueFrom="3.0"
-        android:valueTo="14.0"
+        android:valueTo="20.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_header"
         app:thumbColor="@color/color_primary"

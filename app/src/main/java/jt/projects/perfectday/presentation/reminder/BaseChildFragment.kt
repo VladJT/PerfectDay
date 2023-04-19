@@ -12,12 +12,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.extensions.showScheduledEvent
-import jt.projects.perfectday.databinding.FragmentReminderRecviewBinding
+import jt.projects.perfectday.databinding.FragmentReminderChildBinding
 import kotlinx.coroutines.launch
 
 abstract class BaseChildFragment : Fragment() {
-    private var _binding: FragmentReminderRecviewBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: FragmentReminderChildBinding? = null
+    protected val binding get() = _binding!!
 
     abstract val viewModel: BaseChildViewModel
 
@@ -33,15 +33,19 @@ abstract class BaseChildFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentReminderRecviewBinding.inflate(inflater, container, false)
+        _binding = FragmentReminderChildBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecView()
-        observeEditNote()
         setLoadingVisible()
+        observeEditNote()
+        setSwipeToRefreshMove()
     }
+
+    abstract fun setSwipeToRefreshMove()
+
 
     private fun initRecView() {
         with(binding.reminderRecyclerview) {

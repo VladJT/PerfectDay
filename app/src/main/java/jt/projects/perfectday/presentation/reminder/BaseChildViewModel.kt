@@ -137,5 +137,5 @@ abstract class BaseChildViewModel(
         if (dataModel is DataModel.ScheduledEvent) _noteFlow.tryEmit(dataModel)
     }
 
-    fun refreshData(): Unit = loadAllContent()
+    fun onSwipeToRefreshMove(): Unit = loadAllContent()
 }

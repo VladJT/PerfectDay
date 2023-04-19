@@ -8,4 +8,11 @@ class RightChildFragment : BaseChildFragment() {
     }
 
     override val viewModel: RightChildViewModel by activityViewModel()
+
+    override fun setSwipeToRefreshMove() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.onSwipeToRefreshMove()
+            binding.swipeToRefresh.isRefreshing = false
+        }
+    }
 }
