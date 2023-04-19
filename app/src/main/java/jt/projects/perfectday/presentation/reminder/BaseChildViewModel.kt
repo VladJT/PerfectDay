@@ -23,8 +23,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class ReminderViewModel(
-    private val settingsPreferences: SimpleSettingsPreferences,
+abstract class BaseChildViewModel(
+    protected val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     private val scheduledEventInteractor: ScheduledEventInteractorImpl
@@ -32,27 +32,13 @@ class ReminderViewModel(
     ViewModel() {
 
     companion object {
-        const val FAKE_DELAY = 10L
-
         const val PHONE_GROUP_LABEL = "Дни рождения контактов телефона"
         const val VK_GROUP_LABEL = "Дни рождения друзей ВКонтакте"
         const val SCHEDULED_EVENT_GROUP_LABEL = "Запланированные события"
     }
 
-    var isShowTomorrow = true
-
-    private fun getStartDate(): LocalDate {
-//        return if (isShowTomorrow) LocalDate.now().plusDays(1)
-//        else
-        return LocalDate.now()
-    }
-
-    private fun getEndDate(): LocalDate {
-        return if (isShowTomorrow) getStartDate().plusDays(1)
-        else getStartDate().plusDays(settingsPreferences.getDaysPeriodForReminderFragment())
-    }
-
-    private val currentDate = LocalDate.now()
+    abstract fun getStartDate(): LocalDate
+    abstract fun getEndDate(): LocalDate
 
     private val _resultRecycler = MutableStateFlow<List<DataModel>>(listOf())
     val resultRecycler get() = _resultRecycler.asStateFlow()
@@ -107,7 +93,6 @@ class ReminderViewModel(
             * с нужными данными, после чего emit во фрагмент*/
             scheduledEventInteractor.getScheduledEventsByPeriod(getStartDate(), getEndDate())
                 .map {
-
                     val items = mutableListOf<DataModel>()
                     items.apply {
                         addAll(it.withHeader(SCHEDULED_EVENT_GROUP_LABEL))
