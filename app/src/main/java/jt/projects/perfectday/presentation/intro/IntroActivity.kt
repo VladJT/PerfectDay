@@ -1,9 +1,11 @@
 package jt.projects.perfectday.presentation.intro
 
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityIntroBinding
 
 class IntroActivity : AppCompatActivity() {
@@ -18,6 +20,11 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            setTheme(R.style.Theme_PerfectDay)
+        }
+
         binding = ActivityIntroBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
