@@ -1,6 +1,6 @@
 package jt.projects.perfectday.presentation.reminder
 
-import jt.projects.perfectday.core.viewholders.PhoneBookProvider
+import jt.projects.perfectday.core.PhoneBookProvider
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl

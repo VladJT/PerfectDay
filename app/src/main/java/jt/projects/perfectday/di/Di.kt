@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import jt.projects.perfectday.App
 import jt.projects.perfectday.core.AppDataCache
-import jt.projects.perfectday.core.viewholders.PhoneBookProvider
+import jt.projects.perfectday.core.PhoneBookProvider
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.HolidayInteractorImpl

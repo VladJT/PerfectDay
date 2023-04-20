@@ -1,4 +1,4 @@
-package jt.projects.perfectday.core.viewholders
+package jt.projects.perfectday.core
 
 import android.content.Context
 import android.content.Intent
