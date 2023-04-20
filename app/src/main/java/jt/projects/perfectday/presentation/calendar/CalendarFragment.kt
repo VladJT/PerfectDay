@@ -12,7 +12,7 @@ import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
-import jt.projects.perfectday.presentation.schedule_event.ScheduleEventDialogFragment
+import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.toStdFormatString
@@ -52,7 +52,7 @@ class CalendarFragment : Fragment() {
     }
 
     private fun initCalendarViewModel() {
-        viewModel.liveDataForViewToObserve.observe(this@CalendarFragment) {
+        viewModel.liveDataForViewToObserve.observe(viewLifecycleOwner) {
             renderData(it)
         }
         viewModel.loadData()
@@ -103,12 +103,10 @@ class CalendarFragment : Fragment() {
     }
 
     private fun showScheduledEvent(date: String) {
-        val scheduleEventDialogFragment = ScheduleEventDialogFragment.newInstance(date)
-
-        scheduleEventDialogFragment.show(
-            requireActivity().supportFragmentManager,
-            "ScheduleEventDialogFragment"
-        )
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, ScheduleEventFragment.newInstance(date))
+            .addToBackStack("ScheduleEventFragment")
+            .commit()
     }
 
     private fun showChosenDateDialogFragmentDialog(date: CalendarDate) {

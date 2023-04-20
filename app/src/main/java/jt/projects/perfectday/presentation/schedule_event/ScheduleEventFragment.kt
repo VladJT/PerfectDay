@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.extensions.showButtonBackHome
 import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
+import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.extensions.showToast
 import jt.projects.utils.toStdFormatString
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,13 +37,20 @@ class ScheduleEventFragment() : Fragment() {
             fragment.arguments = args
             return fragment
         }
+
+        private const val DATE_STRING_KEY = "date_key"
+
+        fun newInstance(date: String): ScheduleEventFragment =
+            ScheduleEventFragment().apply {
+                arguments = bundleOf(DATE_STRING_KEY to date)
+            }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentScheduleEventBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,6 +64,7 @@ class ScheduleEventFragment() : Fragment() {
         setButtonChooseDateListener()
         setButtonSaveListener()
 
+        binding.btnChooseDate.text = arguments?.getString(DATE_STRING_KEY) ?: emptyString()
     }
 
     private fun getDataFromBundle(): DataModel.ScheduledEvent? =
@@ -114,7 +124,7 @@ class ScheduleEventFragment() : Fragment() {
             } catch (e: Exception) {
                 requireActivity().showToast(e.message.toString())
             }
-            requireActivity().supportFragmentManager.popBackStack()//EXIT
+            parentFragmentManager.popBackStack()//EXIT
         }
     }
 
