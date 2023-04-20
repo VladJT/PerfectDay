@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.toStdLocalDate
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class ScheduleEventViewModel(
+    private val scheduledEventInteractor: ScheduledEventInteractorImpl,
     private val dataCache: AppDataCache
 ) : ViewModel() {
     private val _isCloseDialog = createMutableSingleEventFlow<Boolean>()
@@ -28,6 +30,13 @@ class ScheduleEventViewModel(
         get() {
             return liveData
         }
+
+    fun getNote(id: Int) {
+        viewModelScope.launch {
+            scheduledEventInteractor.getNoteById(id)
+        }
+
+    }
 
     fun setData(data: DataModel.ScheduledEvent) {
         liveData.postValue(data)

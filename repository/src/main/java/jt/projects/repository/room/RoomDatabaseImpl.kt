@@ -16,6 +16,9 @@ class RoomDatabaseImpl(private val dao: ScheduledEventDao) : LocalRepository {
     override fun getAllNotes(): Flow<List<DataModel.ScheduledEvent>> =
         dao.getAllNotes().map { list -> list.map(ScheduledEventEntity::toScheduledEvent)  }
 
+    override suspend fun getNoteById(id: Int): DataModel.ScheduledEvent =
+        dao.getNoteById(id).toScheduledEvent()
+
     override fun getNotesByDate(date: Long): Flow<List<DataModel.ScheduledEvent>> =
         dao.getNotesByDate(date)
             .map { list -> list.map(ScheduledEventEntity::toScheduledEvent) }

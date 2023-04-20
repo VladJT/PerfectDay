@@ -39,6 +39,9 @@ class ScheduledEventInteractorImpl(
         return repository.getNotesByDate(date.toEpochDay())
     }
 
+    suspend fun getNoteById(id: Int): DataModel.ScheduledEvent =
+        repository.getNoteById(id)
+
     suspend fun insert(scheduledEvent: DataModel.ScheduledEvent) =
         repository.insert(scheduledEvent)
 
