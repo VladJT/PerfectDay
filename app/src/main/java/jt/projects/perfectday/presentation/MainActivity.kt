@@ -106,6 +106,13 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    fun showScheduledEvent(id: Int) {
+        navigateToFragment(
+            ScheduleEventFragment.newInstance(id),
+            isAddToBackStack = true
+        )
+    }
+
     fun showFab(isShow: Boolean) {
         if (isShow) {
             binding.fBtnAddReminder.visibility = View.VISIBLE

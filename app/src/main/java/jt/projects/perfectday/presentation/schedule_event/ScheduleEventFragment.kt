@@ -39,10 +39,15 @@ class ScheduleEventFragment() : Fragment() {
         }
 
         private const val DATE_STRING_KEY = "date_key"
-
         fun newInstance(date: String): ScheduleEventFragment =
             ScheduleEventFragment().apply {
                 arguments = bundleOf(DATE_STRING_KEY to date)
+            }
+
+        private const val ID_NOTE_KEY = "id_note_key"
+        fun newInstance(id: Int): ScheduleEventFragment =
+            ScheduleEventFragment().apply {
+                arguments = bundleOf(ID_NOTE_KEY to id)
             }
     }
 
