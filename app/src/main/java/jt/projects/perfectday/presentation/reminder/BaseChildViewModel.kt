@@ -4,12 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
-import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.core.PhoneBookProvider
+import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.LOG_TAG
+import jt.projects.utils.PHONE_GROUP_LABEL
+import jt.projects.utils.SCHEDULED_EVENT_GROUP_LABEL
+import jt.projects.utils.VK_GROUP_LABEL
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 import kotlinx.coroutines.CancellationException
@@ -32,12 +35,6 @@ abstract class BaseChildViewModel(
     private val phoneBookProvider: PhoneBookProvider
 ) :
     ViewModel() {
-
-    companion object {
-        const val PHONE_GROUP_LABEL = "Дни рождения контактов телефона"
-        const val VK_GROUP_LABEL = "Дни рождения друзей ВКонтакте"
-        const val SCHEDULED_EVENT_GROUP_LABEL = "Запланированные события"
-    }
 
     abstract fun getStartDate(): LocalDate
     abstract fun getEndDate(): LocalDate
