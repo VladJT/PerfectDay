@@ -10,9 +10,6 @@ import kotlinx.coroutines.flow.map
 
 class RoomDatabaseImpl(private val dao: ScheduledEventDao) : LocalRepository {
 
-    override suspend fun getAll(): Flow<DataModel.ScheduledEvent> =
-        dao.getAll().asFlow().map { it.toScheduledEvent() }
-
     override fun getAllNotes(): Flow<List<DataModel.ScheduledEvent>> =
         dao.getAllNotes().map { list -> list.map(ScheduledEventEntity::toScheduledEvent)  }
 

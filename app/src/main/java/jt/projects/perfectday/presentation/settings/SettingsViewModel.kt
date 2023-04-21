@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAuthenticationResult
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
@@ -24,7 +24,7 @@ import java.time.LocalDate
 class SettingsViewModel(
     private val settingsPref: SimpleSettingsPreferences,
     private val vkRepository: VkNetworkRepository,
-    private val dataCache: AppDataCache
+    private val scheduledEventInteractor: ScheduledEventInteractorImpl
 ) : ViewModel() {
     private val _isLoadingProfile = MutableStateFlow(true)
     val isLoadingProfile get() = _isLoadingProfile.asStateFlow()
@@ -79,6 +79,7 @@ class SettingsViewModel(
                 settingsPref.saveSettings(VK_AUTH_TOKEN, vkResult.token.accessToken)
                 checkAuthorizedUser()
             }
+
             else ->
                 _errorFlow.tryEmit(R.string.vk_error_auth_text)
         }
@@ -92,9 +93,10 @@ class SettingsViewModel(
 
     fun deleteOldScheduledEvents() {
         viewModelScope.launch {
-            val countOfDeletedScheduledEvents =
-                dataCache.deleteScheduledEventBeforeDate(LocalDate.now())
-            countOfDeletedEventsLiveData.postValue(countOfDeletedScheduledEvents)
+            val date = LocalDate.now()
+            val countToDelete = scheduledEventInteractor.getScheduledEventCountBeforeDate(date)
+            scheduledEventInteractor.deleteScheduledEventBeforeDate(date)
+            countOfDeletedEventsLiveData.postValue(countToDelete)
         }
     }
 }

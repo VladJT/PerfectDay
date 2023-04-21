@@ -40,13 +40,12 @@ abstract class BaseChildFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecView()
-        setLoadingVisible()
+        observeLoadingVisible()
         observeEditNote()
         setSwipeToRefreshMove()
     }
 
     abstract fun setSwipeToRefreshMove()
-
 
     private fun initRecView() {
         with(binding.reminderRecyclerview) {
@@ -63,7 +62,7 @@ abstract class BaseChildFragment : Fragment() {
         }
     }
 
-    private fun setLoadingVisible() {
+    private fun observeLoadingVisible() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isLoading.collect {

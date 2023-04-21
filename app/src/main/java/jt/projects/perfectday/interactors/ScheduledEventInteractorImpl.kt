@@ -5,20 +5,20 @@ import jt.projects.model.DataModel
 import jt.projects.repository.room.LocalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import java.time.LocalDate
 
 class ScheduledEventInteractorImpl(
     private val repository: LocalRepository
 ) {
-    suspend fun getAll(): List<DataModel.ScheduledEvent> =
-        repository.getAll().toList()
+    fun getAllNotes(): Flow<List<DataModel.ScheduledEvent>> =
+        repository.getAllNotes()
 
     suspend fun getScheduledEventsByDate(date: LocalDate): List<DataModel.ScheduledEvent> {
-        return repository
-            .getAll()
-            .toList()
-            .filter { it.date == date }
+        val result = mutableListOf<DataModel.ScheduledEvent>()
+        getNotesByDate(date).map {
+            result.addAll(it)
+        }
+        return result
     }
 
     fun getScheduledEventsByPeriod(
