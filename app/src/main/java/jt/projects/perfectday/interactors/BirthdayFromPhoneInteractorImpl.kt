@@ -12,7 +12,7 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
 
     private val context = applicationContext
 
-    fun getDataByDate(date: LocalDate): List<DataModel.BirthdayFromPhone> {
+    fun getFakeDataByDate(date: LocalDate): List<DataModel.BirthdayFromPhone> {
         return listOf(
             DataModel.BirthdayFromPhone("1", "Ivan", LocalDate.now(), 30, "url"),
             DataModel.BirthdayFromPhone("2", "Semen", LocalDate.now(), 23, "url2"),

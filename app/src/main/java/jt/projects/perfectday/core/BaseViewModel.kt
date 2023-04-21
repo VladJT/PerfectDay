@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.AppState
 import jt.projects.model.DataModel
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.CancellationException
@@ -17,7 +20,9 @@ import kotlin.reflect.KSuspendFunction0
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
 abstract class BaseViewModel(
     protected val settingsPreferences: SimpleSettingsPreferences,
-    protected val dataCache: AppDataCache
+    protected val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
+    protected val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
+    protected val scheduledEventInteractor: ScheduledEventInteractorImpl
 ) : ViewModel() {
 
     companion object {
@@ -98,7 +103,7 @@ abstract class BaseViewModel(
 
     fun deleteScheduledEvent(eventId: Int) {
         viewModelScope.launch {
-            dataCache.deleteScheduledEventById(eventId)
+            scheduledEventInteractor.deleteScheduledEventById(eventId)
             data.removeAll { it is DataModel.ScheduledEvent && it.id == eventId }
         }
     }

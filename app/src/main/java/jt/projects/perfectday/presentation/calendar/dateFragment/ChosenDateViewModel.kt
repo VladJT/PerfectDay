@@ -1,21 +1,28 @@
 package jt.projects.perfectday.presentation.calendar.dateFragment
 
-import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.core.BaseViewModel
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 
 class ChosenDateViewModel(
     settingsPreferences: SimpleSettingsPreferences,
-    dataCache: AppDataCache
+    birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
+    getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
+    scheduledEventInteractor: ScheduledEventInteractorImpl
 ) : BaseViewModel(
     settingsPreferences,
-    dataCache
+    birthdayFromPhoneInteractor,
+    getFriendsFromVkUseCase,
+    scheduledEventInteractor
 ) {
 
     override suspend fun loadBirthdaysFromPhone() {
         val dataPhone =
-            dataCache.getBirthdaysFromPhoneByDate(chosenCalendarDate)
+            birthdayFromPhoneInteractor.getContactsByDay(chosenCalendarDate)
         if (dataPhone.isNotEmpty()) {
             addHeaderRow(PHONE_GROUP_LABEL)
             data.addAll(dataPhone)
@@ -23,7 +30,11 @@ class ChosenDateViewModel(
     }
 
     override suspend fun loadBirthdaysFromVk() {
-        val dataVk = dataCache.getBirthdaysFromVkByDate(chosenCalendarDate)
+        val dataVk = getFriendsFromVkUseCase.getFriendsByDate(
+            settingsPreferences.getSettings(
+                VK_AUTH_TOKEN
+            ), chosenCalendarDate
+        )
         if (dataVk.isNotEmpty()) {
             addHeaderRow(VK_GROUP_LABEL)
             data.addAll(dataVk)
@@ -31,7 +42,7 @@ class ChosenDateViewModel(
     }
 
     override suspend fun loadScheduledEvents() {
-        val scheduledEvents = dataCache.getScheduledEventsByDate(chosenCalendarDate)
+        val scheduledEvents = scheduledEventInteractor.getScheduledEventsByDate(chosenCalendarDate)
         if (scheduledEvents.isNotEmpty()) {
             addHeaderRow(SCHEDULED_EVENT_GROUP_LABEL)
             data.addAll(scheduledEvents)

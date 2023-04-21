@@ -3,7 +3,6 @@ package jt.projects.perfectday.di
 import android.content.Context
 import androidx.room.Room
 import jt.projects.perfectday.App
-import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.core.PhoneBookProvider
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
@@ -50,34 +49,20 @@ val application = module {
     single<SimpleSettingsPreferences> {
         SimpleSharedPref(
             get<App>().getSharedPreferences(
-                SimpleSharedPref.SP_DB_NAME,
-                Context.MODE_PRIVATE
+                SimpleSharedPref.SP_DB_NAME, Context.MODE_PRIVATE
             )
         )
     }
 
     // работа с телефонной книгой
     single<PhoneBookProvider> { PhoneBookProvider(context = get()) }
-
-    // глобальный кэш данных приложения
-    single<AppDataCache> {
-        AppDataCache(
-            settingsPreferences = get(),
-            birthdayFromPhoneInteractor = get(),
-            simpleNoticeInteractor = get(),
-            holidayInteractor = get(),
-            getFriendsFromVkUseCase = get(),
-            scheduledEventInteractor = get()
-        )
-    }
 }
 
 
 val roomModule = module {
     single {
         Room.databaseBuilder(get(), ScheduledEventDatabase::class.java, "scheduledEvents.db")
-            .fallbackToDestructiveMigration()
-            .build()
+            .fallbackToDestructiveMigration().build()
     }
 
     single { get<ScheduledEventDatabase>().dao() }
@@ -136,22 +121,30 @@ val viewModelModule = module {
     }
 
     viewModel {
-        CalendarViewModel(settingsPreferences = get(), dataCache = get())
+        CalendarViewModel(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractor = get(),
+        )
     }
 
     viewModel {
-        ChosenDateViewModel(settingsPreferences = get(), dataCache = get())
+        ChosenDateViewModel(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractor = get(),
+        )
     }
 
     viewModel {
-        ScheduleEventViewModel(dataCache = get())
+        ScheduleEventViewModel(scheduledEventInteractor = get())
     }
 
     viewModel {
         SettingsViewModel(
-            settingsPref = get(),
-            vkRepository = get(),
-            dataCache = get()
+            settingsPref = get(), vkRepository = get(), scheduledEventInteractor = get()
         )
     }
 }
