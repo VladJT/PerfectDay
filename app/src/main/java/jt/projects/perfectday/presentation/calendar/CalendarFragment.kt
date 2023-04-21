@@ -86,7 +86,9 @@ class CalendarFragment : Fragment() {
             datesIndicators = indicatorsList
 
             onDateClickListener = { date ->
-                showChosenDateDialogFragmentDialog(date)
+                if (checkEmptyDateData(date)) {
+                    showChosenDateDialogFragmentDialog(date)
+                }
             }
 
             onDateLongClickListener = { date ->
@@ -95,6 +97,20 @@ class CalendarFragment : Fragment() {
             }
         }
     }
+
+    private fun checkEmptyDateData(date: CalendarDate): Boolean {
+        var returnBool = false
+        indicatorsList.forEach {
+            if (
+                it.date.dayOfMonth == date.dayOfMonth &&
+                it.date.month == date.month
+            ) {
+                returnBool = true
+            }
+        }
+        return returnBool
+    }
+
 
     // TODO надо переделать на фрагмент (?)
     fun showScheduledEvent() {
@@ -173,21 +189,11 @@ class CalendarFragment : Fragment() {
 
                 is DataModel.ScheduledEvent -> {
                     val eventData = data[index] as DataModel.ScheduledEvent
-                    if (eventData.date.monthValue < LocalDate.now().monthValue ||
-                        ((eventData.date.monthValue == LocalDate.now().monthValue && (eventData.date.dayOfMonth < LocalDate.now().dayOfMonth)))
-                    ) {
-                        calendarSetter.set(
-                            CalendarDate.today.year + 1,
-                            eventData.date.monthValue - 1,
-                            eventData.date.dayOfMonth
-                        )
-                    } else {
-                        calendarSetter.set(
-                            CalendarDate.today.year,
-                            eventData.date.monthValue - 1,
-                            eventData.date.dayOfMonth
-                        )
-                    }
+                    calendarSetter.set(
+                        CalendarDate.today.year,
+                        eventData.date.monthValue - 1,
+                        eventData.date.dayOfMonth
+                    )
 
                     indicatorsList.add(
                         DateIndicator(

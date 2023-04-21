@@ -1,6 +1,8 @@
 package jt.projects.perfectday.presentation.calendar.dateFragment
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
@@ -35,6 +37,11 @@ class ChosenDateViewModel(
     private val phoneBookProvider: PhoneBookProvider
 ) :
     ViewModel() {
+
+    private val statusMessage = MutableLiveData<Event<String>>()
+
+    val message : LiveData<Event<String>>
+        get() = statusMessage
 
     private val _resultRecycler = MutableStateFlow<List<DataModel>>(listOf())
     val resultRecycler get() = _resultRecycler.asStateFlow()
@@ -121,10 +128,12 @@ class ChosenDateViewModel(
         viewModelScope.launch {
             scheduledEventInteractor.deleteScheduledEventById(id)
         }
+        statusMessage.value = Event("dismiss")
     }
 
     fun onEditNoteClicked(dataModel: DataModel) {
         if (dataModel is DataModel.ScheduledEvent) _noteFlow.tryEmit(dataModel)
+        statusMessage.value = Event("dismiss")
     }
 
     fun onItemClicked(data: DataModel) {
