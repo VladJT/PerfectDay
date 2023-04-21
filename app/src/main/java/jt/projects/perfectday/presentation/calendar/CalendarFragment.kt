@@ -95,6 +95,7 @@ class CalendarFragment : Fragment() {
         }
     }
 
+    // TODO надо переделать на фрагмент (?)
     fun showScheduledEvent() {
         val scheduleEventDialogFragment = ScheduleEventDialogFragment()
         scheduleEventDialogFragment.show(

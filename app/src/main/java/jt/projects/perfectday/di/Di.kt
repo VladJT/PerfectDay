@@ -135,6 +135,7 @@ val viewModelModule = module {
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
             scheduledEventInteractor = get(),
+            phoneBookProvider = get()
         )
     }
 
