@@ -16,6 +16,7 @@ import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialo
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventDialogFragment
 import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
@@ -34,7 +35,7 @@ class CalendarFragment : Fragment() {
         fun newInstance() = CalendarFragment()
     }
 
-    private val viewModel: CalendarViewModel by viewModel()
+    private val viewModel: CalendarViewModel by activityViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
