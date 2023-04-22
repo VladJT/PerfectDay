@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
-import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.toStdLocalDate
@@ -73,7 +72,7 @@ class ScheduleEventViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                scheduledEventInteractor.insertScheduledEvent(note)
+                scheduledEventInteractor.insert(note)
                 _isCloseDialog.tryEmit(true)
             } catch (e: CancellationException) {
                 throw e
