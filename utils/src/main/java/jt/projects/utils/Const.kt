@@ -9,6 +9,12 @@ const val FACTS_BASE_URL_LOCATIONS = "http://numbersapi.com/"
 const val HOLIDAY_BASE_URL_LOCATION = "https://holidays.abstractapi.com/"
 const val HOLIDAY_COUNTRY = "Ru"
 
+/**
+ * GROUP LABELS in RECYCLER VIEW
+ */
+const val PHONE_GROUP_LABEL = "Дни рождения контактов телефона"
+const val VK_GROUP_LABEL = "Дни рождения друзей ВКонтакте"
+const val SCHEDULED_EVENT_GROUP_LABEL = "Запланированные события"
 
 /**
  * SHARED PREFERENCES KEYS

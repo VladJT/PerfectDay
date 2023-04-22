@@ -4,11 +4,9 @@ import jt.projects.model.DataModel
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
-    suspend fun getAll(): Flow<DataModel.ScheduledEvent>
+    fun getAllNotes(): Flow<List<DataModel.ScheduledEvent>>
 
     fun getNotesByDate(date: Long): Flow<List<DataModel.ScheduledEvent>>
-
-    fun getAllNotes(): Flow<List<DataModel.ScheduledEvent>>
 
     suspend fun getNoteById(id: Int): DataModel.ScheduledEvent
 

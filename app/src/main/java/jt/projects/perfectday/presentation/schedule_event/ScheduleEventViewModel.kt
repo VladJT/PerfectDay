@@ -19,8 +19,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class ScheduleEventViewModel(
-    private val scheduledEventInteractor: ScheduledEventInteractorImpl,
-    private val dataCache: AppDataCache
+    private val scheduledEventInteractor: ScheduledEventInteractorImpl
 ) : ViewModel() {
     private val _isCloseDialog = createMutableSingleEventFlow<Boolean>()
     val isCloseDialog get() = _isCloseDialog.asSharedFlow()
@@ -56,9 +55,9 @@ class ScheduleEventViewModel(
         liveDataForViewToObserve.value?.let {
             CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
                 if (it.id == 0) {
-                    dataCache.insertScheduledEvent(it)
+                    scheduledEventInteractor.insert(it)
                 } else {
-                    dataCache.updateScheduledEvent(it)
+                    scheduledEventInteractor.update(it)
                 }
             }
         }
@@ -74,7 +73,7 @@ class ScheduleEventViewModel(
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                dataCache.insertScheduledEvent(note)
+                scheduledEventInteractor.insertScheduledEvent(note)
                 _isCloseDialog.tryEmit(true)
             } catch (e: CancellationException) {
                 throw e

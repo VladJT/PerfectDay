@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import jt.projects.model.AppState
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.extensions.showProgress
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.utils.chosenCalendarDate
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.toStdFormatString
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +25,7 @@ import ru.cleverpumpkin.calendar.CalendarView
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
+import java.util.Calendar
 
 
 class CalendarFragment : Fragment() {
@@ -35,7 +39,7 @@ class CalendarFragment : Fragment() {
         fun newInstance() = CalendarFragment()
     }
 
-    private val viewModel: CalendarViewModel by viewModel()
+    private val viewModel: CalendarViewModel by activityViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,30 +53,25 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initCalendarViewModel()
+        observeLoadingVisible()
     }
 
     private fun initCalendarViewModel() {
-        viewModel.liveDataForViewToObserve.observe(viewLifecycleOwner) {
-            renderData(it)
-        }
-        viewModel.loadData()
-    }
-
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                showLoadingFrame(false)
-                appState.data?.let { data ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.resultRecycler.collect { data ->
                     initCalendarView(data)
                 }
             }
-            is AppState.Loading -> {
-                showLoadingFrame(true)
-                appState.progress?.let { showProgress(it) }
-            }
-            is AppState.Error -> {
-                showLoadingFrame(false)
-                showSnackbar(appState.error.message.toString())
+        }
+    }
+
+    private fun observeLoadingVisible() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoading.collect {
+                    binding.loadingFrameLayout.isVisible = it
+                }
             }
         }
     }
@@ -91,7 +90,9 @@ class CalendarFragment : Fragment() {
             datesIndicators = indicatorsList
 
             onDateClickListener = { date ->
-                showChosenDateDialogFragmentDialog(date)
+                if (checkEmptyDateData(date)) {
+                    showChosenDateDialogFragmentDialog(date)
+                }
             }
 
             onDateLongClickListener = { date ->
@@ -102,7 +103,22 @@ class CalendarFragment : Fragment() {
         }
     }
 
-    private fun showScheduledEvent(date: String) {
+    private fun checkEmptyDateData(date: CalendarDate): Boolean {
+        var returnBool = false
+        indicatorsList.forEach {
+            if (
+                it.date.dayOfMonth == date.dayOfMonth &&
+                it.date.month == date.month
+            ) {
+                returnBool = true
+            }
+        }
+        return returnBool
+    }
+
+
+    // TODO надо переделать на фрагмент (?)
+    fun showScheduledEvent(date: String) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, ScheduleEventFragment.newInstance(date))
             .addToBackStack("ScheduleEventFragment")
@@ -117,9 +133,6 @@ class CalendarFragment : Fragment() {
         )
     }
 
-    private fun showLoadingFrame(isLoading: Boolean) {
-        binding.loadingFrameLayout.isVisible = isLoading
-    }
 
     private fun initBirthdayList(data: List<DataModel>) {
         val calendarSetter = Calendar.getInstance()
@@ -180,21 +193,11 @@ class CalendarFragment : Fragment() {
 
                 is DataModel.ScheduledEvent -> {
                     val eventData = data[index] as DataModel.ScheduledEvent
-                    if (eventData.date.monthValue < LocalDate.now().monthValue ||
-                        ((eventData.date.monthValue == LocalDate.now().monthValue && (eventData.date.dayOfMonth < LocalDate.now().dayOfMonth)))
-                    ) {
-                        calendarSetter.set(
-                            CalendarDate.today.year + 1,
-                            eventData.date.monthValue - 1,
-                            eventData.date.dayOfMonth
-                        )
-                    } else {
-                        calendarSetter.set(
-                            CalendarDate.today.year,
-                            eventData.date.monthValue - 1,
-                            eventData.date.dayOfMonth
-                        )
-                    }
+                    calendarSetter.set(
+                        CalendarDate.today.year,
+                        eventData.date.monthValue - 1,
+                        eventData.date.dayOfMonth
+                    )
 
                     indicatorsList.add(
                         DateIndicator(
@@ -203,6 +206,7 @@ class CalendarFragment : Fragment() {
                         )
                     )
                 }
+
                 else -> {}
             }
         }

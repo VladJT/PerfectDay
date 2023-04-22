@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.AppDataCache
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
 import jt.projects.perfectday.presentation.intro.IntroActivity
@@ -63,7 +62,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initBottomNavView()
         setOnClickSettings()
-        setOnClickClearCache()
         initFab()
         checkPermission()
         initButtonBackHome()
@@ -143,22 +141,11 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClickSettings() {
         binding.layoutToolbar.btnSettings.setOnClickListener {
             it.animate()
-                .rotationBy(-180f)
+                .rotationBy(180f)
                 .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
         }
     }
-
-    private fun setOnClickClearCache() {
-        binding.layoutToolbar.btnClearCache.setOnClickListener {
-            it.animate()
-                .rotationBy(-180f)
-                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
-
-            getKoin().get<AppDataCache>().cleanAllCacheData()
-        }
-    }
-
 
     private fun subscribeToNetworkStatusChange() {
         getKoin()
