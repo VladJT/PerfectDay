@@ -62,7 +62,7 @@ val application = module {
 val roomModule = module {
     single {
         Room.databaseBuilder(get(), ScheduledEventDatabase::class.java, "scheduledEvents.db")
-            .fallbackToDestructiveMigration().build()
+            .build()
     }
 
     single { get<ScheduledEventDatabase>().dao() }

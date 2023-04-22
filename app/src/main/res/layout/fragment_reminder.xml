@@ -4,46 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggleButtons"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/reminder_card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
-        app:checkedButton="@id/button_left_child_fragment"
+        android:layout_marginTop="@dimen/margin_large_xx"
+        app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:selectionRequired="true"
-        app:singleSelection="true">
+        app:strokeColor="@color/color_primary"
+        app:strokeWidth="1dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_left_child_fragment"
-            style="@style/PerfectDay.RoundedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/bg_color_buttons_group"
-            android:text="@string/Tomorrow"
-            android:textColor="@color/text_color_in_buttons_group"
-            app:strokeColor="@color/color_primary" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/reminder_tab_layout"
+            android:layout_width="190dp"
+            android:layout_height="38dp"
+            app:tabBackground="@drawable/tabs_selector"
+            app:tabGravity="fill"
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_right_child_fragment"
-            style="@style/PerfectDay.RoundedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/bg_color_buttons_group"
-            android:text="__ Дней"
-            android:textColor="@color/text_color_in_buttons_group"
-            app:strokeColor="@color/color_primary" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorColor="@color/primary_text_color"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorHeight="1dp"
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/reminder_fragment_container"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/text_color_in_buttons_group" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/reminder_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButtons" />
+        app:layout_constraintTop_toBottomOf="@+id/reminder_card_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
