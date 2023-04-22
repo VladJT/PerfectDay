@@ -75,7 +75,7 @@ class ScheduleEventDialogFragment : DialogFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isCloseDialog.collect { dismiss() }
+                viewModel.isCloseFragment.collect { dismiss() }
             }
         }
     }

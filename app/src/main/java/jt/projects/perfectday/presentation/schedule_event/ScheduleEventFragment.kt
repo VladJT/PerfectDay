@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.extensions.showButtonBackHome
@@ -14,16 +17,98 @@ import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.extensions.showToast
 import jt.projects.utils.toStdFormatString
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
 import java.util.*
 
+private const val DATE_STRING_KEY = "date_key"
+private const val ID_NOTE_KEY = "id_note_key"
 
 class ScheduleEventFragment() : Fragment() {
     private var _binding: FragmentScheduleEventBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleEventViewModel by viewModel()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentScheduleEventBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        showButtonBackHome(true)
+        showFab(false)
+        observeScheduleEvent()
+        setSaveButtonClick()
+        setOnClickButtonChooseDate()
+
+        binding.btnChooseDate.text = arguments?.getString(DATE_STRING_KEY) ?: emptyString()
+    }
+
+    private fun observeScheduleEvent() {
+        viewModel.getNote(arguments?.getInt(ID_NOTE_KEY))
+        viewModel.liveDataForViewToObserve.observe(viewLifecycleOwner, ::renderData)
+    }
+
+    private fun renderData(data: DataModel.ScheduledEvent) {
+        with(binding) {
+            btnChooseDate.text = data.date.toStdFormatString()
+            scheduledEventHeader.setText(data.name)
+            scheduledEventDescription.setText(data.description)
+        }
+    }
+
+    private fun setSaveButtonClick() {
+        with(binding) {
+            btnSave.setOnClickListener {
+                val headerNote = scheduledEventHeader.text.toString()
+                val description = scheduledEventDescription.text.toString()
+                val date = btnChooseDate.text.toString()
+                viewModel.saveData(headerNote, description, date)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isCloseFragment.collect { parentFragmentManager.popBackStack() }
+            }
+        }
+    }
+
+    private fun setOnClickButtonChooseDate() {
+        binding.btnChooseDate.setOnClickListener {
+            MaterialDatePicker.Builder
+                .datePicker()
+                .build()
+                .apply {
+                    addOnPositiveButtonClickListener {
+                        val date =
+                            Instant.ofEpochMilli(it)
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate()
+                                .toStdFormatString()
+                        binding.btnChooseDate.text = date
+                    }
+                }
+                .show(requireActivity().supportFragmentManager, DATE_PICKER_TAG)
+        }
+    }
+
+    override fun onDestroyView() {
+        showButtonBackHome(false)
+        showFab(true)
+        _binding = null
+        super.onDestroyView()
+    }
 
     companion object {
         const val TAG = "ScheduleEventDialogFragment"
@@ -38,105 +123,14 @@ class ScheduleEventFragment() : Fragment() {
             return fragment
         }
 
-        private const val DATE_STRING_KEY = "date_key"
         fun newInstance(date: String): ScheduleEventFragment =
             ScheduleEventFragment().apply {
                 arguments = bundleOf(DATE_STRING_KEY to date)
             }
 
-        private const val ID_NOTE_KEY = "id_note_key"
         fun newInstance(id: Int): ScheduleEventFragment =
             ScheduleEventFragment().apply {
                 arguments = bundleOf(ID_NOTE_KEY to id)
             }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentScheduleEventBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViewModel()
-        showButtonBackHome(true)
-        showFab(false)
-        setButtonChooseDateListener()
-        setButtonSaveListener()
-
-        binding.btnChooseDate.text = arguments?.getString(DATE_STRING_KEY) ?: emptyString()
-    }
-
-    private fun getDataFromBundle(): DataModel.ScheduledEvent? =
-        arguments?.getParcelable(BUNDLE_KEY) as? DataModel.ScheduledEvent
-
-    private fun initViewModel() {
-        viewModel.liveDataForViewToObserve.observe(viewLifecycleOwner) {
-            renderData(it)
-        }
-
-        var data = getDataFromBundle()
-        if (data == null) {
-            data = DataModel.ScheduledEvent(
-                id = 0,
-                name = "",
-                date = LocalDate.now(),
-                description = ""
-            )
-        }
-        viewModel.setData(data)
-    }
-
-    private fun renderData(data: DataModel.ScheduledEvent) {
-        binding.btnChooseDate.text = data.date.toStdFormatString()
-        binding.scheduledEventHeader.setText(data.name)
-        binding.scheduledEventDescription.setText(data.description)
-    }
-
-    private fun setButtonChooseDateListener() {
-        binding.btnChooseDate.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder
-                .datePicker().build()
-            datePicker.show(requireActivity().supportFragmentManager, DATE_PICKER_TAG)
-
-            datePicker.addOnPositiveButtonClickListener {
-                val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
-                val date = dateFormatter.format(Date(it))
-                val newDate = LocalDate.parse(date)
-                viewModel.updateData(
-                    date = newDate,
-                    name = binding.scheduledEventHeader.text.toString(),
-                    description = binding.scheduledEventDescription.text.toString()
-                )
-            }
-        }
-    }
-
-    private fun setButtonSaveListener() {
-        binding.btnSave.setOnClickListener {
-            try {
-                viewModel.updateData(
-                    name = binding.scheduledEventHeader.text.toString(),
-                    description = binding.scheduledEventDescription.text.toString()
-                )
-                viewModel.saveData()
-
-            } catch (e: Exception) {
-                requireActivity().showToast(e.message.toString())
-            }
-            parentFragmentManager.popBackStack()//EXIT
-        }
-    }
-
-    override fun onDestroyView() {
-        showButtonBackHome(false)
-        showFab(true)
-        _binding = null
-        super.onDestroyView()
     }
 }

@@ -1,27 +1,23 @@
 package jt.projects.perfectday.presentation.schedule_event
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import jt.projects.model.DataModel
-import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
+import jt.projects.perfectday.core.extensions.*
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.toStdLocalDate
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class ScheduleEventViewModel(
     private val scheduledEventInteractor: ScheduledEventInteractorImpl
 ) : ViewModel() {
-    private val _isCloseDialog = createMutableSingleEventFlow<Boolean>()
-    val isCloseDialog get() = _isCloseDialog.asSharedFlow()
+    private val _isCloseFragment = createMutableSingleEventFlow<Boolean>()
+    val isCloseFragment get() = _isCloseFragment.asSharedFlow()
+
+    private val _note = MutableLiveData<DataModel.ScheduledEvent>()
+    val note get() = _note
 
     private val liveData: MutableLiveData<DataModel.ScheduledEvent> = MutableLiveData()
     val liveDataForViewToObserve: LiveData<DataModel.ScheduledEvent>
@@ -29,11 +25,13 @@ class ScheduleEventViewModel(
             return liveData
         }
 
-    fun getNote(id: Int) {
-        viewModelScope.launch {
-            scheduledEventInteractor.getNoteById(id)
-        }
-
+    fun getNote(id: Int?) {
+        if (id == null) return
+        launchOrError(
+            Dispatchers.IO,
+            action = { _note.postValue(scheduledEventInteractor.getNoteById(id)) },
+            error= { Log.e(this.javaClass.simpleName, "$it")}
+        )
     }
 
     fun setData(data: DataModel.ScheduledEvent) {
@@ -70,15 +68,13 @@ class ScheduleEventViewModel(
             description = description
         )
 
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+        launchOrError(
+            Dispatchers.IO,
+            action = {
                 scheduledEventInteractor.insert(note)
-                _isCloseDialog.tryEmit(true)
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Log.e("ScheduleEventViewModel", "$e")
-            }
-        }
+                _isCloseFragment.tryEmit(true)
+            },
+            error = { Log.e(this.javaClass.simpleName, "$it") }
+        )
     }
 }
