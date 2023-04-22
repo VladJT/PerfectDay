@@ -15,15 +15,11 @@ import jt.projects.perfectday.core.extensions.showButtonBackHome
 import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.extensions.emptyString
-import jt.projects.utils.extensions.showToast
 import jt.projects.utils.toStdFormatString
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
 import java.time.Instant
-import java.time.LocalDate
 import java.time.ZoneId
-import java.util.*
 
 private const val DATE_STRING_KEY = "date_key"
 private const val ID_NOTE_KEY = "id_note_key"
@@ -56,7 +52,7 @@ class ScheduleEventFragment() : Fragment() {
 
     private fun observeScheduleEvent() {
         viewModel.getNote(arguments?.getInt(ID_NOTE_KEY))
-        viewModel.liveDataForViewToObserve.observe(viewLifecycleOwner, ::renderData)
+        viewModel.note.observe(viewLifecycleOwner, ::renderData)
     }
 
     private fun renderData(data: DataModel.ScheduledEvent) {
@@ -73,7 +69,7 @@ class ScheduleEventFragment() : Fragment() {
                 val headerNote = scheduledEventHeader.text.toString()
                 val description = scheduledEventDescription.text.toString()
                 val date = btnChooseDate.text.toString()
-                viewModel.saveData(headerNote, description, date)
+                viewModel.saveOrUpdateNote(headerNote, description, date)
             }
         }
 

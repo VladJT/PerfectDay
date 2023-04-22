@@ -32,8 +32,8 @@ class TodayViewModel(
     private val _isLoading = MutableStateFlow(true)
     val isLoading get() = _isLoading.asStateFlow()
 
-    private val _noteFlow = createMutableSingleEventFlow<DataModel.ScheduledEvent>()
-    val noteFlow get() = _noteFlow.asSharedFlow()
+    private val _noteIdFlow = createMutableSingleEventFlow<Int>()
+    val noteIdFlow get() = _noteIdFlow.asSharedFlow()
 
     private var job: Job? = null
 
@@ -124,8 +124,8 @@ class TodayViewModel(
         }
     }
 
-    fun onEditNoteClicked(dataModel: DataModel) {
-        if (dataModel is DataModel.ScheduledEvent) _noteFlow.tryEmit(dataModel)
+    fun onEditNoteClicked(noteId: Int) {
+        _noteIdFlow.tryEmit(noteId)
     }
 
     fun onSwipeToRefreshMove(): Unit = loadAllContent()

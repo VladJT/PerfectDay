@@ -21,6 +21,6 @@ fun Fragment.showScheduledEvent(data: DataModel.ScheduledEvent) {
     (this.requireActivity() as? MainActivity)?.showScheduledEvent(data)
 }
 
-fun Fragment.navigateToScheduledEvent(id: Int) {
+fun Fragment.editScheduledEvent(id: Int) {
     (requireActivity() as? MainActivity)?.showScheduledEvent(id)
 }

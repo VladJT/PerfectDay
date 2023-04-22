@@ -3,7 +3,6 @@ package jt.projects.perfectday.presentation.today.adapter.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.ItemNoteBinding
 import jt.projects.utils.toStdFormatString
 
@@ -15,7 +14,7 @@ class NoteViewHolder private constructor(
         ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    fun bind(item: TodayItem.Notes, onClickDeleteNote: (Int) -> Unit, onEditClickNote: (DataModel) -> Unit) {
+    fun bind(item: TodayItem.Notes, onClickDeleteNote: (Int) -> Unit, onEditClickNote: (Int) -> Unit) {
         val data = item.data
 
         with(binding) {
@@ -28,7 +27,7 @@ class NoteViewHolder private constructor(
             }
 
             btnEdit.setOnClickListener {
-                onEditClickNote.invoke(item.data)
+                onEditClickNote.invoke(item.data.id)
             }
         }
 

@@ -69,7 +69,7 @@ class ScheduleEventDialogFragment : DialogFragment() {
                 val headerNote = scheduledEventHeader.text.toString()
                 val description = scheduledEventDescription.text.toString()
                 val date = btnChooseDate.text.toString()
-                viewModel.saveData(headerNote, description, date)
+
             }
         }
 
