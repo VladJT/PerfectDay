@@ -19,7 +19,7 @@ class ScheduledEventViewHolder private constructor(
 
     fun bind(
         dataModel: DataModel,
-        onEditNoteClicked: ((DataModel) -> Unit)?,
+        onEditNoteClicked: ((Int) -> Unit)?,
         onDeleteClicked: ((Int) -> Unit)?
     ) {
         val data = dataModel as DataModel.ScheduledEvent
@@ -39,7 +39,7 @@ class ScheduledEventViewHolder private constructor(
 
                 // редактирование заметки
                 btnEdit.setOnClickListener {
-                    onEditNoteClicked?.invoke(data)
+                    onEditNoteClicked?.invoke(data.id)
                 }
             }
         }

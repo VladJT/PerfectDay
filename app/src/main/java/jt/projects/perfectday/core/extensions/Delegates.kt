@@ -17,10 +17,6 @@ fun Fragment.showButtonBackHome(isVisible: Boolean) {
     (this.requireActivity() as? MainActivity)?.showButtonBackHome(isVisible)
 }
 
-fun Fragment.showScheduledEvent(data: DataModel.ScheduledEvent) {
-    (this.requireActivity() as? MainActivity)?.showScheduledEvent(data)
-}
-
 fun Fragment.editScheduledEvent(id: Int) {
     (requireActivity() as? MainActivity)?.showScheduledEvent(id)
 }

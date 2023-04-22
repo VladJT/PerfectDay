@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.perfectday.core.BaseAdapter
-import jt.projects.perfectday.core.extensions.showScheduledEvent
+import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderChildBinding
 import kotlinx.coroutines.launch
 
@@ -75,7 +75,7 @@ abstract class BaseChildFragment : Fragment() {
     private fun observeEditNote() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.noteFlow.collect(::showScheduledEvent)
+                viewModel.noteIdFlow.collect(::editScheduledEvent)
             }
         }
     }
