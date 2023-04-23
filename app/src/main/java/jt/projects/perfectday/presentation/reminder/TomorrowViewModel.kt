@@ -8,7 +8,7 @@ import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 
-class LeftChildViewModel(
+class TomorrowViewModel(
     settingsPreferences: SimpleSettingsPreferences,
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     getFriendsFromVkUseCase: GetFriendsFromVkUseCase,

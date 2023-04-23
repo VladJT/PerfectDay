@@ -2,8 +2,8 @@ package jt.projects.perfectday.di
 
 import jt.projects.perfectday.presentation.calendar.CalendarViewModel
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateViewModel
-import jt.projects.perfectday.presentation.reminder.LeftChildViewModel
-import jt.projects.perfectday.presentation.reminder.RightChildViewModel
+import jt.projects.perfectday.presentation.reminder.TomorrowViewModel
+import jt.projects.perfectday.presentation.reminder.PeriodViewModel
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
 import jt.projects.perfectday.presentation.today.TodayViewModel
@@ -30,7 +30,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        LeftChildViewModel(
+        TomorrowViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
@@ -41,7 +41,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        RightChildViewModel(
+        PeriodViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),

@@ -37,11 +37,10 @@ abstract class BaseViewModel(
     private val scheduledEventInteractor: ScheduledEventInteractorImpl,
     private val phoneBookProvider: PhoneBookProvider,
     private val dateStrategy: DateStrategy
-) :
-    ViewModel() {
+) : ViewModel() {
     private val statusMessage = MutableLiveData<Event<String>>()
 
-    val message : LiveData<Event<String>>
+    val message: LiveData<Event<String>>
         get() = statusMessage
 
     private val _resultRecycler = MutableStateFlow<List<DataModel>>(listOf())
@@ -66,64 +65,60 @@ abstract class BaseViewModel(
         _isLoading.tryEmit(true)
 
         job = viewModelScope.launch {
-            //Запускаем параллельно загрузку данных
-            val loadPhoneFriends = async {
-                loadContent {
-                    if(dateStrategy.hasDates()){
-                        birthdayFromPhoneInteractor.getContactsInInterval(
-                            dateStrategy.getStartDate(),
-                            dateStrategy.getEndDate()
-                        )
-                    }else {
-                        birthdayFromPhoneInteractor.getContacts()
-                    }
-                }
-            }
-            val loadVkFriends = async {
-                loadContent {
-                    if(dateStrategy.hasDates()) {
-                        getFriendsFromVkUseCase.getFriendsByPeriodDate(
-                            vkToken,
-                            dateStrategy.getStartDate(),
-                            dateStrategy.getEndDate()
-                        )
-                    }else{
-                        getFriendsFromVkUseCase.getAllFriends(vkToken)
-                    }
-                }
-            }
-
 
             //Ждём загрузку всех данных, чтобы пришли(и приводим к нужному типу)
-            val friendPhone =
-                loadPhoneFriends.await().filterIsInstance<DataModel.BirthdayFromPhone>()
-            val friendsVk = loadVkFriends.await().filterIsInstance<DataModel.BirthdayFromVk>()
+            val friendsPhone = async { loadFriendsFromPhone() }.await()
+                .filterIsInstance<DataModel.BirthdayFromPhone>()
+
+            val friendsVk = async { loadFriendsFromVK(vkToken) }.await()
+                .filterIsInstance<DataModel.BirthdayFromVk>()
 
 
             /*Подписываемся на изменения базы данных(а именно заметок на текущий день)
             * и каждый раз когда база изменяется, создаем items для RecyclerView
             * с нужными данными, после чего emit во фрагмент*/
-            if(dateStrategy.hasDates()) {
-                scheduledEventInteractor.getScheduledEventsByPeriod(
-                    dateStrategy.getStartDate(),
-                    dateStrategy.getEndDate())
-            }else{
-                scheduledEventInteractor.getAllNotes()
-            }
+            loadScheduledEvents()
                 .map {
                     val items = mutableListOf<DataModel>()
                     items.apply {
                         addAll(it.withHeader(SCHEDULED_EVENT_GROUP_LABEL))
-                        addAll(friendPhone.withHeader(PHONE_GROUP_LABEL))
+                        addAll(friendsPhone.withHeader(PHONE_GROUP_LABEL))
                         addAll(friendsVk.withHeader(VK_GROUP_LABEL))
+                        addAll(addInfoIfListIsEmpty())
                     }
-                }
-                .onEach {
+                }.onEach {
                     _resultRecycler.tryEmit(it)
                     _isLoading.tryEmit(false)
-                }
-                .collect()
+                }.collect()
         }
+    }
+
+    private suspend fun loadFriendsFromPhone() = loadContent {
+        if (dateStrategy.hasDates()) {
+            birthdayFromPhoneInteractor.getContactsInInterval(
+                dateStrategy.getStartDate(), dateStrategy.getEndDate()
+            )
+        } else {
+            birthdayFromPhoneInteractor.getContacts()
+        }
+    }
+
+    private suspend fun loadFriendsFromVK(vkToken: String?) = loadContent {
+        if (dateStrategy.hasDates()) {
+            getFriendsFromVkUseCase.getFriendsByPeriodDate(
+                vkToken, dateStrategy.getStartDate(), dateStrategy.getEndDate()
+            )
+        } else {
+            getFriendsFromVkUseCase.getAllFriends(vkToken)
+        }
+    }
+
+    private fun loadScheduledEvents() = if (dateStrategy.hasDates()) {
+        scheduledEventInteractor.getScheduledEventsByPeriod(
+            dateStrategy.getStartDate(), dateStrategy.getEndDate()
+        )
+    } else {
+        scheduledEventInteractor.getAllNotes()
     }
 
     private fun List<DataModel>.withHeader(headerName: String): List<DataModel> {
@@ -133,6 +128,13 @@ abstract class BaseViewModel(
         val data = mutableListOf<DataModel>(DataModel.SimpleNotice(headerName, ""))
         data.addAll(this)
         return data
+    }
+
+    private fun List<DataModel>.addInfoIfListIsEmpty() : List<DataModel>{
+        if (this.isEmpty()) {
+            return  mutableListOf<DataModel>(DataModel.SimpleNotice("Данных не найдено", ""))
+        }
+        return listOf()
     }
 
     private suspend fun loadContent(listener: suspend () -> List<DataModel>): List<DataModel> =

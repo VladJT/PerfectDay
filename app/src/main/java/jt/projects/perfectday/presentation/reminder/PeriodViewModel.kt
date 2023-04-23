@@ -7,9 +7,8 @@ import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import java.time.LocalDate
 
-class RightChildViewModel(
+class PeriodViewModel(
     settingsPreferences: SimpleSettingsPreferences,
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
