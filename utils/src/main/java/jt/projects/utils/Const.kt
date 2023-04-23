@@ -15,6 +15,7 @@ const val HOLIDAY_COUNTRY = "Ru"
 const val PHONE_GROUP_LABEL = "Дни рождения контактов телефона"
 const val VK_GROUP_LABEL = "Дни рождения друзей ВКонтакте"
 const val SCHEDULED_EVENT_GROUP_LABEL = "Запланированные события"
+const val NO_DATA = "Данных не найдено"
 
 /**
  * SHARED PREFERENCES KEYS

@@ -12,6 +12,7 @@ import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.presentation.calendar.dateFragment.Event
 import jt.projects.utils.LOG_TAG
+import jt.projects.utils.NO_DATA
 import jt.projects.utils.PHONE_GROUP_LABEL
 import jt.projects.utils.SCHEDULED_EVENT_GROUP_LABEL
 import jt.projects.utils.VK_GROUP_LABEL
@@ -130,9 +131,9 @@ abstract class BaseViewModel(
         return data
     }
 
-    private fun List<DataModel>.addInfoIfListIsEmpty() : List<DataModel>{
+    private fun List<DataModel>.addInfoIfListIsEmpty(): List<DataModel> {
         if (this.isEmpty()) {
-            return  mutableListOf<DataModel>(DataModel.SimpleNotice("Данных не найдено", ""))
+            return mutableListOf<DataModel>(DataModel.SimpleNotice(NO_DATA, ""))
         }
         return listOf()
     }

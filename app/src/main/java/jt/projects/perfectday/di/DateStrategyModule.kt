@@ -16,20 +16,22 @@ val dateStrategyModule = module {
 
     factory(named(DATE_STATEGY_TOMORROW)) {
         DateStrategy(
-            { LocalDate.now() },
-            { LocalDate.now().plusDays(1) })
+            startDate = { LocalDate.now() },
+            endDate = { LocalDate.now().plusDays(1) })
     }
 
     factory(named(DATE_STATEGY_CHOSEN_CALENDER_DATE)) {
         DateStrategy(
-            { chosenCalendarDate },
-            { chosenCalendarDate })
+            startDate = { chosenCalendarDate },
+            endDate = { chosenCalendarDate })
     }
 
     factory(named(DATE_STATEGY_PERIOD)) {
-        DateStrategy({ LocalDate.now() }, {
-            LocalDate.now()
-                .plusDays(get<SimpleSettingsPreferences>().getDaysPeriodForReminderFragment())
-        })
+        DateStrategy(
+            startDate = { LocalDate.now() },
+            endDate = {
+                LocalDate.now()
+                    .plusDays(get<SimpleSettingsPreferences>().getDaysPeriodForReminderFragment())
+            })
     }
 }
