@@ -1,5 +1,7 @@
 package jt.projects.perfectday.presentation.reminder
 
+import jt.projects.perfectday.core.BaseViewModel
+import jt.projects.perfectday.core.DateStrategy
 import jt.projects.perfectday.core.PhoneBookProvider
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
@@ -12,17 +14,15 @@ class RightChildViewModel(
     birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     scheduledEventInteractor: ScheduledEventInteractorImpl,
-    phoneBookProvider: PhoneBookProvider
+    phoneBookProvider: PhoneBookProvider,
+    dateStrategy: DateStrategy
 ) :
-    BaseChildViewModel(
+    BaseViewModel(
         settingsPreferences,
         birthdayFromPhoneInteractor,
         getFriendsFromVkUseCase,
         scheduledEventInteractor,
-        phoneBookProvider
+        phoneBookProvider,
+        dateStrategy
     ) {
-
-    override fun getStartDate(): LocalDate = LocalDate.now()
-    override fun getEndDate(): LocalDate =
-        getStartDate().plusDays(settingsPreferences.getDaysPeriodForReminderFragment())
 }
