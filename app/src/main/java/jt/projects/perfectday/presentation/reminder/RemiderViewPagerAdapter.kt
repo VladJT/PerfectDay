@@ -8,8 +8,8 @@ import jt.projects.perfectday.presentation.reminder.ReminderFragment.Companion.R
 
 // конструктор мы теперь передаем корневую Активити (или фрагмент), хотя
 //можно передавать FragmentManager вместе с Lifecycle, но первый способ предпочтительнее
-class RemiderViewPagerAdapter(fragmentActivity: FragmentActivity) :
-    FragmentStateAdapter(fragmentActivity) {
+class RemiderViewPagerAdapter(fragment: Fragment) :
+    FragmentStateAdapter(fragment) {
 
     private val fragments =
         arrayOf(LeftChildFragment(), RightChildFragment())

@@ -44,7 +44,7 @@ class ReminderFragment : Fragment() {
     }
 
     private fun initViewPager() {
-        binding.reminderViewPager.adapter = RemiderViewPagerAdapter(requireActivity())
+        binding.reminderViewPager.adapter = RemiderViewPagerAdapter(this@ReminderFragment)
     }
 
     private fun setTabs() {
@@ -56,7 +56,6 @@ class ReminderFragment : Fragment() {
             }
         }.attach()
     }
-
 
     override fun onDestroy() {
         currentFragment = binding.reminderTabLayout.selectedTabPosition
