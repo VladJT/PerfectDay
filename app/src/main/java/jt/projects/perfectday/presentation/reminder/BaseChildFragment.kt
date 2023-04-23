@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.perfectday.core.BaseAdapter
+import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.core.extensions.showScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderChildBinding
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ abstract class BaseChildFragment : Fragment() {
     private var _binding: FragmentReminderChildBinding? = null
     protected val binding get() = _binding!!
 
-    abstract val viewModel: BaseChildViewModel
+    abstract val viewModel: BaseViewModel
 
     private val reminderAdapter by lazy {
         BaseAdapter(
