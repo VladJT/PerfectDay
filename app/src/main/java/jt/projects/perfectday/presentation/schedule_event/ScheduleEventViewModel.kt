@@ -1,50 +1,71 @@
 package jt.projects.perfectday.presentation.schedule_event
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 import jt.projects.model.DataModel
+import jt.projects.perfectday.core.extensions.*
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import java.time.LocalDate
+import jt.projects.utils.toStdLocalDate
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.asSharedFlow
 
 class ScheduleEventViewModel(
     private val scheduledEventInteractor: ScheduledEventInteractorImpl
 ) : ViewModel() {
+    private val _isCloseFragment = createMutableSingleEventFlow<Boolean>()
+    val isCloseFragment get() = _isCloseFragment.asSharedFlow()
 
-    private val liveData: MutableLiveData<DataModel.ScheduledEvent> = MutableLiveData()
+    private val _note = MutableLiveData<DataModel.ScheduledEvent>()
+    val note: LiveData<DataModel.ScheduledEvent> get() = _note
 
-    val liveDataForViewToObserve: LiveData<DataModel.ScheduledEvent>
-        get() {
-            return liveData
-        }
-
-    fun setData(data: DataModel.ScheduledEvent) {
-        liveData.postValue(data)
+    fun getNote(id: Int?) {
+        if (id == null || id == -1) return
+        launchOrError(
+            Dispatchers.IO,
+            action = { _note.postValue(scheduledEventInteractor.getNoteById(id)) },
+            error= { Log.e(this.javaClass.simpleName, "$it")}
+        )
     }
 
-    fun updateData(name: String? = null, description: String? = null, date: LocalDate? = null) {
-        val newData = liveDataForViewToObserve.value
-        name?.let { newData?.name = it }
-        description?.let { newData?.description = it }
-        date?.let { newData?.date = it }
+    fun saveOrUpdateNote(headerNote: String, description: String, date: String) {
+        val scheduleEvent = if (note.value == null)
+            getNote(headerNote, description, date)
+        else
+            getNote(headerNote, description, date, note.value!!.id)
 
-        liveData.postValue(newData!!)
+        if (scheduleEvent.id == 0)
+            saveNote(scheduleEvent)
+        else
+            updateNote(scheduleEvent)
     }
 
-    // сохраняем изменения в базу данных
-    fun saveData() {
-        liveDataForViewToObserve.value?.let {
-            CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
-                if (it.id == 0) {
-                    scheduledEventInteractor.insert(it)
-                } else {
-                    scheduledEventInteractor.update(it)
-                }
-            }
-        }
+    private fun getNote(headerNote: String, description: String, date: String, id: Int = 0) =
+        DataModel.ScheduledEvent(
+            id = id,
+            name = headerNote,
+            date = date.toStdLocalDate(),
+            description = description
+        )
+
+    private fun saveNote(note: DataModel.ScheduledEvent) {
+        launchOrError(
+            Dispatchers.IO,
+            action = {
+                scheduledEventInteractor.insert(note)
+                _isCloseFragment.tryEmit(true)
+            },
+            error = { Log.e(this.javaClass.simpleName, "$it") }
+        )
+    }
+
+    private fun updateNote(note: DataModel.ScheduledEvent) {
+        launchOrError(
+            Dispatchers.IO,
+            action = {
+                scheduledEventInteractor.update(note)
+                _isCloseFragment.tryEmit(true)
+            },
+            error = { Log.e(this.javaClass.simpleName, "$it") }
+        )
     }
 }

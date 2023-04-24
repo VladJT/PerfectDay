@@ -5,7 +5,7 @@ import android.view.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import jt.projects.perfectday.core.extensions.showScheduledEvent
+import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.FragmentTodayBinding
 import jt.projects.perfectday.presentation.today.adapter.main.MainListAdapter
 import kotlinx.coroutines.launch
@@ -64,7 +64,7 @@ class TodayFragment : Fragment() {
     private fun observeEditNote() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.noteFlow.collect(::showScheduledEvent)
+                viewModel.noteIdFlow.collect(::editScheduledEvent)
             }
         }
     }

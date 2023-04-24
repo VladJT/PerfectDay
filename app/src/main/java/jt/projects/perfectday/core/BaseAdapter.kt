@@ -6,7 +6,7 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.core.viewholders.*
 
 class BaseAdapter(
-    private var onEditNoteClicked: ((DataModel) -> Unit)?,
+    private var onEditNoteClicked: ((Int) -> Unit)?,
     private var onDeleteClicked: ((Int) -> Unit)?,
     private var onItemClicked: ((DataModel) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
