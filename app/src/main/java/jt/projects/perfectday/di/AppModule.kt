@@ -20,9 +20,16 @@ val appModule = module {
     // статус сети
     single { OnlineStatusLiveData(context = get()) }
 
-    // SEND PUSH
-    single { NotificationProvider(appContext = get(),
-    ) }
+    // PUSH-NOTIFICATIONS
+    single {
+        NotificationProvider(
+            appContext = get(),
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractor = get()
+        )
+    }
 
     // загрузчик изображений
     single { CoilImageLoader() }
