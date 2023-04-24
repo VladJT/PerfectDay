@@ -2,12 +2,9 @@ package jt.projects.perfectday.presentation.reminder
 
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class LeftChildFragment : BaseChildFragment() {
-    companion object {
-        fun newInstance() = LeftChildFragment()
-    }
+class TomorrowFragment : BaseChildFragment() {
 
-    override val viewModel: LeftChildViewModel by activityViewModel()
+    override val viewModel: TomorrowViewModel by activityViewModel()
 
     override fun setSwipeToRefreshMove() {
         binding.swipeToRefresh.setOnRefreshListener {

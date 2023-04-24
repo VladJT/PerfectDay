@@ -15,6 +15,7 @@ const val HOLIDAY_COUNTRY = "Ru"
 const val PHONE_GROUP_LABEL = "Дни рождения контактов телефона"
 const val VK_GROUP_LABEL = "Дни рождения друзей ВКонтакте"
 const val SCHEDULED_EVENT_GROUP_LABEL = "Запланированные события"
+const val NO_DATA = "Данных не найдено"
 
 /**
  * SHARED PREFERENCES KEYS
@@ -51,6 +52,11 @@ const val LOG_TAG = "TAG"
 const val NAME_REMOTE = "Remote"
 const val NAME_LOCAL = "Local"
 const val NETWORK_SERVICE = "NETWORK_SERVICE"
+const val DATE_STATEGY_ALLDATES = "AllDatesStrategy"
+const val DATE_STATEGY_TOMORROW = "TomorrowDateStrategy"
+const val DATE_STATEGY_CHOSEN_CALENDER_DATE = "ChoseCalendarDateStrategy"
+const val DATE_STATEGY_PERIOD = "PeriodDateStrategy"
+
 
 
 /**
