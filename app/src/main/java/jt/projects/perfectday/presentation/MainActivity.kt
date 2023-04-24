@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         val notificationWork =
             PeriodicWorkRequest.Builder(NotificationWorker::class.java, 1, TimeUnit.DAYS)
-                .setInitialDelay(diff, TimeUnit.SECONDS)
+                .setInitialDelay(1, TimeUnit.SECONDS)
                 .addTag(NotificationWorker.TAG)
                 .build()
 
