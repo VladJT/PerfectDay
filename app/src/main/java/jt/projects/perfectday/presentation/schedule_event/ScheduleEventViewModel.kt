@@ -19,7 +19,7 @@ class ScheduleEventViewModel(
     val note: LiveData<DataModel.ScheduledEvent> get() = _note
 
     fun getNote(id: Int?) {
-        if (id == null) return
+        if (id == null || id == -1) return
         launchOrError(
             Dispatchers.IO,
             action = { _note.postValue(scheduledEventInteractor.getNoteById(id)) },

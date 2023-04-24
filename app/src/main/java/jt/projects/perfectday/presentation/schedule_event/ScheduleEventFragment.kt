@@ -23,8 +23,9 @@ import java.time.ZoneId
 
 private const val DATE_STRING_KEY = "date_key"
 private const val ID_NOTE_KEY = "id_note_key"
+private const val DATE_PICKER_TAG = "DATE_PICKER_TAG"
 
-class ScheduleEventFragment() : Fragment() {
+class ScheduleEventFragment : Fragment() {
     private var _binding: FragmentScheduleEventBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ScheduleEventViewModel by viewModel()
@@ -51,7 +52,7 @@ class ScheduleEventFragment() : Fragment() {
     }
 
     private fun observeScheduleEvent() {
-        viewModel.getNote(arguments?.getInt(ID_NOTE_KEY))
+        viewModel.getNote(arguments?.getInt(ID_NOTE_KEY, -1))
         viewModel.note.observe(viewLifecycleOwner, ::renderData)
     }
 
@@ -107,18 +108,6 @@ class ScheduleEventFragment() : Fragment() {
     }
 
     companion object {
-        const val TAG = "ScheduleEventDialogFragment"
-        const val DATE_PICKER_TAG = "DATE_PICKER_TAG"
-        private const val BUNDLE_KEY = "BUNDLE_KEY"
-
-        fun newInstance(data: DataModel.ScheduledEvent?): ScheduleEventFragment {
-            val args = Bundle()
-            val fragment = ScheduleEventFragment()
-            args.putParcelable(BUNDLE_KEY, data)
-            fragment.arguments = args
-            return fragment
-        }
-
         fun newInstance(date: String): ScheduleEventFragment =
             ScheduleEventFragment().apply {
                 arguments = bundleOf(DATE_STRING_KEY to date)
