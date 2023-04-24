@@ -14,17 +14,13 @@ import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
-import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.toStdFormatString
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import java.time.LocalDate
 import java.time.ZoneId
-import java.util.*
 import java.util.Calendar
 
 
@@ -97,7 +93,6 @@ class CalendarFragment : Fragment() {
 
             onDateLongClickListener = { date ->
                 val localDate = date.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                chosenCalendarDate = localDate
                 showScheduledEvent(localDate.toStdFormatString())
             }
         }
