@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+
     private val settingsPreferences by inject<SimpleSettingsPreferences>()
 
 
@@ -120,18 +121,18 @@ class MainActivity : AppCompatActivity() {
             )
 
         binding.layoutToolbar.btnPush.setOnClickListener {
-            if (!getKoin().get<NotificationProvider>().send("test", "message 111...")) {
-                Snackbar
-                    .make(binding.root, getString(R.string.check_permissions), Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.open)) {
-                        val intent = Intent()
-                        intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
-                        startActivity(intent)
-                    }
-                    .show()
-            }
+//            if (!getKoin().get<NotificationProvider>().send("test", "message 111...")) {
+//                Snackbar
+//                    .make(binding.root, getString(R.string.check_permissions), Snackbar.LENGTH_LONG)
+//                    .setAction(getString(R.string.open)) {
+//                        val intent = Intent()
+//                        intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
+//                        startActivity(intent)
+//                    }
+//                    .show()
+//            }
         }
     }
 

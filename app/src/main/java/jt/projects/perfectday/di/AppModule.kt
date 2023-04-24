@@ -21,7 +21,8 @@ val appModule = module {
     single { OnlineStatusLiveData(context = get()) }
 
     // SEND PUSH
-    single { NotificationProvider(context = get()) }
+    single { NotificationProvider(appContext = get(),
+    ) }
 
     // загрузчик изображений
     single { CoilImageLoader() }
