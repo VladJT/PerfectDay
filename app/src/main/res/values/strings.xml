@@ -45,4 +45,6 @@
         в ближайших днях рождения друзей, расскажет о событиях и праздниках, отмечаемых в текущий день.
 </string>
     <string name="hello_app_string">ЗНАКОМСТВО С ПРИЛОЖЕНИЕМ</string>
+    <string name="open">Открыть</string>
+    <string name="check_permissions">Необходимо добавить разрешение</string>
 </resources>

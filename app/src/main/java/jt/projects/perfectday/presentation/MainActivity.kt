@@ -2,6 +2,8 @@ package jt.projects.perfectday.presentation
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -15,7 +17,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.snackbar.Snackbar
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
@@ -25,6 +31,8 @@ import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
+import jt.projects.perfectday.push.NotificationProvider
+import jt.projects.perfectday.push.NotificationWorker
 import jt.projects.utils.IS_FIRST_TIME_START_APP_KEY
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
 import jt.projects.utils.extensions.showSnackbar
@@ -33,6 +41,11 @@ import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
+import java.util.Calendar
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.MINUTE
+import java.util.concurrent.TimeUnit
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -63,7 +76,63 @@ class MainActivity : AppCompatActivity() {
         initFab()
         checkPermission()
         initButtonBackHome()
+        initPushNotifications()
         //    subscribeToNetworkStatusChange()
+    }
+
+    private fun initPushNotifications() {
+        val np = getKoin().get<NotificationProvider>()
+        if (!np.checkPermissionPostNotifications()) {
+            np.openNotificationsSettings()
+        }
+        if (!np.checkPermissionPostNotifications()) {
+            np.openAutoStartSettings()
+        }
+
+        val hour = 16
+        val minute = 53
+
+        val calendar = Calendar.getInstance()
+        val nowMillis = calendar.timeInMillis
+
+        if (calendar[HOUR_OF_DAY] > hour || calendar[HOUR_OF_DAY] == hour && calendar[MINUTE] + 1 >= minute) {
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+        calendar[HOUR_OF_DAY] = hour
+        calendar[MINUTE] = minute
+        calendar[Calendar.SECOND] = 0
+        calendar[Calendar.MILLISECOND] = 0
+
+        val diff = (calendar.timeInMillis - nowMillis) / 1000
+
+        WorkManager.getInstance(this).cancelAllWorkByTag(NotificationWorker.TAG)
+
+        val notificationWork =
+            PeriodicWorkRequest.Builder(NotificationWorker::class.java, 1, TimeUnit.DAYS)
+                .setInitialDelay(diff, TimeUnit.SECONDS)
+                .addTag(NotificationWorker.TAG)
+                .build()
+
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                NotificationWorker.TAG,
+                ExistingPeriodicWorkPolicy.UPDATE, notificationWork
+            )
+
+        binding.layoutToolbar.btnPush.setOnClickListener {
+            if (!getKoin().get<NotificationProvider>().send("test", "message 111...")) {
+                Snackbar
+                    .make(binding.root, getString(R.string.check_permissions), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.open)) {
+                        val intent = Intent()
+                        intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
+                        startActivity(intent)
+                    }
+                    .show()
+            }
+        }
     }
 
     private fun startIntoActivity() {
