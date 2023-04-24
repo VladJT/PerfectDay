@@ -116,9 +116,7 @@ class CalendarFragment : Fragment() {
         return returnBool
     }
 
-
-    // TODO надо переделать на фрагмент (?)
-    fun showScheduledEvent(date: String) {
+    private fun showScheduledEvent(date: String) {
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, ScheduleEventFragment.newInstance(date))
             .addToBackStack("ScheduleEventFragment")

@@ -97,13 +97,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showScheduledEvent(data: DataModel.ScheduledEvent?) {
-        navigateToFragment(
-            ScheduleEventFragment.newInstance(data = data),
-            isAddToBackStack = true
-        )
-    }
-
     fun showScheduledEvent(id: Int) {
         navigateToFragment(
             ScheduleEventFragment.newInstance(id),
