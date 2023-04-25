@@ -10,8 +10,8 @@ class PdFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
         // FireStore Cloud Messaging
-        const val NOTIFICATION_KEY_TITLE = "fcmTitle"
-        const val NOTIFICATION_KEY_MESSAGE = "fcmBody"
+        const val NOTIFICATION_KEY_TITLE = "title"
+        const val NOTIFICATION_KEY_MESSAGE = "body"
     }
 
     private val notificationProvider by lazy {
