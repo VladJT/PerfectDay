@@ -25,8 +25,6 @@ import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
-import jt.projects.perfectday.push.NotificationProvider
-import jt.projects.perfectday.push.NotificationWorker
 import jt.projects.utils.IS_FIRST_TIME_START_APP_KEY
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
 import jt.projects.utils.extensions.showSnackbar
@@ -67,38 +65,7 @@ class MainActivity : AppCompatActivity() {
         initFab()
         checkPermission()
         initButtonBackHome()
-        initPushNotifications()
         //    subscribeToNetworkStatusChange()
-    }
-
-    private fun initPushNotifications() {
-        val np = getKoin().get<NotificationProvider>()
-        if (!np.checkPermissionPostNotifications()) {
-            np.openNotificationsSettings()
-        }
-        if (!np.checkPermissionPostNotifications()) {
-            np.openAutoStartSettings()
-        }
-
-        val hour = 12
-        val minute = 18
-
-        NotificationWorker.scheduleEverydayNotificationJob(applicationContext, hour, minute)
-
-        binding.layoutToolbar.btnPush.setOnClickListener {
-//            if (!getKoin().get<NotificationProvider>().send("test", "message 111...")) {
-//                Snackbar
-//                    .make(binding.root, getString(R.string.check_permissions), Snackbar.LENGTH_LONG)
-//                    .setAction(getString(R.string.open)) {
-//                        val intent = Intent()
-//                        intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                        intent.putExtra("android.provider.extra.APP_PACKAGE", packageName)
-//                        startActivity(intent)
-//                    }
-//                    .show()
-//            }
-        }
     }
 
     private fun startIntoActivity() {

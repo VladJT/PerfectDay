@@ -34,16 +34,6 @@
         android:layout_weight="1.5" />
 
     <ImageButton
-        android:id="@+id/btn_push"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:backgroundTint="@color/transparent"
-        android:contentDescription="@string/content_desc_settings"
-        android:src="@drawable/baseline_notifications_active_24"
-        app:tint="?attr/item_menu_color" />
-
-    <ImageButton
         android:id="@+id/btn_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
