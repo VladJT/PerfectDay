@@ -22,6 +22,7 @@
         <item name="text_color_fact_of_the_day">@color/white_with_80_alpha</item>
         <item name="text_color_not_checked_button">@color/grey_text_color</item>
         <item name="text_color_checked_button">@color/primary_text_color</item>
+        <item name="dialog_fragment_background">@color/black</item>
     </style>
 
     <style name="PerfectDay.MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
