@@ -25,6 +25,10 @@ const val REMINDER_PERIOD_KEY =
 const val IS_FIRST_TIME_START_APP_KEY =
     "isFirstTimeStartAppKey" // признак первого запуска приложения
 
+const val PUSH_PARAM = "PUSH_PARAM"
+const val PUSH_START = "ON_PUSH"
+const val PUSH_NOTIFICATION_STARTHOUR = "PUSH_NOTIFICATION_STARTHOUR"
+const val PUSH_NOTIFICATION_STARTMINUTE = "PUSH_NOTIFICATION_STARTMINUTE"
 /**
  * COMMON SETTINGS
  */

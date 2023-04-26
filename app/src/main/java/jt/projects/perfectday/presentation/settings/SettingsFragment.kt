@@ -14,6 +14,7 @@ import coil.load
 import com.google.android.material.slider.Slider
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
+import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.showButtonBackHome
 import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
@@ -55,8 +56,19 @@ class SettingsFragment : Fragment() {
         observeVisibleProfile()
         observeUserInfo()
         initDaySliderForReminderFragment()
+        initPushSetings()
         showFab(false)
         showButtonBackHome(true)
+    }
+
+    private fun initPushSetings() {
+        binding.textViewPushsetting.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, PushSettingFragment.newInstance(), "")
+                .addToBackStack(null)
+                .commit()
+
+        }
     }
 
     private fun initDeleteOldScheduledEvents() {
