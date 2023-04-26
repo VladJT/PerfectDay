@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
 
-abstract class BaseViewModel(
+open class BaseViewModel(
     protected val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
@@ -61,7 +61,7 @@ abstract class BaseViewModel(
 
     private fun loadAllContent() {
         job?.cancel()
-        val vkToken: String? = settingsPreferences.getSettings(VK_AUTH_TOKEN)
+        val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
 
         _isLoading.tryEmit(true)
 

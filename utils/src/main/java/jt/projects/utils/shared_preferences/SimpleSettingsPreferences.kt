@@ -1,9 +1,13 @@
 package jt.projects.utils.shared_preferences
 
 interface SimpleSettingsPreferences {
-    fun saveSettings(key: String, value: String)
+    fun saveString(key: String, value: String)
+    fun saveBoolean(key: String, value: Boolean)
+    fun saveInt(key: String, value: Int)
 
-    fun getSettings(key: String): String?
-
+    fun getStringOrEmptyString(key: String): String?
+    fun getIntOrZero(key: String): Int
+    fun getBooleanOrFalse(key: String): Boolean
+    fun getBooleanOrTrue(key: String): Boolean
     fun getDaysPeriodForReminderFragment(): Long
 }
