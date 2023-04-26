@@ -72,6 +72,9 @@ object Versions {
 
     //CrunchyCalendar
     const val crunchycalendar = "2.4.0"
+
+    const val workversion = "2.8.1"
+    const val livecycle  ="2.6.1"
 }
 
 object Design {
@@ -143,4 +146,9 @@ object RxJava {
 
 object CrunchyCalendar {
     const val crunchycalendar = "ru.cleverpumpkin:crunchycalendar:${Versions.crunchycalendar}"
+}
+
+object WorkManager {
+    const val workmanager = "androidx.work:work-runtime-ktx:${Versions.workversion}"
+    const val livecycle = "androidx.lifecycle:lifecycle-livedata-core:${Versions.livecycle}"
 }

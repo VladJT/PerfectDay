@@ -3,6 +3,9 @@ package jt.projects.perfectday.di
 import android.content.Context
 import jt.projects.perfectday.App
 import jt.projects.perfectday.core.PhoneBookProvider
+import jt.projects.perfectday.push.PushManager
+import jt.projects.perfectday.push.PushManagerImpl
+import jt.projects.perfectday.push.PushManagerRepo
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
@@ -33,4 +36,8 @@ val appModule = module {
 
     // работа с телефонной книгой
     single<PhoneBookProvider> { PhoneBookProvider(context = get()) }
+
+    single<PushManagerRepo>{ PushManagerImpl() }
+    single{ PushManager(repoManager = get()) }
+
 }
