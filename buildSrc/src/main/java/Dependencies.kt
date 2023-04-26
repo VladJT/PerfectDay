@@ -73,8 +73,10 @@ object Versions {
     //CrunchyCalendar
     const val crunchycalendar = "2.4.0"
 
+    // work manager
     const val workversion = "2.8.1"
-    const val livecycle  ="2.6.1"
+    const val wmktx = "2.8.1"
+    const val livecycle = "2.6.1"
 }
 
 object Design {
@@ -151,4 +153,5 @@ object CrunchyCalendar {
 object WorkManager {
     const val workmanager = "androidx.work:work-runtime-ktx:${Versions.workversion}"
     const val livecycle = "androidx.lifecycle:lifecycle-livedata-core:${Versions.livecycle}"
+    const val ktx = "androidx.work:work-runtime-ktx:${Versions.wmktx}"
 }
