@@ -119,4 +119,8 @@ dependencies {
 
     //CrunchyCalendar
     implementation(CrunchyCalendar.crunchycalendar)
+
+    //WorkManager
+    implementation(WorkManager.workmanager)
+    implementation(WorkManager.livecycle)
 }

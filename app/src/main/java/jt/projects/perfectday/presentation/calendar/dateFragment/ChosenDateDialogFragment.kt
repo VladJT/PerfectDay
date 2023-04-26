@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
@@ -14,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.perfectday.core.BaseAdapter
-import jt.projects.perfectday.core.extensions.showScheduledEvent
+import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
 import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
@@ -102,7 +101,7 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
     private fun observeEditNote() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.noteFlow.collect(::showScheduledEvent)
+                viewModel.noteIdFlow.collect(::editScheduledEvent)
             }
         }
     }

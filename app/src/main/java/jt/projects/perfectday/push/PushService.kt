@@ -13,17 +13,14 @@ import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.presentation.MainActivity
 import jt.projects.repository.push.DataPush
-import jt.projects.repository.push.PushBirthdayRepo
-import jt.projects.repository.push.PushBirthdayRepoImpl
 import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import org.koin.core.component.getScopeName
 import java.time.LocalDate
+import java.util.*
 
 class PushService : KoinComponent {
 
-    private val repoPushBirthday: PushBirthdayRepo = PushBirthdayRepoImpl()
     private val context: Context = get<Context>().applicationContext
     private val scheduledEventIterctor: ScheduledEventInteractorImpl = get()
 
@@ -39,13 +36,24 @@ class PushService : KoinComponent {
         PendingIntent.FLAG_IMMUTABLE
     )
 
+
     companion object {
+
         const val CHANNEL_BIRTHDAY = "channel_birthday"
         const val CHANNEL_EVENT = "channel_event"
         const val CHANNEL_PERFECT = "channel perfect day"
-        private const val TAG = "push_@"
-    }
+        const val TAG = "push_@"
 
+        const val WORK_ID = "psh_work_manager"
+        const val ID_DATA = "time_start"
+        const val TAG_PARAM = "TAG_WORK_PUSH"
+
+        val uuidWork = UUID.randomUUID()
+        fun newInstance(): PushService {
+            return PushService()
+
+        }
+    }
 
     val job = CoroutineScope(
         Dispatchers.Main +
@@ -189,4 +197,5 @@ class PushService : KoinComponent {
     interface OnchangeDataBD {
         fun onChange(lisResult: List<DataPush>)
     }
+
 }

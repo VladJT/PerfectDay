@@ -1,5 +1,6 @@
 package jt.projects.perfectday.presentation.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import coil.load
 import com.google.android.material.slider.Slider
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
+import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.showButtonBackHome
 import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
@@ -55,8 +57,17 @@ class SettingsFragment : Fragment() {
         observeVisibleProfile()
         observeUserInfo()
         initDaySliderForReminderFragment()
-        showFab(false)
-        showButtonBackHome(true)
+        initPushSetings()
+    }
+
+    private fun initPushSetings() {
+        binding.textViewPushsetting.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, PushSettingFragment.newInstance(), "PUSH")
+                .addToBackStack("push")
+                .commit()
+
+        }
     }
 
     private fun initDeleteOldScheduledEvents() {
@@ -64,7 +75,7 @@ class SettingsFragment : Fragment() {
             viewModel.deleteOldScheduledEvents()
         }
 
-        viewModel.countOfDeletedEvents.observe(this@SettingsFragment) {
+        viewModel.countOfDeletedEvents.observe(viewLifecycleOwner) {
             if (it == 0)
                 showSnackbar("Нет прошедших событий для удаления")
             else
@@ -169,10 +180,20 @@ class SettingsFragment : Fragment() {
         )
     }
 
-    override fun onDestroyView() {
-        _binding = null
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        showFab(false)
+        showButtonBackHome(true)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
         showButtonBackHome(false)
         showFab(true)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
         super.onDestroyView()
     }
 }

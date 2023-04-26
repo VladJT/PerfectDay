@@ -41,10 +41,14 @@
 
 
     // INTRO
-    <string name="intro1_description">Социальное приложение «PerfectDay» поможет пользователю ориентироваться
-        в ближайших днях рождения друзей, расскажет о событиях и праздниках, отмечаемых в текущий день.
-</string>
     <string name="hello_app_string">ЗНАКОМСТВО С ПРИЛОЖЕНИЕМ</string>
     <string name="open">Открыть</string>
     <string name="check_permissions">Необходимо добавить разрешение</string>
+
+
+    <string name="header_push_switch">Включить Push уведомления</string>
+    <string name="push_help_description">Включите Push уведомления, и выберите время в которое программа будет Вам отправлять уведомления о события и днях рождения текущего дня.</string>
+    <string name="head_text_button_switch_on">Выключить</string>
+    <string name="head_text_button_switch_off">Включить</string>
+
 </resources>

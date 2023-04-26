@@ -31,8 +31,10 @@ import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.utils.toStdFormatString
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
+import java.time.LocalDate
 
 
 class MainActivity : AppCompatActivity() {
@@ -90,13 +92,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFab() {
         binding.fBtnAddReminder.setOnClickListener {
-            showScheduledEvent(data = null)
+            navigateToFragment(
+                ScheduleEventFragment.newInstance(LocalDate.now().toStdFormatString()),
+                isAddToBackStack = true
+            )
         }
     }
 
-    fun showScheduledEvent(data: DataModel.ScheduledEvent?) {
+    fun showScheduledEvent(id: Int) {
         navigateToFragment(
-            ScheduleEventFragment.newInstance(data = data),
+            ScheduleEventFragment.newInstance(id),
             isAddToBackStack = true
         )
     }

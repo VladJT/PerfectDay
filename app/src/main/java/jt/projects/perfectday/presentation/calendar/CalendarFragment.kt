@@ -13,14 +13,14 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
-import jt.projects.perfectday.presentation.schedule_event.ScheduleEventDialogFragment
-import jt.projects.utils.chosenCalendarDate
+import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import jt.projects.utils.toStdFormatString
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Calendar
 
 
@@ -92,8 +92,8 @@ class CalendarFragment : Fragment() {
             }
 
             onDateLongClickListener = { date ->
-                chosenCalendarDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
-                showScheduledEvent()
+                val localDate = date.date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                showScheduledEvent(localDate.toStdFormatString())
             }
         }
     }
@@ -111,14 +111,11 @@ class CalendarFragment : Fragment() {
         return returnBool
     }
 
-
-    // TODO надо переделать на фрагмент (?)
-    fun showScheduledEvent() {
-        val scheduleEventDialogFragment = ScheduleEventDialogFragment()
-        scheduleEventDialogFragment.show(
-            requireActivity().supportFragmentManager,
-            "ScheduleEventDialogFragment"
-        )
+    private fun showScheduledEvent(date: String) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, ScheduleEventFragment.newInstance(date))
+            .addToBackStack("ScheduleEventFragment")
+            .commit()
     }
 
     private fun showChosenDateDialogFragmentDialog(date: CalendarDate) {
