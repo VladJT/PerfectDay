@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
@@ -75,9 +74,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isFirstTimeStartApp(): Boolean {
-        val result = settingsPreferences.getSettings(IS_FIRST_TIME_START_APP_KEY)
-        return if (!result.equals("false")) {
-            settingsPreferences.saveSettings(IS_FIRST_TIME_START_APP_KEY, "false")
+        val isFirstStart = settingsPreferences.getBooleanOrTrue(IS_FIRST_TIME_START_APP_KEY)
+        return if (isFirstStart) {
+            settingsPreferences.saveBoolean(IS_FIRST_TIME_START_APP_KEY, false)
             true
         } else {
             false

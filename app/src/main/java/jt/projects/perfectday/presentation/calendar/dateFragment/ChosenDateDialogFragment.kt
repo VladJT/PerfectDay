@@ -13,11 +13,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.perfectday.core.BaseAdapter
+import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
+import jt.projects.utils.VM_CALENDAR
+import jt.projects.utils.VM_CHOSEN_DATE
 import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 import ru.cleverpumpkin.calendar.CalendarDate
 import java.time.LocalDate
 
@@ -28,7 +33,7 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
     private var _binding: ChosenDateDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ChosenDateViewModel by viewModel()
+    private val viewModel: BaseViewModel by viewModel(named(VM_CHOSEN_DATE))
 
     private val chosenDateAdapter: BaseAdapter by lazy {
         BaseAdapter(

@@ -43,7 +43,7 @@ class TodayViewModel(
 
     private fun loadAllContent() {
         job?.cancel()
-        val vkToken: String? = settingsPreferences.getSettings(VK_AUTH_TOKEN)
+        val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
 
         _isLoading.tryEmit(true)
 

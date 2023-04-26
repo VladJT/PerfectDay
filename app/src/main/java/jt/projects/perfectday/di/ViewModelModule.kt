@@ -1,11 +1,6 @@
 package jt.projects.perfectday.di
 
-import android.content.Context
-import jt.projects.perfectday.App
-import jt.projects.perfectday.presentation.calendar.CalendarViewModel
-import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateViewModel
-import jt.projects.perfectday.presentation.reminder.TomorrowViewModel
-import jt.projects.perfectday.presentation.reminder.PeriodViewModel
+import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventViewModel
 import jt.projects.perfectday.presentation.settings.PushSettingViewModel
 import jt.projects.perfectday.presentation.settings.SettingsViewModel
@@ -15,7 +10,11 @@ import jt.projects.utils.DATE_STATEGY_CHOSEN_CALENDER_DATE
 import jt.projects.utils.DATE_STATEGY_PERIOD
 import jt.projects.utils.DATE_STATEGY_TODAY
 import jt.projects.utils.DATE_STATEGY_TOMORROW
-import jt.projects.utils.*
+import jt.projects.utils.VM_CALENDAR
+import jt.projects.utils.VM_CHOSEN_DATE
+import jt.projects.utils.VM_DAILY_REMINDER
+import jt.projects.utils.VM_REMINDER_PERIOD
+import jt.projects.utils.VM_REMINDER_TOMORROW
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -34,8 +33,8 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
-        TomorrowViewModel(
+    viewModel(named(VM_REMINDER_TOMORROW)) {
+        BaseViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
@@ -45,8 +44,8 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
-        PeriodViewModel(
+    viewModel(named(VM_REMINDER_PERIOD)) {
+        BaseViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
@@ -56,8 +55,8 @@ val viewModelModule = module {
         )
     }
 
-    viewModel(named("PushViewModel")) {
-        PeriodViewModel(
+    viewModel(named(VM_DAILY_REMINDER)) {
+        BaseViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
@@ -67,8 +66,8 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
-        CalendarViewModel(
+    viewModel(named(VM_CALENDAR)) {
+        BaseViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
@@ -78,8 +77,8 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
-        ChosenDateViewModel(
+    viewModel(named(VM_CHOSEN_DATE)) {
+        BaseViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),
@@ -99,8 +98,8 @@ val viewModelModule = module {
         )
     }
 
-    viewModel{
-        PushSettingViewModel(get<App>().getSharedPreferences(PUSH_PARAM, Context.MODE_PRIVATE))
+    viewModel {
+        PushSettingViewModel(sharedPref = get())
     }
 
 }

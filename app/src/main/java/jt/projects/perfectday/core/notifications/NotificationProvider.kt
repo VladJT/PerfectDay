@@ -16,8 +16,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.presentation.MainActivity
-import jt.projects.perfectday.presentation.reminder.PeriodViewModel
+import jt.projects.utils.VM_DAILY_REMINDER
+import jt.projects.utils.VM_REMINDER_PERIOD
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,7 +49,7 @@ class NotificationProvider(
 
     private var job: Job? = null
 
-    private val viewModel: PeriodViewModel by lazy { getKoin().get(named("PushViewModel")) }
+    private val viewModel: BaseViewModel by lazy { getKoin().get(named(VM_DAILY_REMINDER)) }
 
     fun sendTodayInfo() {
         job?.cancel()
@@ -100,7 +102,7 @@ class NotificationProvider(
             .setContentText(message)
             .setLights(R.color.primary_text_color, 3000, 1000)
             .setPriority(messagePriority)
-            .addAction(R.drawable.ic_home, "Открыть", getActivityIntent())
+            .addAction(R.drawable.ic_home, appContext.getString(R.string.open), getActivityIntent())
             .setAutoCancel(true)
 
 
