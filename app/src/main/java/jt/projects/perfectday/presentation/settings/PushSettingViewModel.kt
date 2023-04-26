@@ -27,18 +27,17 @@ class PushSettingViewModel(private val sharedPref: SimpleSettingsPreferences) :
     }
 
     private fun checkPushServise() {
-
         val onPushService = sharedPref.getBooleanOrFalse(PUSH_START)
         _isOnPushService.tryEmit(onPushService)
 
-        val calendar = Calendar.getInstance()
-        var hourCurr = calendar.get(Calendar.HOUR)
-        var minuteCurr = calendar.get(Calendar.MINUTE)
-
         if (onPushService) {
-            hourCurr = sharedPref.getIntOrZero(PUSH_NOTIFICATION_STARTHOUR)
-            minuteCurr = sharedPref.getIntOrZero(PUSH_NOTIFICATION_STARTMINUTE)
+            initHourMinuteFromSharedPref()
         }
+    }
+
+    private fun initHourMinuteFromSharedPref() {
+        var hourCurr = sharedPref.getIntOrZero(PUSH_NOTIFICATION_STARTHOUR)
+        var minuteCurr = sharedPref.getIntOrZero(PUSH_NOTIFICATION_STARTMINUTE)
 
         _hourTime.tryEmit(hourCurr)
         _minuteTime.tryEmit(minuteCurr)
@@ -46,7 +45,7 @@ class PushSettingViewModel(private val sharedPref: SimpleSettingsPreferences) :
 
     fun onClickButtonSwitchOnOffPush(isChecked: Boolean) {
         sharedPref.saveBoolean(PUSH_START, isChecked)
-        _isOnPushService.tryEmit(isChecked)
+        checkPushServise()
     }
 
     fun onSelectHourData(hour: Int) {

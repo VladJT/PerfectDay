@@ -15,6 +15,7 @@ import jt.projects.perfectday.databinding.FragmentPushSettingBinding
 import jt.projects.perfectday.push.PushManager
 import jt.projects.utils.DEBUG
 import jt.projects.utils.LOG_TAG
+import jt.projects.utils.PUSH_NOTIFICATION_STARTHOUR
 import jt.projects.utils.PUSH_PARAM
 import jt.projects.utils.PUSH_START
 import kotlinx.coroutines.launch
@@ -36,12 +37,12 @@ class PushSettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSwitch()
-        initDataPicker()
+
         observeVisibleDataPicker()
         observeHourData()
         observeMinuteData()
-        showFab(false)
-        showButtonBackHome(true)
+
+        initDataPicker()
     }
 
     private fun initDataPicker() {
@@ -108,8 +109,8 @@ class PushSettingFragment : Fragment() {
 
     }
 
-    private fun setSwitchChecked(chekedSwitch: Boolean) {
-        binding.switchOnpush.isChecked = chekedSwitch
+    private fun setSwitchChecked(checkedSwitch: Boolean) {
+        binding.switchOnpush.isChecked = checkedSwitch
     }
 
     private fun observeHourData() {
@@ -142,12 +143,6 @@ class PushSettingFragment : Fragment() {
         } catch (e: Exception) {
             Log.d(LOG_TAG, e.message.toString())
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        showFab(false)
-        showButtonBackHome(true)
     }
 
     override fun onDetach() {
