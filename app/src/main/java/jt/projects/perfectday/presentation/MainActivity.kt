@@ -36,12 +36,14 @@ import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import java.time.LocalDate
 
+
 class MainActivity : AppCompatActivity() {
     companion object {
         const val ANIMATION_DURATION = 500L
     }
 
     private lateinit var binding: ActivityMainBinding
+
 
     private val settingsPreferences by inject<SimpleSettingsPreferences>()
 

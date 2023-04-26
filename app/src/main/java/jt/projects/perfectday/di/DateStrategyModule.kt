@@ -4,6 +4,7 @@ import jt.projects.perfectday.core.DateStrategy
 import jt.projects.utils.DATE_STATEGY_ALLDATES
 import jt.projects.utils.DATE_STATEGY_CHOSEN_CALENDER_DATE
 import jt.projects.utils.DATE_STATEGY_PERIOD
+import jt.projects.utils.DATE_STATEGY_TODAY
 import jt.projects.utils.DATE_STATEGY_TOMORROW
 import jt.projects.utils.chosenCalendarDate
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
@@ -18,6 +19,12 @@ val dateStrategyModule = module {
         DateStrategy(
             startDate = { LocalDate.now() },
             endDate = { LocalDate.now().plusDays(1) })
+    }
+
+    factory(named(DATE_STATEGY_TODAY)) {
+        DateStrategy(
+            startDate = { LocalDate.now() },
+            endDate = { LocalDate.now() })
     }
 
     factory(named(DATE_STATEGY_CHOSEN_CALENDER_DATE)) {
