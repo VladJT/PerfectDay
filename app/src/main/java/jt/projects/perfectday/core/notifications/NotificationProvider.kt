@@ -1,4 +1,4 @@
-package jt.projects.perfectday.push
+package jt.projects.perfectday.core.notifications
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,37 +11,22 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
-import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.presentation.MainActivity
-import jt.projects.utils.LOG_TAG
-import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
-import kotlinx.coroutines.CancellationException
+import jt.projects.perfectday.presentation.reminder.PeriodViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent
-import java.time.LocalDate
+import org.koin.core.qualifier.named
+import org.koin.java.KoinJavaComponent.getKoin
 
 class NotificationProvider(
-    private val appContext: Context,
-    private val settingsPreferences: SimpleSettingsPreferences,
-    private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
-    private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
-    private val scheduledEventInteractor: ScheduledEventInteractorImpl
+    private val appContext: Context
 ) {
     // NOTIFICATIONS
     companion object {
@@ -62,56 +47,23 @@ class NotificationProvider(
 
     private var job: Job? = null
 
+    private val viewModel: PeriodViewModel by lazy { getKoin().get(named("PushViewModel")) }
+
     fun sendTodayInfo() {
         job?.cancel()
-        val currentDate = LocalDate.now()
-        val vkToken: String? = KoinJavaComponent.getKoin()
-            .get<SimpleSettingsPreferences>().getSettings(VK_AUTH_TOKEN)
+        CoroutineScope(Dispatchers.Default).launch {
+            viewModel.resultRecycler.collect {
+                val notesCount = it.filterIsInstance<DataModel.ScheduledEvent>().size
+                val birthdaysCount = it.filterIsInstance<DataModel.BirthdayFromPhone>().size +
+                        it.filterIsInstance<DataModel.BirthdayFromVk>().size
 
-
-        job = CoroutineScope(Dispatchers.Main).launch {
-            var notesCount = 0
-            var birthdaysCount = 0
-
-            //Ждём загрузку всех данных, чтобы пришли(и приводим к нужному типу)
-            val friendsPhone = async { loadFriendsFromPhone(currentDate) }.await()
-            val friendsVk = async { loadFriendsFromVK(vkToken, currentDate) }.await()
-
-            scheduledEventInteractor
-                .getNotesByDate(currentDate)
-                .map {
-                    notesCount = it.size
-                    birthdaysCount = friendsPhone.size + friendsVk.size
-                }
-                .onEach {
-                    send(
-                        "Сегодня",
-                        "Дней рождения: $birthdaysCount, запланировано дел: ${notesCount}"
-                    )
-                }.collect()
+                send(
+                    "Сегодня",
+                    "Дней рождения: $birthdaysCount, запланировано дел: ${notesCount}"
+                )
+            }
         }
     }
-
-    private suspend fun loadFriendsFromPhone(date: LocalDate) = loadContent {
-        birthdayFromPhoneInteractor.getFakeDataByDate(date)
-    }
-
-    private suspend fun loadFriendsFromVK(vkToken: String?, date: LocalDate) = loadContent {
-        getFriendsFromVkUseCase.getFriendsByDate(
-            vkToken, date
-        )
-    }
-
-    private suspend fun loadContent(listener: suspend () -> List<DataModel>): List<DataModel> =
-        try {
-            listener.invoke()
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            Log.e(LOG_TAG, "$e")
-            listOf()
-        }
-
 
     fun checkPermissionPostNotifications(): Boolean =
         (ActivityCompat.checkSelfPermission(appContext, Manifest.permission.POST_NOTIFICATIONS)

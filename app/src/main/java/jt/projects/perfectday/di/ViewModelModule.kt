@@ -10,6 +10,7 @@ import jt.projects.perfectday.presentation.today.TodayViewModel
 import jt.projects.utils.DATE_STATEGY_ALLDATES
 import jt.projects.utils.DATE_STATEGY_CHOSEN_CALENDER_DATE
 import jt.projects.utils.DATE_STATEGY_PERIOD
+import jt.projects.utils.DATE_STATEGY_TODAY
 import jt.projects.utils.DATE_STATEGY_TOMORROW
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -48,6 +49,17 @@ val viewModelModule = module {
             scheduledEventInteractor = get(),
             phoneBookProvider = get(),
             dateStrategy = get(named(DATE_STATEGY_PERIOD))
+        )
+    }
+
+    viewModel(named("PushViewModel")) {
+        PeriodViewModel(
+            settingsPreferences = get(),
+            birthdayFromPhoneInteractor = get(),
+            getFriendsFromVkUseCase = get(),
+            scheduledEventInteractor = get(),
+            phoneBookProvider = get(),
+            dateStrategy = get(named(DATE_STATEGY_TODAY))
         )
     }
 

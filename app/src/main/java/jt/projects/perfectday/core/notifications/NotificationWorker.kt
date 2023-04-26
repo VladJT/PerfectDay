@@ -1,4 +1,4 @@
-package jt.projects.perfectday.push
+package jt.projects.perfectday.core.notifications
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -14,7 +14,7 @@ class NotificationWorker(private val appContext: Context, workerParameters: Work
     CoroutineWorker(appContext, workerParameters) {
 
     companion object {
-        const val TAG = "DailyReminder"
+        private const val WORK_TAG = "DailyReminder"
 
         fun scheduleEverydayNotificationJob(appContext: Context, hour: Int, minute: Int) {
             val calendar = Calendar.getInstance()
@@ -30,23 +30,23 @@ class NotificationWorker(private val appContext: Context, workerParameters: Work
 
             val diff = (calendar.timeInMillis - nowMillis) / 1000
 
-            WorkManager.getInstance(appContext).cancelAllWorkByTag(NotificationWorker.TAG)
+            cancelEverydayNotificationJob(appContext)
 
             val notificationWork =
                 PeriodicWorkRequest.Builder(NotificationWorker::class.java, 1, TimeUnit.DAYS)
-                    .setInitialDelay(diff, TimeUnit.SECONDS)
-                    .addTag(NotificationWorker.TAG)
+                    .setInitialDelay(3, TimeUnit.SECONDS)
+                    .addTag(WORK_TAG)
                     .build()
 
             WorkManager.getInstance(appContext)
                 .enqueueUniquePeriodicWork(
-                    NotificationWorker.TAG,
+                    WORK_TAG,
                     ExistingPeriodicWorkPolicy.UPDATE, notificationWork
                 )
         }
 
         fun cancelEverydayNotificationJob(appContext: Context) {
-            WorkManager.getInstance(appContext).cancelAllWorkByTag(NotificationWorker.TAG)
+            WorkManager.getInstance(appContext).cancelAllWorkByTag(WORK_TAG)
         }
     }
 

@@ -3,7 +3,7 @@ package jt.projects.perfectday.di
 import android.content.Context
 import jt.projects.perfectday.App
 import jt.projects.perfectday.core.PhoneBookProvider
-import jt.projects.perfectday.push.NotificationProvider
+import jt.projects.perfectday.core.notifications.NotificationProvider
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.SimpleSharedPref
@@ -23,11 +23,7 @@ val appModule = module {
     // PUSH-NOTIFICATIONS
     single {
         NotificationProvider(
-            appContext = get(),
-            settingsPreferences = get(),
-            birthdayFromPhoneInteractor = get(),
-            getFriendsFromVkUseCase = get(),
-            scheduledEventInteractor = get()
+            appContext = get()
         )
     }
 

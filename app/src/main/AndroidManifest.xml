@@ -32,7 +32,7 @@
 
         <!-- > Сервис FOR FIREBASE < -->
         <service
-            android:name=".push.PdFirebaseMessagingService"
+            android:name=".core.notifications.PdFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

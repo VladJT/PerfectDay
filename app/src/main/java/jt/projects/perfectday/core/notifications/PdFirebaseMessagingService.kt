@@ -1,4 +1,4 @@
-package jt.projects.perfectday.push
+package jt.projects.perfectday.core.notifications
 
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
