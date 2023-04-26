@@ -24,6 +24,13 @@
         <item name="text_color_checked_button">@color/white</item>
     </style>
 
+    <style name="PerfectDay.MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/background</item>
+        <item name="colorOnSurface">@color/primary_text_color</item>
+    </style>
+
 
     <!-- FOR ANDROID < 11 -->
     <style name="Theme.PerfectDaySplashScreenTheme" parent="Theme.PerfectDay">
