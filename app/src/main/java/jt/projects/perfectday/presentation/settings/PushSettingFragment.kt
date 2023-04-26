@@ -9,15 +9,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.extensions.showButtonBackHome
+import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentPushSettingBinding
 import jt.projects.perfectday.push.PushManager
-import jt.projects.utils.*
+import jt.projects.utils.DEBUG
+import jt.projects.utils.LOG_TAG
+import jt.projects.utils.PUSH_PARAM
+import jt.projects.utils.PUSH_START
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.Koin
 
 class PushSettingFragment : Fragment() {
+
+    companion object {
+        fun newInstance(): PushSettingFragment = PushSettingFragment()
+    }
 
     private var _binding: FragmentPushSettingBinding? = null
     private val binding get() = _binding!!
@@ -32,6 +40,8 @@ class PushSettingFragment : Fragment() {
         observeVisibleDataPicker()
         observeHourData()
         observeMinuteData()
+        showFab(false)
+        showButtonBackHome(true)
     }
 
     private fun initDataPicker() {
@@ -54,14 +64,6 @@ class PushSettingFragment : Fragment() {
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    companion object {
-        fun newInstance(): PushSettingFragment = PushSettingFragment()
-    }
 
     private fun setVisibleDataPicker(isOnOffPush: Boolean) {
         binding.timepickerPush.visibility = if (isOnOffPush) {
@@ -126,22 +128,35 @@ class PushSettingFragment : Fragment() {
         }
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        startWorkManager()
 
+    private fun checkWorkManager() {
+        try {
+            requireActivity().getSharedPreferences(PUSH_PARAM, Context.MODE_PRIVATE).let {
+                val startPush = it.getBoolean(PUSH_START, false)
+                if (startPush) {
+                    pushM.startWork()
+                } else {
+                    pushM.stopWork()
+                }
+            }
+        } catch (e: Exception) {
+            Log.d(LOG_TAG, e.message.toString())
+        }
     }
 
-    private fun startWorkManager() {
-//        val pushM:PushManager = Koin().get()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        showFab(false)
+        showButtonBackHome(true)
+    }
 
-//        requireActivity().getSharedPreferences(PUSH_PARAM, Context.MODE_PRIVATE).let {
-//            val startPush = it.getBoolean(PUSH_START, false)
-//            if (startPush) {
-//                pushM.startWork()
-//            } else {
-//                pushM.stopWork()
-//            }
-//        }
+    override fun onDetach() {
+        super.onDetach()
+        checkWorkManager()
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

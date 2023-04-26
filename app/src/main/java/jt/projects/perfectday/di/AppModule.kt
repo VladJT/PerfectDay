@@ -37,7 +37,7 @@ val appModule = module {
     // работа с телефонной книгой
     single<PhoneBookProvider> { PhoneBookProvider(context = get()) }
 
-    single<PushManagerRepo>{ PushManagerImpl() }
-    single{ PushManager(repoManager = get()) }
+    single<PushManagerRepo> { PushManagerImpl(settingsPreferences = get()) }
+    single<PushManager> { PushManager(context = get(), repoManager = get()) }
 
 }
