@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -17,6 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.translator.GoogleTranslator
+import jt.projects.perfectday.core.translator.TranslatorCallback
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
 import jt.projects.perfectday.presentation.intro.IntroActivity
@@ -25,12 +28,15 @@ import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
 import jt.projects.utils.IS_FIRST_TIME_START_APP_KEY
+import jt.projects.utils.LOG_TAG
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
 import jt.projects.utils.extensions.showSnackbar
+import jt.projects.utils.extensions.showToast
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.toStdFormatString
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import java.time.LocalDate
@@ -43,9 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-
     private val settingsPreferences by inject<SimpleSettingsPreferences>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // убираем splash screen для Android 10 и ниже
@@ -66,8 +70,26 @@ class MainActivity : AppCompatActivity() {
         initFab()
         checkPermission()
         initButtonBackHome()
+        initGoogleTranslator()
         //    subscribeToNetworkStatusChange()
     }
+
+    private fun initGoogleTranslator() {
+        try {
+            get<GoogleTranslator>().downloadModelIfNeeded(object : TranslatorCallback {
+                override fun onSuccess(result: String?) {
+                    showToast(getString(R.string.translation_loading))
+                }
+
+                override fun onFailure(result: String?) {
+                    showToast(getString(R.string.translation_error_loading))
+                }
+            })
+        } catch (e: Exception) {
+            Log.d(LOG_TAG, e.message.toString())
+        }
+    }
+
 
     private fun startIntoActivity() {
         startActivity(Intent(this, IntroActivity::class.java))
