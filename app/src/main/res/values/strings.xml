@@ -51,4 +51,8 @@
     <string name="head_text_button_switch_on">Выключить</string>
     <string name="head_text_button_switch_off">Включить</string>
 
+
+    <string name="translation_loading">Подождите...загружается языковая модель</string>
+    <string name="translation_error_loading">Ошибка загрузки языковой модели</string>
+
 </resources>

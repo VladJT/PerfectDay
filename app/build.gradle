@@ -86,7 +86,9 @@ dependencies {
     // firebase in-app messaging
     implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.3.1")
 
-
+    // ML-KIT translation
+    implementation("com.google.mlkit:translate:17.0.1")
+    
     // VK
     implementation("com.vk:android-sdk-core:3.5.1")
     implementation("com.vk:android-sdk-api:3.5.1")
