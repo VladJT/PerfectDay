@@ -1,6 +1,5 @@
 package jt.projects.perfectday.presentation.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,15 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.extensions.showButtonBackHome
-import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentPushSettingBinding
 import jt.projects.perfectday.push.PushManager
 import jt.projects.utils.DEBUG
 import jt.projects.utils.LOG_TAG
-import jt.projects.utils.PUSH_NOTIFICATION_STARTHOUR
-import jt.projects.utils.PUSH_PARAM
-import jt.projects.utils.PUSH_START
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,14 +24,22 @@ class PushSettingFragment : Fragment() {
 
     private var _binding: FragmentPushSettingBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PushSettingViewModel by viewModel()
 
-    private val pushM by inject<PushManager>()
+    private val viewModel: PushSettingViewModel by viewModel()
+    private val pushManager by inject<PushManager>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentPushSettingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initSwitch()
-
         observeVisibleDataPicker()
         observeHourData()
         observeMinuteData()
@@ -55,16 +57,6 @@ class PushSettingFragment : Fragment() {
             }
         }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPushSettingBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
 
     private fun setVisibleDataPicker(isOnOffPush: Boolean) {
         binding.timepickerPush.visibility = if (isOnOffPush) {
@@ -132,14 +124,13 @@ class PushSettingFragment : Fragment() {
 
     private fun checkWorkManager() {
         try {
-            requireActivity().getSharedPreferences(PUSH_PARAM, Context.MODE_PRIVATE).let {
-                val startPush = it.getBoolean(PUSH_START, false)
-                if (startPush) {
-                    pushM.startWork()
-                } else {
-                    pushM.stopWork()
-                }
+            val startPush = viewModel.isOnPushService.value
+            if (startPush) {
+                pushManager.startWork()
+            } else {
+                pushManager.stopWork()
             }
+
         } catch (e: Exception) {
             Log.d(LOG_TAG, e.message.toString())
         }
