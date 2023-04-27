@@ -1,8 +1,15 @@
 package jt.projects.perfectday.core.extensions
 
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import jt.projects.model.DataModel
+import jt.projects.perfectday.core.translator.GoogleTranslator
 import jt.projects.perfectday.presentation.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import org.koin.java.KoinJavaComponent.getKoin
 
 
 fun Fragment.showProgress(progress: Int, status: String? = null) {
@@ -19,4 +26,20 @@ fun Fragment.showButtonBackHome(isVisible: Boolean) {
 
 fun Fragment.editScheduledEvent(id: Int) {
     (requireActivity() as? MainActivity)?.showScheduledEvent(id)
+}
+
+fun TextView.translateText() {
+    val translator = getKoin().get<GoogleTranslator>()
+
+    val text = this.text.toString()
+
+    CoroutineScope(Dispatchers.Main).launch {
+        translator.isTranslationModelOk.onEach { isLanguageDownloaded ->
+            if (isLanguageDownloaded) {
+                translator.translate(text).onEach {
+                    this@translateText.text = it
+                }.collect()
+            }
+        }.collect()
+    }
 }

@@ -24,7 +24,7 @@ sealed class DataModel {
 
     data class SimpleNotice(
         val name: String,
-        val description: String
+        var description: String
     ) : DataModel()
 
     data class Holiday(
