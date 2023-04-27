@@ -84,7 +84,7 @@ val viewModelModule = module {
     }
 
     viewModel{
-        PushSettingViewModel(get<App>().getSharedPreferences(PUSH_PARAM, Context.MODE_PRIVATE))
+        PushSettingViewModel(sharedPref = get())
     }
 
 }

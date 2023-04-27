@@ -7,11 +7,12 @@ import jt.projects.utils.LOG_TAG
 import jt.projects.utils.PUSH_NOTIFICATION_STARTMINUTE
 import jt.projects.utils.PUSH_NOTIFICATION_STARTHOUR
 import jt.projects.utils.PUSH_START
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.util.Calendar
 
-class PushSettingViewModel(private val sharedPref: SharedPreferences) : ViewModel() {
+class PushSettingViewModel(private val sharedPref: SimpleSettingsPreferences) : ViewModel() {
 
     private val _hourTime = MutableStateFlow(0)
     val hourTime = _hourTime.asStateFlow()
@@ -26,7 +27,7 @@ class PushSettingViewModel(private val sharedPref: SharedPreferences) : ViewMode
     }
     private fun checkPushServise() {
 
-        val onPushService = sharedPref.getBoolean(PUSH_START,false)
+        val onPushService = sharedPref.getSettings(PUSH_START)?.toBooleanStrictOrNull()?:false
         _isOnPushService.tryEmit(onPushService)
 
         val calendar = Calendar.getInstance()
@@ -34,27 +35,29 @@ class PushSettingViewModel(private val sharedPref: SharedPreferences) : ViewMode
         var minuteCurr = calendar.get(Calendar.MINUTE)
 
         if(onPushService){
-            hourCurr = sharedPref.getInt(PUSH_NOTIFICATION_STARTHOUR,0)
-            minuteCurr = sharedPref.getInt(PUSH_NOTIFICATION_STARTMINUTE,0)
+            hourCurr = sharedPref.getSettings(PUSH_NOTIFICATION_STARTHOUR)?.toIntOrNull()?:0
+            minuteCurr = sharedPref.getSettings(PUSH_NOTIFICATION_STARTMINUTE)?.toIntOrNull()?:0
         }
+        sharedPref.saveSettings(PUSH_NOTIFICATION_STARTHOUR,hourCurr.toString())
+        sharedPref.saveSettings(PUSH_NOTIFICATION_STARTMINUTE, minuteCurr.toString())
 
         _hourTime.tryEmit(hourCurr)
         _minuteTime.tryEmit(minuteCurr)
     }
 
     fun onClickButtonSwitchOnOffPush(isChecked:Boolean){
-        sharedPref.edit().putBoolean(PUSH_START,isChecked).apply()
+        sharedPref.saveSettings(PUSH_START,isChecked.toString())
        _isOnPushService.tryEmit(isChecked)
     }
 
     fun onSelectHourData(hour: Int) {
-        sharedPref.edit().putInt(PUSH_NOTIFICATION_STARTHOUR,hour).apply()
+        sharedPref.saveSettings(PUSH_NOTIFICATION_STARTHOUR,hour.toString())
         _hourTime.tryEmit(hour)
     }
 
     fun onSelectMinuteData(minute:Int){
         Log.d(LOG_TAG, "onSelectMinuteData: $minute")
-       sharedPref.edit().putInt(PUSH_NOTIFICATION_STARTMINUTE, minute).apply()
+       sharedPref.saveSettings(PUSH_NOTIFICATION_STARTMINUTE, minute.toString())
         _minuteTime.tryEmit(minute)
     }
 }
