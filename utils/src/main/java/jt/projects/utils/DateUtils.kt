@@ -22,11 +22,13 @@ fun getAlertStringHowManyDaysBefore(birthDate: LocalDate): String {
     )
     var daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), endDate)
 
-    if (daysBeforeEventCount < 0) endDate = LocalDate.of(
-        LocalDate.now().year.plus(1),
-        birthDate.month,
-        birthDate.dayOfMonth
-    )
+//    if (daysBeforeEventCount < 0) endDate = LocalDate.of(
+//        LocalDate.now().year.plus(1),
+//        birthDate.month,
+//        birthDate.dayOfMonth
+//    )
+    if (daysBeforeEventCount < 0) return "Событие прошло"
+
     daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), endDate)
 
     return when (daysBeforeEventCount) {
