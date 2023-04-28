@@ -46,9 +46,9 @@ class PushManagerImpl(private val settingsPreferences: SimpleSettingsPreferences
 
     private fun getDelayTime(): Long {
         var startHours =
-            settingsPreferences.getSettings(PUSH_NOTIFICATION_STARTHOUR) ?: "0"
+            settingsPreferences.getIntOrZero(PUSH_NOTIFICATION_STARTHOUR).toString()
         var startMinute =
-            settingsPreferences.getSettings(PUSH_NOTIFICATION_STARTMINUTE) ?: "0"
+            settingsPreferences.getIntOrZero(PUSH_NOTIFICATION_STARTMINUTE).toString()
 
         if (startHours == "0" && startMinute == "0") {
             return 0
