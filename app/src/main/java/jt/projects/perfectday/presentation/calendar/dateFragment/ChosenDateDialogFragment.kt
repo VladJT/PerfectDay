@@ -12,28 +12,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.model.DataModel
+import jt.projects.perfectday.R
 import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.BaseViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
-import jt.projects.utils.VM_CALENDAR
-import jt.projects.utils.VM_CHOSEN_DATE
+import jt.projects.perfectday.presentation.calendar.DateIndicator
 import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.qualifier.named
 import ru.cleverpumpkin.calendar.CalendarDate
 import java.time.LocalDate
 
-class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
+class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: BaseViewModel) :
+    DialogFragment() {
+
+    private var viewModel = calendarViewModel
 
     private val chosenDate: LocalDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
 
     private var _binding: ChosenDateDialogFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: BaseViewModel by viewModel(named(VM_CHOSEN_DATE))
 
     private val chosenDateAdapter: BaseAdapter by lazy {
         BaseAdapter(
@@ -79,10 +78,49 @@ class ChosenDateDialogFragment(date: CalendarDate) : DialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.resultRecycler.collect { data ->
-                    chosenDateAdapter.setData(data)
+                    val chosenDateData = getDataByDate(data)
+                    chosenDateAdapter.setData(chosenDateData)
                 }
             }
         }
+    }
+
+    private fun getDataByDate(data: List<DataModel>): List<DataModel> {
+        val returnList = mutableListOf<DataModel>()
+        for (index in data.indices) {
+            when (data[index]) {
+
+                is DataModel.BirthdayFromPhone -> {
+                    val birthdayData = data[index] as DataModel.BirthdayFromPhone
+                    if (birthdayData.birthDate.monthValue == chosenDate.monthValue &&
+                        birthdayData.birthDate.dayOfMonth == chosenDate.dayOfMonth
+                    ) {
+                        returnList.add(data[index])
+                    }
+                }
+
+                is DataModel.BirthdayFromVk -> {
+                    val birthdayData = data[index] as DataModel.BirthdayFromPhone
+                    if (birthdayData.birthDate.monthValue == chosenDate.monthValue &&
+                        birthdayData.birthDate.dayOfMonth == chosenDate.dayOfMonth
+                    ) {
+                        returnList.add(data[index])
+                    }
+                }
+
+                is DataModel.ScheduledEvent -> {
+                    val eventData = data[index] as DataModel.ScheduledEvent
+                    if (eventData.date.monthValue == chosenDate.monthValue &&
+                        eventData.date.dayOfMonth == chosenDate.dayOfMonth
+                    ) {
+                        returnList.add(data[index])
+                    }
+                }
+
+                else -> {}
+            }
+        }
+        return returnList
     }
 
     private fun initRecyclerView() {

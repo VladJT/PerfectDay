@@ -53,6 +53,7 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCalendarViewModel()
         observeLoadingVisible()
+        setSwipeToRefreshMove()
     }
 
     private fun initCalendarViewModel() {
@@ -106,7 +107,8 @@ class CalendarFragment : Fragment() {
         indicatorsList.forEach {
             if (
                 it.date.dayOfMonth == date.dayOfMonth &&
-                it.date.month == date.month
+                it.date.month == date.month &&
+                it.date.year == date.year
             ) {
                 returnBool = true
             }
@@ -122,13 +124,12 @@ class CalendarFragment : Fragment() {
     }
 
     private fun showChosenDateDialogFragmentDialog(date: CalendarDate) {
-        val chosenDateDialogFragment = ChosenDateDialogFragment(date)
+        val chosenDateDialogFragment = ChosenDateDialogFragment(date, viewModel)
         chosenDateDialogFragment.show(
             requireActivity().supportFragmentManager,
             "CHOSEN_DATE_DIALOG_FRAGMENT"
         )
     }
-
 
     private fun initBirthdayList(data: List<DataModel>) {
         val calendarSetter = Calendar.getInstance()
@@ -211,5 +212,12 @@ class CalendarFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    fun setSwipeToRefreshMove() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.onSwipeToRefreshMove()
+            binding.swipeToRefresh.isRefreshing = false
+        }
     }
 }
