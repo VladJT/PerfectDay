@@ -65,20 +65,21 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        subscribeToNetworkStatusChange()
         initBottomNavView()
         setOnClickSettings()
         initFab()
         checkPermission()
         initButtonBackHome()
         initGoogleTranslator()
-        //    subscribeToNetworkStatusChange()
     }
 
     private fun initGoogleTranslator() {
         try {
             get<GoogleTranslator>().downloadModelIfNeeded(object : TranslatorCallback {
                 override fun onSuccess(result: String?) {
-                //    showToast(getString(R.string.translation_loading))
+                    //    showToast(getString(R.string.translation_loading))
                 }
 
                 override fun onFailure(result: String?) {
@@ -162,7 +163,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeToNetworkStatusChange() {
         getKoin().get<OnlineStatusLiveData>().observe(this@MainActivity) { isOnline ->
-            this@MainActivity.showSnackbar("Internet: $isOnline")
+            if(!isOnline){
+                showSnackbar(getString(R.string.no_internet))
+            }
         }
     }
 

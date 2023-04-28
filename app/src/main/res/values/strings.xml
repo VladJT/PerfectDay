@@ -54,5 +54,6 @@
 
     <string name="translation_loading">Подождите...загружается языковая модель</string>
     <string name="translation_error_loading">Ошибка загрузки языковой модели</string>
+    <string name="no_internet">Нет интернета. Проверьте подключение.</string>
 
 </resources>
