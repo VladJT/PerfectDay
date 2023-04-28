@@ -98,6 +98,7 @@ val viewModelModule = module {
         )
     }
 
+
     viewModel {
         PushSettingViewModel(sharedPref = get())
     }

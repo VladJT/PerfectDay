@@ -49,6 +49,8 @@ class PushService : KoinComponent {
         const val TAG_PARAM = "TAG_WORK_PUSH"
 
         val uuidWork = UUID.randomUUID()
+       // val uuidWork = UUID.fromString("b23988e7-719b-4858-a7c0-f5bf41848779")
+
         fun newInstance(): PushService {
             return PushService()
 

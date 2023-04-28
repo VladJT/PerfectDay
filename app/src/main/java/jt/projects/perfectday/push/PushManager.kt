@@ -15,4 +15,9 @@ class PushManager(
         repoManager.stopPushManager(context)
     }
 
+    fun showTimeDelay(){
+        repoManager.timeStartPushManager()
+    }
+
+
 }
