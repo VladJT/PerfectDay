@@ -7,4 +7,6 @@ interface PushManagerRepo {
     fun startPushManager(context: Context)
     fun stopPushManager(context: Context)
 
+    fun timeStartPushManager()
+
 }

@@ -32,6 +32,7 @@ class PushSettingFragment : Fragment() {
     private val viewModel: PushSettingViewModel by viewModel()
 
     private val pushM by inject<PushManager>()
+    private var statusPush = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,6 +52,7 @@ class PushSettingFragment : Fragment() {
             if (DEBUG) {
                 Log.d(LOG_TAG, "hour DataPicker: $hourOfDay")
                 Log.d(LOG_TAG, "minute DataPicker: $minute")
+
             }
         }
     }
@@ -110,6 +112,7 @@ class PushSettingFragment : Fragment() {
 
     private fun setSwitchChecked(chekedSwitch: Boolean) {
         binding.switchOnpush.isChecked = chekedSwitch
+        statusPush = chekedSwitch
     }
 
     private fun observeHourData() {
@@ -131,14 +134,13 @@ class PushSettingFragment : Fragment() {
 
     private fun checkWorkManager() {
         try {
-            requireActivity().getSharedPreferences(PUSH_PARAM, Context.MODE_PRIVATE).let {
-                val startPush = it.getBoolean(PUSH_START, false)
-                if (startPush) {
+
+                if (statusPush) {
+                    pushM.stopWork()
                     pushM.startWork()
                 } else {
                     pushM.stopWork()
                 }
-            }
         } catch (e: Exception) {
             Log.d(LOG_TAG, e.message.toString())
         }
