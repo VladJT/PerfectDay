@@ -4,25 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.cleverpumpkin.calendar.CalendarView
-        android:id="@+id/calendar_view"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:calendar_year_selection_background="?attr/background_item"
-        app:calendar_year_selection_arrows_color="?attr/item_menu_color"
-        app:calendar_year_selection_text_color="?attr/item_menu_color"
-        app:calendar_day_bar_background="?attr/background_item"
-        app:calendar_day_bar_text_color="?attr/item_menu_color"
-        app:calendar_day_bar_weekend_text_color="@color/red"
-        app:calendar_date_text_color="@color/grey_text_color"
-        app:calendar_month_text_color="?attr/text_color_primary_to_primary_app"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <FrameLayout
-        android:id="@+id/loading_frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <include layout="@layout/loading_layout" />
-    </FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/refresh_bar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/baseline_sync_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/item_menu_color" />
+
+        <ru.cleverpumpkin.calendar.CalendarView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:calendar_date_text_color="@color/grey_text_color"
+            app:calendar_day_bar_background="?attr/background_item"
+            app:calendar_day_bar_text_color="?attr/item_menu_color"
+            app:calendar_day_bar_weekend_text_color="?attr/text_color_primary_to_primary_app"
+            app:calendar_event_indicators_area="?attr/background_item"
+            app:calendar_month_text_color="?attr/text_color_primary_to_primary_app"
+            app:calendar_year_selection_arrows_color="?attr/item_menu_color"
+            app:calendar_year_selection_background="?attr/background_item"
+            app:calendar_year_selection_text_color="?attr/item_menu_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/refresh_bar" />
+
+        <FrameLayout
+            android:id="@+id/loading_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <include layout="@layout/loading_layout" />
+        </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

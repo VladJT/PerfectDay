@@ -53,6 +53,7 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCalendarViewModel()
         observeLoadingVisible()
+        setSwipeToRefreshMove()
     }
 
     private fun initCalendarViewModel() {
@@ -211,5 +212,12 @@ class CalendarFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    fun setSwipeToRefreshMove() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.onSwipeToRefreshMove()
+            binding.swipeToRefresh.isRefreshing = false
+        }
     }
 }
