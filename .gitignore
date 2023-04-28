@@ -16,3 +16,4 @@ buildSrc/build
 local.properties
 .idea
 /.idea/
+/.idea/misc.xml
