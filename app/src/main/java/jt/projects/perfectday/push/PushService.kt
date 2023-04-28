@@ -101,7 +101,7 @@ class PushService : KoinComponent {
 
     }
 
-    private fun sendPushOne(listPush: List<DataPush>, channel: String) {
+    fun sendPushOne(listPush: List<DataPush>, channel: String) {
         val quantityBd = listPush.count { it.typePush == CHANNEL_BIRTHDAY }
         val event = listPush.count { it.typePush == CHANNEL_EVENT }
         val result = "Дни рождения: ${if(quantityBd==0) "нет" else quantityBd.toString()} \nЗапланированые события: ${if(event==0) "нет" else quantityBd.toString()}"
@@ -136,7 +136,7 @@ class PushService : KoinComponent {
         )
     }
 
-    private fun sendPush(listPush: List<DataPush>, channel: String) {
+    fun sendPush(listPush: List<DataPush>, channel: String) {
 
         if (listPush.isNotEmpty()) {
 

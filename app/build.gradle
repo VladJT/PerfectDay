@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    id("com.google.firebase.firebase-perf")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -76,13 +78,25 @@ dependencies {
     testImplementation(Koin.test)
     testImplementation(Koin.junit4Test)
 
+
+    // firebase CM
+    implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
+    // firebase perfomance monitoring
+    implementation("com.google.firebase:firebase-perf-ktx:20.3.1")
+    // firebase in-app messaging
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.3.1")
+
+    // ML-KIT translation
+    implementation("com.google.mlkit:translate:17.0.1")
+    
+    // VK
     implementation("com.vk:android-sdk-core:3.5.1")
     implementation("com.vk:android-sdk-api:3.5.1")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // splash screen
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     // circleindicator (https://github.com/ongakuer/CircleIndicator)
     implementation("me.relex:circleindicator:2.1.6")
@@ -107,4 +121,5 @@ dependencies {
     //WorkManager
     implementation(WorkManager.workmanager)
     implementation(WorkManager.livecycle)
+    implementation(WorkManager.ktx)
 }

@@ -3,6 +3,8 @@ package jt.projects.perfectday.di
 import android.content.Context
 import jt.projects.perfectday.App
 import jt.projects.perfectday.core.PhoneBookProvider
+import jt.projects.perfectday.core.notifications.NotificationProvider
+import jt.projects.perfectday.core.translator.GoogleTranslator
 import jt.projects.perfectday.push.PushManager
 import jt.projects.perfectday.push.PushManagerImpl
 import jt.projects.perfectday.push.PushManagerRepo
@@ -21,6 +23,16 @@ val appModule = module {
 
     // статус сети
     single { OnlineStatusLiveData(context = get()) }
+
+    // переводчик
+    single { GoogleTranslator() }
+
+    // PUSH-NOTIFICATIONS
+    single {
+        NotificationProvider(
+            appContext = get()
+        )
+    }
 
     // загрузчик изображений
     single { CoilImageLoader() }

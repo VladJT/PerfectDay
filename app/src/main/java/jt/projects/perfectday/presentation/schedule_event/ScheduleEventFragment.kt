@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
+import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.showButtonBackHome
 import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
@@ -85,6 +86,7 @@ class ScheduleEventFragment : Fragment() {
         binding.btnChooseDate.setOnClickListener {
             MaterialDatePicker.Builder
                 .datePicker()
+                .setTheme(R.style.PerfectDay_MaterialCalendarTheme)
                 .build()
                 .apply {
                     addOnPositiveButtonClickListener {

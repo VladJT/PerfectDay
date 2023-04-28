@@ -174,9 +174,9 @@ class SettingsFragment : Fragment() {
     }
 
     private fun saveSettings() {
-        settingsPreferences.saveSettings(
+        settingsPreferences.saveInt(
             REMINDER_PERIOD_KEY,
-            binding.daysSlider.value.toInt().toString()
+            binding.daysSlider.value.toInt()
         )
     }
 

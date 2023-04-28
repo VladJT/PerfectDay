@@ -50,7 +50,7 @@ class SettingsViewModel(
 
     private fun checkAuthorizedUser() {
         _isLoadingProfile.tryEmit(false)
-        val token = settingsPref.getSettings(VK_AUTH_TOKEN)
+        val token = settingsPref.getStringOrEmptyString(VK_AUTH_TOKEN)
         val isAuthorizedUser = !(token == null || token.isEmpty())
 
         _isAuthorized.tryEmit(isAuthorizedUser)
@@ -76,7 +76,7 @@ class SettingsViewModel(
     fun checkVkResult(vkResult: VKAuthenticationResult) {
         when (vkResult) {
             is VKAuthenticationResult.Success -> {
-                settingsPref.saveSettings(VK_AUTH_TOKEN, vkResult.token.accessToken)
+                settingsPref.saveString(VK_AUTH_TOKEN, vkResult.token.accessToken)
                 checkAuthorizedUser()
             }
 
@@ -87,7 +87,7 @@ class SettingsViewModel(
 
     fun onClickButtonLogOut() {
         VK.logout()
-        settingsPref.saveSettings(VK_AUTH_TOKEN, emptyString())
+        settingsPref.saveString(VK_AUTH_TOKEN, emptyString())
         _isAuthorized.tryEmit(false)
     }
 

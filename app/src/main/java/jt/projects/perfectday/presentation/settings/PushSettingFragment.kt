@@ -1,6 +1,5 @@
 package jt.projects.perfectday.presentation.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.extensions.showButtonBackHome
-import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentPushSettingBinding
 import jt.projects.perfectday.push.PushManager
 import jt.projects.utils.DEBUG
 import jt.projects.utils.LOG_TAG
-import jt.projects.utils.PUSH_PARAM
-import jt.projects.utils.PUSH_START
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,33 +24,9 @@ class PushSettingFragment : Fragment() {
 
     private var _binding: FragmentPushSettingBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: PushSettingViewModel by viewModel()
-
-    private val pushM by inject<PushManager>()
-    private var statusPush = false
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initSwitch()
-        initDataPicker()
-        observeVisibleDataPicker()
-        observeHourData()
-        observeMinuteData()
-        showFab(false)
-        showButtonBackHome(true)
-    }
-
-    private fun initDataPicker() {
-        binding.timepickerPush.setOnTimeChangedListener { _, hourOfDay, minute ->
-            viewModel.onSelectHourData(hourOfDay)
-            viewModel.onSelectMinuteData(minute)
-            if (DEBUG) {
-                Log.d(LOG_TAG, "hour DataPicker: $hourOfDay")
-                Log.d(LOG_TAG, "minute DataPicker: $minute")
-
-            }
-        }
-    }
+    private val pushManager by inject<PushManager>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,6 +37,26 @@ class PushSettingFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initSwitch()
+        observeVisibleDataPicker()
+        observeHourData()
+        observeMinuteData()
+
+        initDataPicker()
+    }
+
+    private fun initDataPicker() {
+        binding.timepickerPush.setOnTimeChangedListener { _, hourOfDay, minute ->
+            viewModel.onSelectHourData(hourOfDay)
+            viewModel.onSelectMinuteData(minute)
+            if (DEBUG) {
+                Log.d(LOG_TAG, "hour DataPicker: $hourOfDay")
+                Log.d(LOG_TAG, "minute DataPicker: $minute")
+            }
+        }
+    }
 
     private fun setVisibleDataPicker(isOnOffPush: Boolean) {
         binding.timepickerPush.visibility = if (isOnOffPush) {
@@ -110,9 +101,8 @@ class PushSettingFragment : Fragment() {
 
     }
 
-    private fun setSwitchChecked(chekedSwitch: Boolean) {
-        binding.switchOnpush.isChecked = chekedSwitch
-        statusPush = chekedSwitch
+    private fun setSwitchChecked(checkedSwitch: Boolean) {
+        binding.switchOnpush.isChecked = checkedSwitch
     }
 
     private fun observeHourData() {
@@ -134,22 +124,16 @@ class PushSettingFragment : Fragment() {
 
     private fun checkWorkManager() {
         try {
+            val startPush = viewModel.isOnPushService.value
+            if (startPush) {
+                pushManager.startWork()
+            } else {
+                pushManager.stopWork()
+            }
 
-                if (statusPush) {
-                    pushM.stopWork()
-                    pushM.startWork()
-                } else {
-                    pushM.stopWork()
-                }
         } catch (e: Exception) {
             Log.d(LOG_TAG, e.message.toString())
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        showFab(false)
-        showButtonBackHome(true)
     }
 
     override fun onDetach() {

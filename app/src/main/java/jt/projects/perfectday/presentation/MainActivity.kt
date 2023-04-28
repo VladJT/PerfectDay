@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -16,8 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.LinearProgressIndicator
-import jt.projects.model.DataModel
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.translator.GoogleTranslator
+import jt.projects.perfectday.core.translator.TranslatorCallback
 import jt.projects.perfectday.databinding.ActivityMainBinding
 import jt.projects.perfectday.presentation.calendar.CalendarFragment
 import jt.projects.perfectday.presentation.intro.IntroActivity
@@ -26,15 +28,19 @@ import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
 import jt.projects.utils.IS_FIRST_TIME_START_APP_KEY
+import jt.projects.utils.LOG_TAG
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
 import jt.projects.utils.extensions.showSnackbar
+import jt.projects.utils.extensions.showToast
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.toStdFormatString
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import java.time.LocalDate
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -44,7 +50,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val settingsPreferences by inject<SimpleSettingsPreferences>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // убираем splash screen для Android 10 и ниже
@@ -60,22 +65,41 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        subscribeToNetworkStatusChange()
         initBottomNavView()
         setOnClickSettings()
         initFab()
         checkPermission()
         initButtonBackHome()
-        //    subscribeToNetworkStatusChange()
+        initGoogleTranslator()
     }
+
+    private fun initGoogleTranslator() {
+        try {
+            get<GoogleTranslator>().downloadModelIfNeeded(object : TranslatorCallback {
+                override fun onSuccess(result: String?) {
+                    //    showToast(getString(R.string.translation_loading))
+                }
+
+                override fun onFailure(result: String?) {
+                    showToast(getString(R.string.translation_error_loading))
+                }
+            })
+        } catch (e: Exception) {
+            Log.d(LOG_TAG, e.message.toString())
+        }
+    }
+
 
     private fun startIntoActivity() {
         startActivity(Intent(this, IntroActivity::class.java))
     }
 
     private fun isFirstTimeStartApp(): Boolean {
-        val result = settingsPreferences.getSettings(IS_FIRST_TIME_START_APP_KEY)
-        return if (!result.equals("false")) {
-            settingsPreferences.saveSettings(IS_FIRST_TIME_START_APP_KEY, "false")
+        val isFirstStart = settingsPreferences.getBooleanOrTrue(IS_FIRST_TIME_START_APP_KEY)
+        return if (isFirstStart) {
+            settingsPreferences.saveBoolean(IS_FIRST_TIME_START_APP_KEY, false)
             true
         } else {
             false
@@ -99,8 +123,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showScheduledEvent(id: Int) {
         navigateToFragment(
-            ScheduleEventFragment.newInstance(id),
-            isAddToBackStack = true
+            ScheduleEventFragment.newInstance(id), isAddToBackStack = true
         )
     }
 
@@ -115,8 +138,7 @@ class MainActivity : AppCompatActivity() {
     fun showButtonBackHome(isVisible: Boolean) {
         if (isVisible) {
             binding.layoutToolbar.btnBack.visibility = View.VISIBLE
-            binding.layoutToolbar.btnBack.animate()
-                .alpha(1f)
+            binding.layoutToolbar.btnBack.animate().alpha(1f)
                 .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
         } else {
             binding.layoutToolbar.btnBack.visibility = View.GONE
@@ -133,19 +155,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnClickSettings() {
         binding.layoutToolbar.btnSettings.setOnClickListener {
-            it.animate()
-                .rotationBy(180f)
-                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
+            it.animate().rotationBy(180f).setInterpolator(LinearInterpolator()).duration =
+                ANIMATION_DURATION
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
         }
     }
 
     private fun subscribeToNetworkStatusChange() {
-        getKoin()
-            .get<OnlineStatusLiveData>()
-            .observe(this@MainActivity) { isOnline ->
-                this@MainActivity.showSnackbar("Internet: $isOnline")
+        getKoin().get<OnlineStatusLiveData>().observe(this@MainActivity) { isOnline ->
+            if(!isOnline){
+                showSnackbar(getString(R.string.no_internet))
             }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -195,19 +216,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkPermission() {
-        val permResult =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+        val permResult = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
         if (permResult == PackageManager.PERMISSION_GRANTED) {
             permissionGranted = true
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
-            AlertDialog.Builder(this)
-                .setTitle("Доступ к контактам")
+            AlertDialog.Builder(this).setTitle("Доступ к контактам")
                 .setMessage("Запрос на доступ к контактам. В случае отказа, доступ можно будет предоставить только в настройках приложения.")
                 .setPositiveButton("Открыть окно предоставления доступа") { _, _ ->
                     permissionRequest(Manifest.permission.READ_CONTACTS)
-                }
-                .setNegativeButton("Отказать в запросе") { dialog, _ -> dialog.dismiss() }
-                .create()
+                }.setNegativeButton("Отказать в запросе") { dialog, _ -> dialog.dismiss() }.create()
                 .show()
         } else {
             permissionRequest(Manifest.permission.READ_CONTACTS)

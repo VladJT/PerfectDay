@@ -39,6 +39,7 @@ class PushManagerImpl(private val settingsPreferences: SimpleSettingsPreferences
         WorkManager.getInstance(context).getWorkInfosByTag(PushService.WORK_ID).cancel(true)
     }
 
+
     override fun timeStartPushManager() {
         getDelayTime()
     }

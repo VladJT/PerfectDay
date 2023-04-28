@@ -58,10 +58,15 @@ const val NAME_LOCAL = "Local"
 const val NETWORK_SERVICE = "NETWORK_SERVICE"
 const val DATE_STATEGY_ALLDATES = "AllDatesStrategy"
 const val DATE_STATEGY_TOMORROW = "TomorrowDateStrategy"
+const val DATE_STATEGY_TODAY = "TodayDateStrategy"
 const val DATE_STATEGY_CHOSEN_CALENDER_DATE = "ChoseCalendarDateStrategy"
 const val DATE_STATEGY_PERIOD = "PeriodDateStrategy"
 
-
+const val VM_REMINDER_TOMORROW = "ReminderTomorrowViewModel"
+const val VM_REMINDER_PERIOD = "ReminderPeriodViewModel"
+const val VM_DAILY_REMINDER = "DailyPushReminderViewModel"
+const val VM_CALENDAR = "CalendarViewModel"
+const val VM_CHOSEN_DATE = "ChosenDateViewModel"
 
 /**
  * BUILD CONFIG
