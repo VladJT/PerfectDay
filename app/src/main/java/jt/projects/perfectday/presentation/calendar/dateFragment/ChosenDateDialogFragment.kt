@@ -100,7 +100,7 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: BaseViewMo
                 }
 
                 is DataModel.BirthdayFromVk -> {
-                    val birthdayData = data[index] as DataModel.BirthdayFromPhone
+                    val birthdayData = data[index] as DataModel.BirthdayFromVk
                     if (birthdayData.birthDate.monthValue == chosenDate.monthValue &&
                         birthdayData.birthDate.dayOfMonth == chosenDate.dayOfMonth
                     ) {
