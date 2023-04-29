@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.ItemNoteBinding
 import jt.projects.utils.getAlertStringHowManyDaysBefore
+import jt.projects.utils.getAlertStringHowManyDaysBeforeScheduledEvent
 import jt.projects.utils.toStdFormatString
 
 class ScheduledEventViewHolder private constructor(
@@ -30,7 +31,7 @@ class ScheduledEventViewHolder private constructor(
                 tvDescription.text = data.description
 
                 tvDaysToEvent.isVisible = true
-                tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.date)
+                tvDaysToEvent.text = getAlertStringHowManyDaysBeforeScheduledEvent(data.date)
 
                 // удаление заметки
                 btnDelete.setOnClickListener {

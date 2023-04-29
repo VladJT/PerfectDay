@@ -22,12 +22,11 @@ fun getAlertStringHowManyDaysBefore(birthDate: LocalDate): String {
     )
     var daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), endDate)
 
-//    if (daysBeforeEventCount < 0) endDate = LocalDate.of(
-//        LocalDate.now().year.plus(1),
-//        birthDate.month,
-//        birthDate.dayOfMonth
-//    )
-    if (daysBeforeEventCount < 0) return "Событие прошло"
+    if (daysBeforeEventCount < 0) endDate = LocalDate.of(
+        LocalDate.now().year.plus(1),
+        birthDate.month,
+        birthDate.dayOfMonth
+    )
 
     daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), endDate)
 
@@ -38,6 +37,21 @@ fun getAlertStringHowManyDaysBefore(birthDate: LocalDate): String {
         else -> "$daysBeforeEventCount дней до события"
     }
 }
+
+fun getAlertStringHowManyDaysBeforeScheduledEvent(eventDate: LocalDate): String {
+    var daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), eventDate)
+
+    if (daysBeforeEventCount < 0) return "Событие прошло"
+
+    return when (daysBeforeEventCount) {
+        0L -> "Сегодня"
+        1L -> "Завтра"
+        2L -> "Послезавтра"
+        else -> "$daysBeforeEventCount дней до события"
+    }
+}
+
+
 
 fun isPeriodBirthdayDate(
     startDate: LocalDate,
