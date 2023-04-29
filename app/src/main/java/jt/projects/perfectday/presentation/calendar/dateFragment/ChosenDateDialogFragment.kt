@@ -111,7 +111,8 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: BaseViewMo
                 is DataModel.ScheduledEvent -> {
                     val eventData = data[index] as DataModel.ScheduledEvent
                     if (eventData.date.monthValue == chosenDate.monthValue &&
-                        eventData.date.dayOfMonth == chosenDate.dayOfMonth
+                        eventData.date.dayOfMonth == chosenDate.dayOfMonth &&
+                        eventData.date.year == chosenDate.year
                     ) {
                         returnList.add(data[index])
                     }
