@@ -191,7 +191,7 @@ class CalendarFragment : Fragment() {
                 is DataModel.ScheduledEvent -> {
                     val eventData = data[index] as DataModel.ScheduledEvent
                     calendarSetter.set(
-                        CalendarDate.today.year,
+                        eventData.date.year,
                         eventData.date.monthValue - 1,
                         eventData.date.dayOfMonth
                     )
