@@ -9,22 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderChildBinding
-import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
-import org.koin.android.ext.android.inject
+import java.time.LocalDate
 
-abstract class BaseChildFragment : Fragment() {
+class ChildFragment(
+    private val startDate: () -> LocalDate,
+    private val endDate: () -> LocalDate
+) : Fragment() {
     private var _binding: FragmentReminderChildBinding? = null
-    protected val binding get() = _binding!!
+    private val binding get() = _binding!!
 
-    protected val sharedPref by inject<SimpleSettingsPreferences>()
-
-    val viewModel = getKoin().get<GlobalViewModel>()
+    private val viewModel = getKoin().get<GlobalViewModel>()
 
     private val reminderAdapter by lazy {
         BaseAdapter(
@@ -44,13 +45,28 @@ abstract class BaseChildFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRecView(reminderAdapter)
+        initRecView()
         observeLoadingVisible()
         observeEditNote()
         setSwipeToRefreshMove()
     }
 
-    abstract fun initRecView(reminderAdapter: BaseAdapter)
+    private fun initRecView() {
+        with(binding.reminderRecyclerview) {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = reminderAdapter
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .getResultRecyclerByPeriod(startDate(), endDate())
+                    .collect {
+                        reminderAdapter.setData(it)
+                    }
+            }
+        }
+    }
 
     private fun observeLoadingVisible() {
         viewLifecycleOwner.lifecycleScope.launch {
