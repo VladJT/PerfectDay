@@ -37,6 +37,9 @@ import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.toStdFormatString
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
@@ -59,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        // фоновая загрузка GlobalViewModel
+        CoroutineScope(Dispatchers.IO).launch{
+            val vm = getKoin().get<GlobalViewModel>()
+        }
 
         if (isFirstTimeStartApp()) {
             startIntoActivity()

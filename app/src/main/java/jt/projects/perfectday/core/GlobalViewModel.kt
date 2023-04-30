@@ -63,16 +63,16 @@ open class GlobalViewModel(
 
     fun getResultRecyclerByPeriod(startDate: LocalDate, endDate: LocalDate) =
         resultRecycler.map {
-            it.filter {
+            it.filter { data ->
                 when {
-                    (it is DataModel.BirthdayFromVk) ->
-                        isPeriodBirthdayDate(startDate, endDate, it.birthDate)
+                    (data is DataModel.BirthdayFromVk) ->
+                        isPeriodBirthdayDate(startDate, endDate, data.birthDate)
 
-                    (it is DataModel.BirthdayFromPhone) ->
-                        isPeriodBirthdayDate(startDate, endDate, it.birthDate)
+                    (data is DataModel.BirthdayFromPhone) ->
+                        isPeriodBirthdayDate(startDate, endDate, data.birthDate)
 
-                    (it is DataModel.ScheduledEvent) ->
-                        it.date in startDate..endDate
+                    (data is DataModel.ScheduledEvent) ->
+                        data.date in startDate..endDate
 
                     else -> {
                         true
