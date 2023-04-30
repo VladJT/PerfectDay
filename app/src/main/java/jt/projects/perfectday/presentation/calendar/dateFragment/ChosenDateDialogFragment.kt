@@ -13,18 +13,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.model.DataModel
-import jt.projects.perfectday.R
 import jt.projects.perfectday.core.BaseAdapter
-import jt.projects.perfectday.core.BaseViewModel
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
-import jt.projects.perfectday.presentation.calendar.DateIndicator
 import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
 import ru.cleverpumpkin.calendar.CalendarDate
 import java.time.LocalDate
 
-class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: BaseViewModel) :
+class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalViewModel) :
     DialogFragment() {
 
     private var viewModel = calendarViewModel

@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.translator.GoogleTranslator
 import jt.projects.perfectday.core.translator.TranslatorCallback
 import jt.projects.perfectday.databinding.ActivityMainBinding
@@ -36,6 +37,9 @@ import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.toStdFormatString
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
@@ -58,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
+
+        // фоновая загрузка GlobalViewModel
+        CoroutineScope(Dispatchers.IO).launch{
+            val vm = getKoin().get<GlobalViewModel>()
+        }
 
         if (isFirstTimeStartApp()) {
             startIntoActivity()
@@ -163,7 +172,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeToNetworkStatusChange() {
         getKoin().get<OnlineStatusLiveData>().observe(this@MainActivity) { isOnline ->
-            if(!isOnline){
+            if (!isOnline) {
                 showSnackbar(getString(R.string.no_internet))
             }
         }

@@ -11,16 +11,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import jt.projects.perfectday.core.BaseAdapter
-import jt.projects.perfectday.core.BaseViewModel
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderChildBinding
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.getKoin
+import java.time.LocalDate
 
-abstract class BaseChildFragment : Fragment() {
+class ChildFragment(
+    private val startDate: () -> LocalDate,
+    private val endDate: () -> LocalDate
+) : Fragment() {
     private var _binding: FragmentReminderChildBinding? = null
-    protected val binding get() = _binding!!
+    private val binding get() = _binding!!
 
-    abstract val viewModel: BaseViewModel
+    private val viewModel = getKoin().get<GlobalViewModel>()
 
     private val reminderAdapter by lazy {
         BaseAdapter(
@@ -46,8 +51,6 @@ abstract class BaseChildFragment : Fragment() {
         setSwipeToRefreshMove()
     }
 
-    abstract fun setSwipeToRefreshMove()
-
     private fun initRecView() {
         with(binding.reminderRecyclerview) {
             layoutManager = LinearLayoutManager(requireContext())
@@ -56,9 +59,11 @@ abstract class BaseChildFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.resultRecycler.collect {
-                    reminderAdapter.setData(it)
-                }
+                viewModel
+                    .getResultRecyclerByPeriod(startDate(), endDate())
+                    .collect {
+                        reminderAdapter.setData(it)
+                    }
             }
         }
     }
@@ -76,8 +81,16 @@ abstract class BaseChildFragment : Fragment() {
     private fun observeEditNote() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.noteIdFlow.collect(::editScheduledEvent)
+                viewModel.noteIdFlow
+                    .collect(::editScheduledEvent)
             }
+        }
+    }
+
+    private fun setSwipeToRefreshMove() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.onSwipeToRefreshMove()
+            binding.swipeToRefresh.isRefreshing = false
         }
     }
 

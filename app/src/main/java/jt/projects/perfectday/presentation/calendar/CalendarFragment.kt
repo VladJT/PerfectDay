@@ -11,15 +11,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.BaseViewModel
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
-import jt.projects.utils.VM_CALENDAR
 import jt.projects.utils.toStdFormatString
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.core.qualifier.named
+import org.koin.android.ext.android.getKoin
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import java.time.LocalDate
@@ -38,7 +36,7 @@ class CalendarFragment : Fragment() {
         fun newInstance() = CalendarFragment()
     }
 
-    private val viewModel: BaseViewModel by activityViewModel(named(VM_CALENDAR))
+    val viewModel = getKoin().get<GlobalViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

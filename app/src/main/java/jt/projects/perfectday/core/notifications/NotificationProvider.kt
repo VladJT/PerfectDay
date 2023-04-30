@@ -16,16 +16,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.BaseViewModel
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.presentation.MainActivity
-import jt.projects.utils.VM_DAILY_REMINDER
-import jt.projects.utils.VM_REMINDER_PERIOD
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.koin.core.qualifier.named
 import org.koin.java.KoinJavaComponent.getKoin
+import java.time.LocalDate
 
 class NotificationProvider(
     private val appContext: Context
@@ -49,12 +47,18 @@ class NotificationProvider(
 
     private var job: Job? = null
 
-    private val viewModel: BaseViewModel by lazy { getKoin().get(named(VM_DAILY_REMINDER)) }
+    val viewModel = getKoin().get<GlobalViewModel>()
 
     fun sendTodayInfo() {
+
+        val startDate = LocalDate.now()
+        val endDate = LocalDate.now()
+
         job?.cancel()
         CoroutineScope(Dispatchers.Default).launch {
-            viewModel.resultRecycler.collect {
+            viewModel
+                .getResultRecyclerByPeriod(startDate, endDate)
+                .collect {
                 val notesCount = it.filterIsInstance<DataModel.ScheduledEvent>().size
                 val birthdaysCount = it.filterIsInstance<DataModel.BirthdayFromPhone>().size +
                         it.filterIsInstance<DataModel.BirthdayFromVk>().size

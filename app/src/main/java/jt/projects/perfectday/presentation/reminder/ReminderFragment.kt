@@ -21,10 +21,10 @@ class ReminderFragment : Fragment() {
     companion object {
         fun newInstance() = ReminderFragment()
 
-        const val LEFT_CHILD = 0
-        const val RIGHT_CHILD = 1
+        const val TOMORROW = 0
+        const val PERIOD = 1
 
-        var currentFragment = LEFT_CHILD
+        var currentFragment = TOMORROW
     }
 
     override fun onCreateView(
@@ -50,8 +50,8 @@ class ReminderFragment : Fragment() {
     private fun setTabs() {
         TabLayoutMediator(binding.reminderTabLayout, binding.reminderViewPager) { tab, position ->
             tab.text = when (position) {
-                LEFT_CHILD -> getString(R.string.Tomorrow)
-                RIGHT_CHILD -> "${settingsPreferences.getDaysPeriodForReminderFragment()} Дней"
+                TOMORROW -> getString(R.string.Tomorrow)
+                PERIOD -> "${settingsPreferences.getDaysPeriodForReminderFragment()} Дней"
                 else -> getString(R.string.Tomorrow)
             }
         }.attach()
