@@ -2,7 +2,6 @@ package jt.projects.perfectday
 
 import android.app.Application
 import jt.projects.perfectday.di.appModule
-import jt.projects.perfectday.di.dateStrategyModule
 import jt.projects.perfectday.di.interactorsModule
 import jt.projects.perfectday.di.repoModule
 import jt.projects.perfectday.di.roomModule
@@ -26,8 +25,7 @@ class App : Application() {
                     interactorsModule,
                     repoModule,
                     networkModule,
-                    roomModule,
-                    dateStrategyModule
+                    roomModule
                 )
             )
         }

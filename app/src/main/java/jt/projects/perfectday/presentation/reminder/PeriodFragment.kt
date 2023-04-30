@@ -1,18 +1,36 @@
 package jt.projects.perfectday.presentation.reminder
 
-import jt.projects.perfectday.core.BaseViewModel
-import jt.projects.utils.VM_REMINDER_PERIOD
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.core.qualifier.named
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import jt.projects.perfectday.core.BaseAdapter
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
+import java.time.LocalDate
 
 class PeriodFragment : BaseChildFragment() {
 
-    override val viewModel: BaseViewModel by activityViewModel(named(VM_REMINDER_PERIOD))
+    private val sharedPref by inject<SimpleSettingsPreferences>()
 
-    override fun setSwipeToRefreshMove() {
-        binding.swipeToRefresh.setOnRefreshListener {
-            viewModel.onSwipeToRefreshMove()
-            binding.swipeToRefresh.isRefreshing = false
+    override fun initRecView(reminderAdapter: BaseAdapter) {
+        with(binding.reminderRecyclerview) {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = reminderAdapter
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel
+                    .getResultRecyclerByPeriod(
+                        LocalDate.now(), LocalDate.now()
+                            .plusDays(sharedPref.getDaysPeriodForReminderFragment())
+                    )
+                    .collect {
+                        reminderAdapter.setData(it)
+                    }
+            }
         }
     }
 }

@@ -16,8 +16,10 @@ import jt.projects.utils.NO_DATA
 import jt.projects.utils.PHONE_GROUP_LABEL
 import jt.projects.utils.SCHEDULED_EVENT_GROUP_LABEL
 import jt.projects.utils.VK_GROUP_LABEL
+import jt.projects.utils.isPeriodBirthdayDate
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
+import jt.projects.utils.sortComparatorByMonthAndDay
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -28,16 +30,16 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
 
-open class BaseViewModel(
+open class GlobalViewModel(
     protected val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     private val scheduledEventInteractor: ScheduledEventInteractorImpl,
-    private val phoneBookProvider: PhoneBookProvider,
-    private val dateStrategy: DateStrategy
+    private val phoneBookProvider: PhoneBookProvider
 ) : ViewModel() {
     private val statusMessage = MutableLiveData<Event<String>>()
 
@@ -58,6 +60,26 @@ open class BaseViewModel(
     init {
         loadAllContent()
     }
+
+    fun getResultRecyclerByPeriod(startDate: LocalDate, endDate: LocalDate) =
+        resultRecycler.map {
+            it.filter {
+                when {
+                    (it is DataModel.BirthdayFromVk) ->
+                        isPeriodBirthdayDate(startDate, endDate, it.birthDate)
+
+                    (it is DataModel.BirthdayFromPhone) ->
+                        isPeriodBirthdayDate(startDate, endDate, it.birthDate)
+
+                    (it is DataModel.ScheduledEvent) ->
+                        it.date in startDate..endDate
+
+                    else -> {
+                        true
+                    }
+                }
+            }
+        }
 
     private fun loadAllContent() {
         job?.cancel()
@@ -82,9 +104,22 @@ open class BaseViewModel(
                 .map {
                     val items = mutableListOf<DataModel>()
                     items.apply {
-                        addAll(it.withHeader(SCHEDULED_EVENT_GROUP_LABEL))
-                        addAll(friendsPhone.withHeader(PHONE_GROUP_LABEL))
-                        addAll(friendsVk.withHeader(VK_GROUP_LABEL))
+                        addAll(it
+                            .sortedBy { it.date }
+                            .withHeader(SCHEDULED_EVENT_GROUP_LABEL))
+
+                        addAll(
+                            friendsPhone
+                                .sortedWith(sortComparatorByMonthAndDay)
+                                .withHeader(PHONE_GROUP_LABEL)
+                        )
+
+                        addAll(
+                            friendsVk
+                                .sortedWith(sortComparatorByMonthAndDay)
+                                .withHeader(VK_GROUP_LABEL)
+                        )
+
                         addAll(addInfoIfListIsEmpty())
                     }
                 }.onEach {
@@ -95,32 +130,17 @@ open class BaseViewModel(
     }
 
     private suspend fun loadFriendsFromPhone() = loadContent {
-        if (dateStrategy.hasDates()) {
-            birthdayFromPhoneInteractor.getContactsInInterval(
-                dateStrategy.getStartDate(), dateStrategy.getEndDate()
-            )
-        } else {
-            birthdayFromPhoneInteractor.getContacts()
-        }
+        birthdayFromPhoneInteractor.getContacts()
+
     }
 
     private suspend fun loadFriendsFromVK(vkToken: String?) = loadContent {
-        if (dateStrategy.hasDates()) {
-            getFriendsFromVkUseCase.getFriendsByPeriodDate(
-                vkToken, dateStrategy.getStartDate(), dateStrategy.getEndDate()
-            )
-        } else {
-            getFriendsFromVkUseCase.getAllFriends(vkToken)
-        }
+        getFriendsFromVkUseCase.getAllFriends(vkToken)
     }
 
-    private fun loadScheduledEvents() = if (dateStrategy.hasDates()) {
-        scheduledEventInteractor.getScheduledEventsByPeriod(
-            dateStrategy.getStartDate(), dateStrategy.getEndDate()
-        )
-    } else {
+    private fun loadScheduledEvents() =
         scheduledEventInteractor.getAllNotes()
-    }
+
 
     private fun List<DataModel>.withHeader(headerName: String): List<DataModel> {
         if (this.isEmpty()) {

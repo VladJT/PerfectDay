@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.translator.GoogleTranslator
 import jt.projects.perfectday.core.translator.TranslatorCallback
 import jt.projects.perfectday.databinding.ActivityMainBinding
@@ -163,7 +164,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun subscribeToNetworkStatusChange() {
         getKoin().get<OnlineStatusLiveData>().observe(this@MainActivity) { isOnline ->
-            if(!isOnline){
+            if (!isOnline) {
                 showSnackbar(getString(R.string.no_internet))
             }
         }
