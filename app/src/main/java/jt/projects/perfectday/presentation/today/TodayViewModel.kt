@@ -101,6 +101,7 @@ class TodayViewModel(
 
     private fun mapToBirthdayVk(data: DataModel.BirthdayFromPhone): DataModel.BirthdayFromVk = data.run {
         DataModel.BirthdayFromVk(
+            vkId = -1,
             name = name,
             birthDate = birthDate,
             age = Period.between(birthDate, LocalDate.now()).years,
