@@ -4,8 +4,7 @@ import jt.projects.model.*
 
 fun DataModel.BirthdayFromVk.toFriend(): DataModel.Friend = this.run {
     DataModel.Friend(
-        idVk = vkId,
-        idPhone = null,
+        id = vkId.toString(),
         type = FriendType.VK,
         name = name,
         birthDate = birthDate,
@@ -16,8 +15,7 @@ fun DataModel.BirthdayFromVk.toFriend(): DataModel.Friend = this.run {
 
 fun DataModel.BirthdayFromPhone.toFriend(): DataModel.Friend = this.run {
     DataModel.Friend(
-        idVk = null,
-        idPhone = id,
+        id = id,
         type = FriendType.PHONE,
         name = name,
         birthDate = birthDate,

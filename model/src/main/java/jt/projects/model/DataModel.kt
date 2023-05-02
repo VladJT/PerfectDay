@@ -45,8 +45,7 @@ sealed class DataModel {
     ) : DataModel(), Parcelable
 
     data class Friend(
-        val idVk: Long?,
-        val idPhone: String?,
+        val id: String,
         val type: FriendType,
         val name: String,
         val birthDate: LocalDate,
