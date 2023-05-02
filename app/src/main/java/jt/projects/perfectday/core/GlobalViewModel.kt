@@ -1,5 +1,7 @@
 package jt.projects.perfectday.core
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -54,6 +56,9 @@ open class GlobalViewModel(
 
     private val _noteIdFlow = createMutableSingleEventFlow<Int>()
     val noteIdFlow get() = _noteIdFlow.asSharedFlow()
+
+    private val _intentFlow = createMutableSingleEventFlow<Intent>()
+    val intentFlow get() = _intentFlow.asSharedFlow()
 
     private var job: Job? = null
 
@@ -181,8 +186,20 @@ open class GlobalViewModel(
     }
 
     fun onItemClicked(data: DataModel) {
-        if (data is DataModel.BirthdayFromPhone) {
-            phoneBookProvider.openContact(data)
+        when(data) {
+            is DataModel.BirthdayFromPhone -> phoneBookProvider.openContact(data)
+            is DataModel.BirthdayFromVk -> createVkIntent(data.vkId)
+            else -> {}
+        }
+    }
+
+    private fun createVkIntent(vkId: Long) {
+        val vkUrl = "https://vk.com/id$vkId"
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(vkUrl))
+            _intentFlow.tryEmit(intent)
+        } catch (error: Throwable) {
+            Log.e(GlobalViewModel::class.simpleName, "$error")
         }
     }
 
