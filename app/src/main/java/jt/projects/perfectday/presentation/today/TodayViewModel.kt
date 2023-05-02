@@ -49,9 +49,9 @@ class TodayViewModel(
         job = viewModelScope.launch {
             //Запускаем параллельно загрузку данных
             val loadHoliday = async { loadContent { holidayInteractor.getHolidayByDate(currentDate) }}
-            val loadPhoneFriends = async { loadContent { birthdayFromPhoneInteractor.getContacts() }}
+            val loadPhoneFriends = async { loadContent { birthdayFromPhoneInteractor.getContacts().take(5) }}
             val loadVkFriends = async {
-                loadContent { getFriendsFromVkUseCase.getAllFriends(vkToken) }
+                loadContent { getFriendsFromVkUseCase.getAllFriends(vkToken).take(5) }
             }
             val loadFacts = async {
                 loadContent { simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT) }
