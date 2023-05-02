@@ -8,6 +8,7 @@ import java.time.LocalDate
 sealed class DataModel {
 
     data class BirthdayFromVk(
+        val vkId: Long,
         val name: String,
         val birthDate: LocalDate,
         val age: Int,
@@ -42,4 +43,13 @@ sealed class DataModel {
         var date: LocalDate,
         var description: String,
     ) : DataModel(), Parcelable
+
+    data class Friend(
+        val id: String,
+        val type: FriendType,
+        val name: String,
+        val birthDate: LocalDate,
+        val age: Int,
+        val photoUrl: String
+    ) : DataModel()
 }

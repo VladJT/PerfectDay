@@ -1,7 +1,7 @@
 package jt.projects.repository.network.mapper
 
 import jt.projects.model.DataModel
-import jt.projects.repository.network.retrofit.holiday.dto.HolidayDTO
+import jt.projects.repository.network.holiday.dto.HolidayDTO
 import java.time.LocalDate
 
 fun parseArrayDTOtoDataModel(holidayDTO: List<HolidayDTO>): List<DataModel.Holiday> {

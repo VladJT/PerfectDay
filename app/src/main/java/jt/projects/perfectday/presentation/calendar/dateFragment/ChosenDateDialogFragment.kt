@@ -64,6 +64,7 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalView
         initRecyclerView()
         observeLoadingVisible()
         observeEditNote()
+        setIntentStart()
 
         viewModel.message.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
@@ -144,6 +145,14 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalView
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.noteIdFlow.collect(::editScheduledEvent)
+            }
+        }
+    }
+
+    private fun setIntentStart() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.intentFlow.collect(::startActivity)
             }
         }
     }

@@ -8,7 +8,7 @@ import jt.projects.perfectday.databinding.LayoutBithdayFriendsBinding
 import jt.projects.perfectday.presentation.today.adapter.birth.BirthdayListAdapter
 
 class FriendsViewHolder private constructor(
-    private val binding: LayoutBithdayFriendsBinding
+    binding: LayoutBithdayFriendsBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     private val birthdayAdapter by lazy { BirthdayListAdapter() }
 
@@ -21,8 +21,6 @@ class FriendsViewHolder private constructor(
     )
 
     fun bind(item: TodayItem.Friends) {
-        val isEmpty = item.friendsVk.isEmpty()
-        binding.tvEmptyFriends.isVisible = isEmpty
         birthdayAdapter.submitList(item.friendsVk)
     }
 }

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import jt.projects.model.DataModel
 
-class BirthdayListAdapter : ListAdapter<DataModel.BirthdayFromVk, BirthdayViewHolder>(BirthdayDiffUtil()) {
+class BirthdayListAdapter : ListAdapter<DataModel.Friend, BirthdayViewHolder>(BirthdayDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder =
         BirthdayViewHolder(parent)
 

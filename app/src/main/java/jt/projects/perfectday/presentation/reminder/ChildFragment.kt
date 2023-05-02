@@ -1,6 +1,7 @@
 package jt.projects.perfectday.presentation.reminder
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,7 @@ class ChildFragment(
         observeLoadingVisible()
         observeEditNote()
         setSwipeToRefreshMove()
+        setIntentStart()
     }
 
     private fun initRecView() {
@@ -91,6 +93,14 @@ class ChildFragment(
         binding.swipeToRefresh.setOnRefreshListener {
             viewModel.onSwipeToRefreshMove()
             binding.swipeToRefresh.isRefreshing = false
+        }
+    }
+
+    private fun setIntentStart() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.intentFlow.collect(::startActivity)
+            }
         }
     }
 
