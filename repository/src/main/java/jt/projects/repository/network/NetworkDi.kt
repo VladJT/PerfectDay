@@ -3,6 +3,8 @@ package jt.projects.repository.network
 import android.util.Log
 import jt.projects.repository.BuildConfig
 import jt.projects.repository.network.facts.*
+import jt.projects.repository.network.retrofit.holiday.HolidayRepository
+import jt.projects.repository.network.retrofit.holiday.HolidayRepositoryImpl
 import jt.projects.repository.network.vk.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,4 +37,6 @@ val networkModule = module {
     }
 
     single<FactsRepository> { FactsRepoImpl(retrofit = get()) }
+
+    single<HolidayRepository> { HolidayRepositoryImpl(retrofit = get()) }
 }
