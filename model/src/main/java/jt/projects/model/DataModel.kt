@@ -43,4 +43,14 @@ sealed class DataModel {
         var date: LocalDate,
         var description: String,
     ) : DataModel(), Parcelable
+
+    data class Friend(
+        val idVk: Long?,
+        val idPhone: String?,
+        val type: FriendType,
+        val name: String,
+        val birthDate: LocalDate,
+        val age: Int,
+        val photoUrl: String
+    ) : DataModel()
 }

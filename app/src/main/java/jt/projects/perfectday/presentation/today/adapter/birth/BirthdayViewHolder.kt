@@ -7,6 +7,7 @@ import coil.load
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayBinding
+import jt.projects.utils.extensions.loadWithPlaceHolder
 
 class BirthdayViewHolder private constructor(
     private val binding: ItemBirthdayBinding
@@ -16,11 +17,11 @@ class BirthdayViewHolder private constructor(
         ItemBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    fun bind(birthdayFriend: DataModel.BirthdayFromVk) {
+    fun bind(birthdayFriend: DataModel.Friend) {
         with(binding) {
             tvFullName.text = birthdayFriend.name
             tvAge.text = birthdayFriend.age.toString()
-            ivAvatarPhoto.load(birthdayFriend.photoUrl)
+            ivAvatarPhoto.loadWithPlaceHolder(birthdayFriend.photoUrl)
         }
     }
 }

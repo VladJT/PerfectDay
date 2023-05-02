@@ -2,8 +2,8 @@ package jt.projects.utils.extensions
 
 import jt.projects.model.*
 
-fun DataModel.BirthdayFromVk.toFriend(): Friend = this.run {
-    Friend(
+fun DataModel.BirthdayFromVk.toFriend(): DataModel.Friend = this.run {
+    DataModel.Friend(
         idVk = vkId,
         idPhone = null,
         type = FriendType.VK,
@@ -14,8 +14,8 @@ fun DataModel.BirthdayFromVk.toFriend(): Friend = this.run {
     )
 }
 
-fun DataModel.BirthdayFromPhone.toFriend(): Friend = this.run {
-    Friend(
+fun DataModel.BirthdayFromPhone.toFriend(): DataModel.Friend = this.run {
+    DataModel.Friend(
         idVk = null,
         idPhone = id,
         type = FriendType.PHONE,
