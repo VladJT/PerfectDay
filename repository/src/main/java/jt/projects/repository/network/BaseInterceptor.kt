@@ -1,4 +1,4 @@
-package jt.projects.repository.network.retrofit.holiday
+package jt.projects.repository.network
 
 import okhttp3.Interceptor
 import okhttp3.Response

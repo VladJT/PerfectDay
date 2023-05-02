@@ -1,6 +1,6 @@
-package jt.projects.repository.network.retrofit.holiday
+package jt.projects.repository.network.holiday
 
-import jt.projects.repository.network.retrofit.holiday.dto.HolidayDTO
+import jt.projects.repository.network.holiday.dto.HolidayDTO
 import java.time.LocalDate
 
 interface HolidayRepository {

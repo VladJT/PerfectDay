@@ -1,13 +1,12 @@
-package jt.projects.repository.network.retrofit.holiday
+package jt.projects.repository.network.holiday
 
-import jt.projects.repository.network.retrofit.*
-import jt.projects.repository.network.retrofit.holiday.dto.HolidayDTO
+import jt.projects.repository.network.holiday.dto.HolidayDTO
 import jt.projects.utils.HOLIDAY_BASE_URL_LOCATION
 import retrofit2.Retrofit
 import java.time.LocalDate
 
 
-class HolidayRepositoryImpl(retrofit: Retrofit):HolidayRepository {
+class HolidayRepositoryImpl(retrofit: Retrofit): HolidayRepository {
     private val api = retrofit.newBuilder()
         .baseUrl(HOLIDAY_BASE_URL_LOCATION)
         .build()

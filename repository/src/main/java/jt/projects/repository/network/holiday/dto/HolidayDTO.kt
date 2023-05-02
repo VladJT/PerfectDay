@@ -1,4 +1,4 @@
-package jt.projects.repository.network.retrofit.holiday.dto
+package jt.projects.repository.network.holiday.dto
 
 import com.google.gson.annotations.SerializedName
 
