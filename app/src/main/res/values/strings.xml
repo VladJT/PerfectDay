@@ -55,5 +55,9 @@
     <string name="translation_loading">Подождите...загружается языковая модель</string>
     <string name="translation_error_loading">Ошибка загрузки языковой модели</string>
     <string name="no_internet">Нет интернета. Проверьте подключение.</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="day_after_tomorrow">Послезавтра</string>
+    <string name="choose_date_of_event">Выберите дату события</string>
 
 </resources>
