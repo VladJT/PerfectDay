@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/bg_setting"
     android:orientation="vertical"
     android:paddingHorizontal="12dp"
-    android:paddingVertical="20dp"
-    android:layout_marginTop="25dp"
-    android:layout_marginBottom="10dp">
+    android:paddingVertical="20dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -20,11 +20,9 @@
 
     <TextView
         android:id="@+id/tv_fact_description"
+        style="@style/PerfectDayText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/roboto_regular"
-        android:textColor="?attr/text_color_fact_of_the_day"
-        android:textSize="14sp"
         tools:text="@tools:sample/lorem" />
 </LinearLayout>

@@ -11,55 +11,42 @@
 
     <TextView
         android:id="@+id/tv_days_to_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/PerfectDayTextHeader"
         android:layout_marginStart="12dp"
-        android:visibility="gone"
-        android:fontFamily="@font/roboto_bold"
-        android:textColor="?attr/text_color_primary_to_primary_app"
-        android:textSize="@dimen/text_size_standard"
+        android:text="5 дней до события"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="5 дней до события" />
-
-    <TextView
-        android:id="@+id/tv_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="1dp"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="?attr/text_color_primary_to_primary_app"
-        android:textSize="@dimen/text_size_large"
-        app:layout_constraintEnd_toStartOf="@+id/btn_edit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_days_to_event"
-        tools:text="Купить" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_date"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_bold"
-        android:textColor="?attr/text_color_fact_of_the_day"
-        android:textSize="@dimen/text_size_small"
-        app:layout_constraintStart_toStartOf="@+id/tv_header"
-        app:layout_constraintTop_toBottomOf="@+id/tv_header"
+        style="@style/PerfectDayText"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_days_to_event"
+        app:layout_constraintTop_toBottomOf="@+id/tv_days_to_event"
         tools:text="17.04.2023" />
 
     <TextView
+        android:id="@+id/tv_header"
+        style="@style/PerfectDayTextHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintEnd_toEndOf="@+id/btn_delete"
+        app:layout_constraintStart_toStartOf="@+id/tv_days_to_event"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date"
+        tools:text="Купить" />
+
+    <TextView
         android:id="@+id/tv_description"
+        style="@style/PerfectDayText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/roboto_light"
+        android:layout_marginTop="4dp"
         android:lineSpacingExtra="2sp"
-        android:textColor="@color/grey_text_color"
-        android:textSize="@dimen/text_size_standard"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_date"
+        app:layout_constraintTop_toBottomOf="@+id/tv_header"
         tools:text="Творог\nМолоко\nХлеб" />
 
     <ImageButton
