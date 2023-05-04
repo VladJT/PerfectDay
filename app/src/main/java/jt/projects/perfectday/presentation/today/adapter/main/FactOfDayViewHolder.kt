@@ -3,7 +3,6 @@ package jt.projects.perfectday.presentation.today.adapter.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import jt.projects.perfectday.core.extensions.translateText
 import jt.projects.perfectday.databinding.ItemFactOfDayBinding
 import jt.projects.utils.extensions.hideViewInRecycler
 import jt.projects.utils.extensions.showViewInRecycler
@@ -26,6 +25,6 @@ class FactOfDayViewHolder private constructor(
         val text = item.list.first().description
         binding.tvFactDescription.text = text
 
-        binding.tvFactDescription.translateText()
+        //    binding.tvFactDescription.translateText()
     }
 }

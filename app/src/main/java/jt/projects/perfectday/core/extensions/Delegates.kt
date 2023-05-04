@@ -27,19 +27,3 @@ fun Fragment.showButtonBackHome(isVisible: Boolean) {
 fun Fragment.editScheduledEvent(id: Int) {
     (requireActivity() as? MainActivity)?.showScheduledEvent(id)
 }
-
-fun TextView.translateText() {
-    val translator = getKoin().get<GoogleTranslator>()
-
-    val text = this.text.toString()
-
-    CoroutineScope(Dispatchers.Main).launch {
-        translator.isTranslationModelOk.onEach { isLanguageDownloaded ->
-            if (isLanguageDownloaded) {
-                translator.translate(text).onEach {
-                    this@translateText.text = it
-                }.collect()
-            }
-        }.collect()
-    }
-}

@@ -56,10 +56,12 @@ class GoogleTranslator {
             val listener = object : TranslationFlowCallback.StringCallback {
                 override fun onSuccess(result: String) {
                     trySend(result)
+                    close()
                 }
 
                 override fun onFailure(result: String) {
                     trySend(result)
+                    close()
                 }
             }
 
