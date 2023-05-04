@@ -2,12 +2,12 @@ package jt.projects.perfectday.presentation
 
 import android.Manifest
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -261,11 +261,18 @@ class MainActivity : AppCompatActivity() {
         if (permResult == PackageManager.PERMISSION_GRANTED) {
             permissionGranted = true
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
-            AlertDialog.Builder(this).setTitle("Доступ к контактам")
-                .setMessage("Запрос на доступ к контактам. В случае отказа, доступ можно будет предоставить только в настройках приложения.")
-                .setPositiveButton("Открыть окно предоставления доступа") { _, _ ->
+            AlertDialog.Builder(
+                ContextThemeWrapper(
+                    this,
+                    R.style.PerfectDay_MaterialCalendarTheme
+                )
+            ).setTitle(getString(R.string.alert_contacts_title))
+                .setMessage(getString(R.string.alert_contacts_message))
+                .setPositiveButton(getString(R.string.open_permission_settings)) { _, _ ->
                     permissionRequest(Manifest.permission.READ_CONTACTS)
-                }.setNegativeButton("Отказать в запросе") { dialog, _ -> dialog.dismiss() }.create()
+                }
+                .setNegativeButton(getString(R.string.close_permission_settings)) { dialog, _ -> dialog.dismiss() }
+                .create()
                 .show()
         } else {
             permissionRequest(Manifest.permission.READ_CONTACTS)

@@ -61,4 +61,14 @@
     <string name="day_after_tomorrow">Послезавтра</string>
     <string name="choose_date_of_event">Выберите дату события</string>
 
+    // PERMISSIONS REQUESTS
+    <string name="alert_notification_title">Доступ к уведомлениям</string>
+    <string name="alert_notification_message">Запрос на доступ к отправке уведомлений. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
+    <string name="open_permission_settings">Открыть окно предоставления доступа</string>
+    <string name="close_permission_settings">Отказать в запросе</string>
+    <string name="alert_autostart_title">Доступ к автозапуску приложения</string>
+    <string name="alert_autostart_message">Запрос на автозапуску приложения для отправки уведомлений в запланированное время. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
+    <string name="alert_contacts_title">Доступ к контактам</string>
+    <string name="alert_contacts_message">Запрос на доступ к контактам. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
+
 </resources>

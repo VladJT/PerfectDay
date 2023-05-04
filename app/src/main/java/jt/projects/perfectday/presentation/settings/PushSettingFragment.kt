@@ -1,23 +1,24 @@
 package jt.projects.perfectday.presentation.settings
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.FragmentPushSettingBinding
 import jt.projects.perfectday.push.PushManager
 import jt.projects.utils.DEBUG
 import jt.projects.utils.LOG_TAG
+import jt.projects.utils.REQUEST_CODE_POST_NOTIFICATIONS
+import jt.projects.utils.REQUEST_CODE_RECEIVE_BOOT_COMPLETED
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -111,28 +112,83 @@ class PushSettingFragment : Fragment() {
 
         if (checkedSwitch) {
             // проверка на разрешения отправлять оповещения
-            if (!checkPermissionPostNotifications()) {
-                Snackbar.make(
-                    binding.root,
-                    getString(R.string.check_permissions_notification),
-                    Snackbar.LENGTH_LONG
-                ).setAction(getString(R.string.open)) {
-                        openNotificationsSettings()
-                    }.show()
-            } else {
-                // проверка на автозапуск приложения (для отправки оповещений когда приложение не запущено)
-                if (!checkPermissionAutoStartApplication()) {
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.check_permissions_autostart),
-                        Snackbar.LENGTH_LONG
-                    ).setAction(getString(R.string.open)) {
-                            openAutoStartSettings()
-                        }.show()
-                }
-            }
+            checkPermissionPostNotification()
+            // проверка на автозапуск приложения (для отправки оповещений когда приложение не запущено)
+            checkPermissionAutoStartApplication()
         }
+    }
 
+
+    private fun checkPermissionPostNotification(): Boolean {
+        val permResult =
+            (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED)
+
+        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
+            AlertDialog.Builder(
+                ContextThemeWrapper(
+                    requireContext(),
+                    R.style.PerfectDay_MaterialCalendarTheme
+                )
+            )
+                .setTitle(getString(R.string.alert_notification_title))
+                .setMessage(getString(R.string.alert_notification_message))
+                .setPositiveButton(getString(R.string.open_permission_settings)) { _, _ ->
+                    permissionRequest(
+                        Manifest.permission.POST_NOTIFICATIONS,
+                        REQUEST_CODE_POST_NOTIFICATIONS
+                    )
+                }
+                .setNegativeButton(getString(R.string.close_permission_settings)) { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
+        } else {
+            permissionRequest(
+                Manifest.permission.POST_NOTIFICATIONS,
+                REQUEST_CODE_POST_NOTIFICATIONS
+            )
+        }
+        return permResult
+    }
+
+    private fun checkPermissionAutoStartApplication(): Boolean {
+        val permResult =
+            (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.RECEIVE_BOOT_COMPLETED
+            ) == PackageManager.PERMISSION_GRANTED)
+
+        if (shouldShowRequestPermissionRationale(Manifest.permission.RECEIVE_BOOT_COMPLETED)) {
+            AlertDialog.Builder(
+                ContextThemeWrapper(
+                    requireContext(),
+                    R.style.PerfectDay_MaterialCalendarTheme
+                )
+            )
+                .setTitle(getString(R.string.alert_autostart_title))
+                .setMessage(getString(R.string.alert_autostart_message))
+                .setPositiveButton(getString(R.string.open_permission_settings)) { _, _ ->
+                    permissionRequest(
+                        Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                        REQUEST_CODE_RECEIVE_BOOT_COMPLETED
+                    )
+                }
+                .setNegativeButton(getString(R.string.close_permission_settings)) { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
+        } else {
+            permissionRequest(
+                Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                REQUEST_CODE_RECEIVE_BOOT_COMPLETED
+            )
+        }
+        return permResult
+    }
+
+    private fun permissionRequest(permission: String, requestCode: Int) {
+        requestPermissions(arrayOf(permission), requestCode)
     }
 
     private fun observeHourData() {
@@ -151,10 +207,9 @@ class PushSettingFragment : Fragment() {
         }
     }
 
-
     private fun checkWorkManager() {
         try {
-            if (statusPush && checkPermissionPostNotifications()) {
+            if (statusPush && checkPermissionPostNotification()) {
                 pushManager.stopWork()
                 pushManager.startWork()
             } else {
@@ -164,32 +219,6 @@ class PushSettingFragment : Fragment() {
         } catch (e: Exception) {
             Log.d(LOG_TAG, e.message.toString())
         }
-    }
-
-
-    private fun checkPermissionPostNotifications(): Boolean = (ActivityCompat.checkSelfPermission(
-        requireContext(), Manifest.permission.POST_NOTIFICATIONS
-    ) == PackageManager.PERMISSION_GRANTED)
-
-    private fun checkPermissionAutoStartApplication(): Boolean =
-        (ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.RECEIVE_BOOT_COMPLETED
-        ) == PackageManager.PERMISSION_GRANTED)
-
-    private fun openAutoStartSettings() {
-        val intent = Intent()
-        intent.action = Settings.ACTION_SETTINGS
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra("android.provider.extra.APP_PACKAGE", requireContext().packageName)
-        requireContext().startActivity(intent)
-    }
-
-    private fun openNotificationsSettings() {
-        val intent = Intent()
-        intent.action = "android.settings.APP_NOTIFICATION_SETTINGS"
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra("android.provider.extra.APP_PACKAGE", requireContext().packageName)
-        requireContext().startActivity(intent)
     }
 
     override fun onDetach() {
