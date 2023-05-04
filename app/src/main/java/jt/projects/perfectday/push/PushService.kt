@@ -18,7 +18,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
 import java.time.LocalDate
-import java.util.*
+import java.util.UUID
 
 class PushService : KoinComponent {
 
@@ -45,7 +45,7 @@ class PushService : KoinComponent {
         }
     }
 
-   fun startPush() {
+    fun startPush() {
 
         CoroutineScope(Dispatchers.Default).launch {
             globalViewModel.getResultRecyclerByPeriod(LocalDate.now(), LocalDate.now())
@@ -54,13 +54,13 @@ class PushService : KoinComponent {
                     val birthdayCount = it.filterIsInstance<DataModel.BirthdayFromPhone>().size +
                             it.filterIsInstance<DataModel.BirthdayFromVk>().size
                     println("notesCount=$notesCount birthdayCount=$birthdayCount")
-                    launch(Dispatchers.Main) { sendPush(birthdayCount,notesCount,  CHANNEL_PERFECT)  }
+                    sendPush(birthdayCount, notesCount, CHANNEL_PERFECT)
                 }
         }
 
     }
 
-   private fun sendPush(countBd: Int, countNote: Int, channel: String) {
+    private fun sendPush(countBd: Int, countNote: Int, channel: String) {
 
         val result =
             "Дни рождения: ${if (countBd == 0) "нет" else countBd.toString()} \nЗапланированые события: ${if (countNote == 0) "нет" else countNote.toString()}"
@@ -95,7 +95,7 @@ class PushService : KoinComponent {
         )
     }
 
-    private fun getIntent():PendingIntent{
+    private fun getIntent(): PendingIntent {
         val intent = Intent(context?.applicationContext, MainActivity::class.java)
         val contextIntent = PendingIntent.getActivity(
             context,

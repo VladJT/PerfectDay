@@ -9,7 +9,6 @@ import jt.projects.utils.PUSH_START
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.Calendar
 
 class PushSettingViewModel(private val sharedPref: SimpleSettingsPreferences) :
     ViewModel() {
@@ -49,13 +48,16 @@ class PushSettingViewModel(private val sharedPref: SimpleSettingsPreferences) :
     }
 
     fun onSelectHourData(hour: Int) {
-        sharedPref.saveInt(PUSH_NOTIFICATION_STARTHOUR, hour)
         _hourTime.tryEmit(hour)
     }
 
     fun onSelectMinuteData(minute: Int) {
         Log.d(LOG_TAG, "onSelectMinuteData: $minute")
-        sharedPref.saveInt(PUSH_NOTIFICATION_STARTMINUTE, minute)
         _minuteTime.tryEmit(minute)
+    }
+
+    fun saveTimeToSharedPreferences() {
+        sharedPref.saveInt(PUSH_NOTIFICATION_STARTHOUR, hourTime.value)
+        sharedPref.saveInt(PUSH_NOTIFICATION_STARTMINUTE, minuteTime.value)
     }
 }

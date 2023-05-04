@@ -16,12 +16,8 @@ fun Fragment.showProgress(progress: Int, status: String? = null) {
     (this.requireActivity() as? MainActivity)?.showProgress(progress, status)
 }
 
-fun Fragment.showFab(isVisible: Boolean) {
-    (this.requireActivity() as? MainActivity)?.showFab(isVisible)
-}
-
-fun Fragment.showButtonBackHome(isVisible: Boolean) {
-    (this.requireActivity() as? MainActivity)?.showButtonBackHome(isVisible)
+fun Fragment.navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = false) {
+    (this.requireActivity() as? MainActivity)?.navigateToFragment(fragment, isAddToBackStack)
 }
 
 fun Fragment.editScheduledEvent(id: Int) {

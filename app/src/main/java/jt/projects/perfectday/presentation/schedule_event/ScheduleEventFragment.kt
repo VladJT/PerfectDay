@@ -13,8 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.extensions.showButtonBackHome
-import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.toStdFormatString
@@ -46,8 +44,6 @@ class ScheduleEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showButtonBackHome(true)
-        showFab(false)
         observeScheduleEvent()
         setChipGroupListeners()
         setSaveButtonClick()
@@ -127,8 +123,6 @@ class ScheduleEventFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        showButtonBackHome(false)
-        showFab(true)
         _binding = null
         super.onDestroyView()
     }
