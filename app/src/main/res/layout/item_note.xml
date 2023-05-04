@@ -9,19 +9,20 @@
     android:paddingTop="9dp"
     android:paddingBottom="10dp">
 
+
     <TextView
         android:id="@+id/tv_days_to_event"
         style="@style/PerfectDayTextHeader"
-        android:layout_marginStart="12dp"
         android:text="5 дней до события"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_date"
         style="@style/PerfectDayText"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_days_to_event"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/tv_days_to_event"
         tools:text="17.04.2023" />
 
@@ -33,19 +34,19 @@
         android:layout_marginTop="12dp"
         android:fontFamily="@font/roboto_medium"
         app:layout_constraintEnd_toEndOf="@+id/btn_delete"
-        app:layout_constraintStart_toStartOf="@+id/tv_days_to_event"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/tv_date"
         tools:text="Купить" />
 
     <TextView
         android:id="@+id/tv_description"
         style="@style/PerfectDayText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
         android:layout_marginTop="4dp"
         android:lineSpacingExtra="2sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_header"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/tv_header"
         tools:text="Творог\nМолоко\nХлеб" />
 
@@ -72,4 +73,11 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_delete"
         app:layout_constraintTop_toTopOf="@+id/btn_delete"
         app:tint="@color/grey_text_color" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="15dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
