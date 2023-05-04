@@ -27,6 +27,7 @@ class PushSettingFragment : Fragment() {
 
     private val viewModel: PushSettingViewModel by viewModel()
     private val pushManager by inject<PushManager>()
+    private var statusPush = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,6 +104,8 @@ class PushSettingFragment : Fragment() {
 
     private fun setSwitchChecked(checkedSwitch: Boolean) {
         binding.switchOnpush.isChecked = checkedSwitch
+        statusPush = checkedSwitch
+
     }
 
     private fun observeHourData() {
@@ -124,8 +127,8 @@ class PushSettingFragment : Fragment() {
 
     private fun checkWorkManager() {
         try {
-            val startPush = viewModel.isOnPushService.value
-            if (startPush) {
+            if (statusPush) {
+                pushManager.stopWork()
                 pushManager.startWork()
             } else {
                 pushManager.stopWork()
