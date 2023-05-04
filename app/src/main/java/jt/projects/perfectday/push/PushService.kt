@@ -6,17 +6,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.GlobalViewModel
-import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
-import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.presentation.MainActivity
-import jt.projects.repository.push.DataPush
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
@@ -34,17 +31,13 @@ class PushService : KoinComponent {
 
     companion object {
 
-        const val CHANNEL_BIRTHDAY = "channel_birthday"
-        const val CHANNEL_EVENT = "channel_event"
         const val CHANNEL_PERFECT = "channel perfect day"
         const val TAG = "push_@"
 
         const val WORK_ID = "psh_work_manager"
         const val ID_DATA = "time_start"
-        const val TAG_PARAM = "TAG_WORK_PUSH"
 
         val uuidWork = UUID.randomUUID()
-        // val uuidWork = UUID.fromString("b23988e7-719b-4858-a7c0-f5bf41848779")
 
         fun newInstance(): PushService {
             return PushService()
@@ -61,16 +54,16 @@ class PushService : KoinComponent {
                     val birthdayCount = it.filterIsInstance<DataModel.BirthdayFromPhone>().size +
                             it.filterIsInstance<DataModel.BirthdayFromVk>().size
                     println("notesCount=$notesCount birthdayCount=$birthdayCount")
-                    launch(Dispatchers.Main) { sendPush(notesCount, birthdayCount, CHANNEL_PERFECT)  }
+                    launch(Dispatchers.Main) { sendPush(birthdayCount,notesCount,  CHANNEL_PERFECT)  }
                 }
         }
 
     }
 
-   private fun sendPush(countBd: Int, countSched: Int, channel: String) {
+   private fun sendPush(countBd: Int, countNote: Int, channel: String) {
 
         val result =
-            "Дни рождения: ${if (countBd == 0) "нет" else countSched.toString()} \nЗапланированые события: ${if (countSched == 0) "нет" else countSched.toString()}"
+            "Дни рождения: ${if (countBd == 0) "нет" else countBd.toString()} \nЗапланированые события: ${if (countNote == 0) "нет" else countNote.toString()}"
         var notification_id = 1
         val notificationBuilderLow =
             NotificationCompat.Builder(context, channel).apply {
