@@ -1,7 +1,8 @@
 package jt.projects.repository.network.holiday
 
 import jt.projects.repository.network.holiday.dto.HolidayDTO
-import jt.projects.repository.network.holiday.dto.calendarific.HolidayCalendarificDto
+import jt.projects.repository.network.holiday.dto.calendarific.Holiday
+import jt.projects.repository.network.holiday.dto.calendarific.Response
 import jt.projects.utils.CALENDARIFIC_BASE_URL_LOCATION
 import jt.projects.utils.HOLIDAY_BASE_URL_LOCATION
 import retrofit2.Retrofit
@@ -31,7 +32,7 @@ class HolidayRepositoryImpl(retrofit: Retrofit) : HolidayRepository {
     override suspend fun getHolidayFromCalendarific(
         country: String,
         date: LocalDate
-    ): List<HolidayCalendarificDto> =
+    ): Holiday =
         apiC.searchHolidayCaledarific(
             country,
             date.year.toString(),

@@ -2,7 +2,8 @@ package jt.projects.repository.network.holiday
 
 import jt.projects.repository.BuildConfig
 import jt.projects.repository.network.holiday.dto.HolidayDTO
-import jt.projects.repository.network.holiday.dto.calendarific.HolidayCalendarificDto
+import jt.projects.repository.network.holiday.dto.calendarific.Holiday
+import jt.projects.repository.network.holiday.dto.calendarific.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -23,6 +24,6 @@ interface HolidayApi {
         @Query("month") month: String,
         @Query("day") day: String,
         @Query("api_key") apiKey: String = BuildConfig.CALENDARIFIC_API_KEY,
-    ): List<HolidayCalendarificDto>
+    ): Holiday
 
 }

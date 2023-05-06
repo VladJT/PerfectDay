@@ -2,7 +2,8 @@ package jt.projects.repository.network.mapper
 
 import jt.projects.model.DataModel
 import jt.projects.repository.network.holiday.dto.HolidayDTO
-import jt.projects.repository.network.holiday.dto.calendarific.HolidayCalendarificDto
+import jt.projects.repository.network.holiday.dto.calendarific.Holiday
+import jt.projects.repository.network.holiday.dto.calendarific.Response
 import java.time.LocalDate
 
 fun parseArrayDTOtoDataModel(holidayDTO: List<HolidayDTO>): List<DataModel.Holiday> {
@@ -17,8 +18,12 @@ fun parseArrayDTOtoDataModel(holidayDTO: List<HolidayDTO>): List<DataModel.Holid
     }
 }
 
-fun parseCalendarificDTOtoDataModel(holidayDTO: List<HolidayCalendarificDto>): List<DataModel.Holiday> {
-    return holidayDTO.map {
+fun parseCalendarificDTOtoDataModel(response: Holiday): List<DataModel.Holiday> {
+    if (response.response.holidays.isNullOrEmpty()) {
+        return listOf()
+    }
+
+    return response.response.holidays.map {
         DataModel.Holiday(
             name = it.name,
             country = "Russia",
@@ -28,3 +33,7 @@ fun parseCalendarificDTOtoDataModel(holidayDTO: List<HolidayCalendarificDto>): L
         )
     }
 }
+
+
+
+
