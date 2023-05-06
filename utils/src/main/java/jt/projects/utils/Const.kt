@@ -7,6 +7,7 @@ import java.time.LocalDate
  */
 const val FACTS_BASE_URL_LOCATIONS = "http://numbersapi.com/"
 const val HOLIDAY_BASE_URL_LOCATION = "https://holidays.abstractapi.com/"
+const val CALENDARIFIC_BASE_URL_LOCATION = "https://calendarific.com/"
 const val HOLIDAY_COUNTRY = "Ru"
 
 /**

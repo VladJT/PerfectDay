@@ -29,10 +29,10 @@ sealed class DataModel {
     ) : DataModel()
 
     data class Holiday(
-        val name: String,
+        var name: String,
         val country: String,
         val type: String,
-        val description: String?,
+        var description: String?,
         val date: LocalDate
     ) : DataModel()
 
