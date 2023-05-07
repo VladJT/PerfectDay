@@ -16,30 +16,10 @@ fun Fragment.showProgress(progress: Int, status: String? = null) {
     (this.requireActivity() as? MainActivity)?.showProgress(progress, status)
 }
 
-fun Fragment.showFab(isVisible: Boolean) {
-    (this.requireActivity() as? MainActivity)?.showFab(isVisible)
-}
-
-fun Fragment.showButtonBackHome(isVisible: Boolean) {
-    (this.requireActivity() as? MainActivity)?.showButtonBackHome(isVisible)
+fun Fragment.navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = false) {
+    (this.requireActivity() as? MainActivity)?.navigateToFragment(fragment, isAddToBackStack)
 }
 
 fun Fragment.editScheduledEvent(id: Int) {
     (requireActivity() as? MainActivity)?.showScheduledEvent(id)
-}
-
-fun TextView.translateText() {
-    val translator = getKoin().get<GoogleTranslator>()
-
-    val text = this.text.toString()
-
-    CoroutineScope(Dispatchers.Main).launch {
-        translator.isTranslationModelOk.onEach { isLanguageDownloaded ->
-            if (isLanguageDownloaded) {
-                translator.translate(text).onEach {
-                    this@translateText.text = it
-                }.collect()
-            }
-        }.collect()
-    }
 }

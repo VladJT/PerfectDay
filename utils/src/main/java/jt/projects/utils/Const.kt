@@ -7,6 +7,7 @@ import java.time.LocalDate
  */
 const val FACTS_BASE_URL_LOCATIONS = "http://numbersapi.com/"
 const val HOLIDAY_BASE_URL_LOCATION = "https://holidays.abstractapi.com/"
+const val CALENDARIFIC_BASE_URL_LOCATION = "https://calendarific.com/"
 const val HOLIDAY_COUNTRY = "Ru"
 
 /**
@@ -29,6 +30,7 @@ const val PUSH_PARAM = "PUSH_PARAM"
 const val PUSH_START = "ON_PUSH"
 const val PUSH_NOTIFICATION_STARTHOUR = "PUSH_NOTIFICATION_STARTHOUR"
 const val PUSH_NOTIFICATION_STARTMINUTE = "PUSH_NOTIFICATION_STARTMINUTE"
+
 /**
  * COMMON SETTINGS
  */
@@ -69,6 +71,12 @@ const val REAL = "REAL"
  */
 const val REQUEST_CODE_READ_CONTACTS = 4513
 var permissionGranted = false
+
+/**
+ * PUSH PERMISSION REQUEST
+ */
+const val REQUEST_CODE_POST_NOTIFICATIONS = 4514
+const val REQUEST_CODE_RECEIVE_BOOT_COMPLETED = 4515
 
 /*
 * FOR DEBUG LO

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.GlobalViewModel
@@ -26,6 +29,7 @@ import jt.projects.perfectday.presentation.calendar.CalendarFragment
 import jt.projects.perfectday.presentation.intro.IntroActivity
 import jt.projects.perfectday.presentation.reminder.ReminderFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
+import jt.projects.perfectday.presentation.settings.PushSettingFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
 import jt.projects.utils.IS_FIRST_TIME_START_APP_KEY
@@ -55,6 +59,32 @@ class MainActivity : AppCompatActivity() {
 
     private val settingsPreferences by inject<SimpleSettingsPreferences>()
 
+    private val fragmentLifecycleCallback = object : FragmentLifecycleCallbacks() {
+        override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+            super.onFragmentResumed(fm, f)
+            when (f) {
+                is SettingsFragment -> {
+                    showButtonBackHome(true)
+                    showFab(false)
+                }
+
+                is PushSettingFragment -> {
+                    showButtonBackHome(true)
+                    showFab(false)
+                }
+
+                is ScheduleEventFragment -> {
+                    showFab(false)
+                }
+
+                else -> {
+                    showButtonBackHome(false)
+                    showFab(true)
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // убираем splash screen для Android 10 и ниже
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -64,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // фоновая загрузка GlobalViewModel
-        CoroutineScope(Dispatchers.IO).launch{
+        CoroutineScope(Dispatchers.IO).launch {
             val vm = getKoin().get<GlobalViewModel>()
         }
 
@@ -74,6 +104,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallback, false)
 
         subscribeToNetworkStatusChange()
         initBottomNavView()
@@ -195,7 +227,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = false) {
+    fun navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = false) {
         // проверяем,что фрагмент еще не запущен
         if (supportFragmentManager.fragments.find { it.javaClass == fragment::class.java } != null) return
 
@@ -229,11 +261,18 @@ class MainActivity : AppCompatActivity() {
         if (permResult == PackageManager.PERMISSION_GRANTED) {
             permissionGranted = true
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
-            AlertDialog.Builder(this).setTitle("Доступ к контактам")
-                .setMessage("Запрос на доступ к контактам. В случае отказа, доступ можно будет предоставить только в настройках приложения.")
-                .setPositiveButton("Открыть окно предоставления доступа") { _, _ ->
+            AlertDialog.Builder(
+                ContextThemeWrapper(
+                    this,
+                    R.style.PerfectDay_MaterialCalendarTheme
+                )
+            ).setTitle(getString(R.string.alert_contacts_title))
+                .setMessage(getString(R.string.alert_contacts_message))
+                .setPositiveButton(getString(R.string.open_permission_settings)) { _, _ ->
                     permissionRequest(Manifest.permission.READ_CONTACTS)
-                }.setNegativeButton("Отказать в запросе") { dialog, _ -> dialog.dismiss() }.create()
+                }
+                .setNegativeButton(getString(R.string.close_permission_settings)) { dialog, _ -> dialog.dismiss() }
+                .create()
                 .show()
         } else {
             permissionRequest(Manifest.permission.READ_CONTACTS)
@@ -244,5 +283,9 @@ class MainActivity : AppCompatActivity() {
         requestPermissions(arrayOf(permission), REQUEST_CODE_READ_CONTACTS)
     }
 
+    override fun onDestroy() {
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallback)
+        super.onDestroy()
+    }
 
 }

@@ -14,6 +14,7 @@ android {
         buildConfigField("String", "VK_BASE_URL", "\"https://api.vk.com/\"")
         buildConfigField("Double", "VK_VERSION_API", "5.131")
         buildConfigField("String", "HOLIDAY_API_KEY", "\"88a2a8cc787c4a5bb28b5367c9753c2d\"")
+        buildConfigField("String", "CALENDARIFIC_API_KEY", "\"49cfc433d1d3098988011efc79b07b4a81657fae\"")
     }
 
 

@@ -40,20 +40,35 @@
     <string name="loading">Идет загрузка...</string>
 
 
-    // INTRO
     <string name="hello_app_string">ЗНАКОМСТВО С ПРИЛОЖЕНИЕМ</string>
+
+    // PUSH
     <string name="open">Открыть</string>
-    <string name="check_permissions">Необходимо добавить разрешение</string>
-
-
+    <string name="check_permissions_notification">Необходимо добавить разрешение для отправки оповещений</string>
+    <string name="check_permissions_autostart">Необходимо добавить разрешение для автозапуска приложения</string>
     <string name="header_push_switch">Включить Push уведомления</string>
     <string name="push_help_description">Включите Push уведомления, и выберите время в которое программа будет Вам отправлять уведомления о события и днях рождения текущего дня.</string>
     <string name="head_text_button_switch_on">Выключить</string>
     <string name="head_text_button_switch_off">Включить</string>
 
-
+    // TRANSLATOR
     <string name="translation_loading">Подождите...загружается языковая модель</string>
     <string name="translation_error_loading">Ошибка загрузки языковой модели</string>
+
     <string name="no_internet">Нет интернета. Проверьте подключение.</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="day_after_tomorrow">Послезавтра</string>
+    <string name="choose_date_of_event">Выберите дату события</string>
+
+    // PERMISSIONS REQUESTS
+    <string name="alert_notification_title">Доступ к уведомлениям</string>
+    <string name="alert_notification_message">Запрос на доступ к отправке уведомлений. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
+    <string name="open_permission_settings">Открыть окно предоставления доступа</string>
+    <string name="close_permission_settings">Отказать в запросе</string>
+    <string name="alert_autostart_title">Доступ к автозапуску приложения</string>
+    <string name="alert_autostart_message">Запрос на автозапуску приложения для отправки уведомлений в запланированное время. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
+    <string name="alert_contacts_title">Доступ к контактам</string>
+    <string name="alert_contacts_message">Запрос на доступ к контактам. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
 
 </resources>

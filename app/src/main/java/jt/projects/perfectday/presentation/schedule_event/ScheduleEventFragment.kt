@@ -1,5 +1,6 @@
 package jt.projects.perfectday.presentation.schedule_event
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +13,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.datepicker.MaterialDatePicker
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
-import jt.projects.perfectday.core.extensions.showButtonBackHome
-import jt.projects.perfectday.core.extensions.showFab
 import jt.projects.perfectday.databinding.FragmentScheduleEventBinding
 import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.toStdFormatString
+import jt.projects.utils.toStdLocalDate
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 
 private const val DATE_STRING_KEY = "date_key"
@@ -43,13 +44,26 @@ class ScheduleEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showButtonBackHome(true)
-        showFab(false)
         observeScheduleEvent()
+        setChipGroupListeners()
         setSaveButtonClick()
         setOnClickButtonChooseDate()
 
         binding.btnChooseDate.text = arguments?.getString(DATE_STRING_KEY) ?: emptyString()
+    }
+
+    private fun setChipGroupListeners() {
+        binding.chipToday.setOnClickListener {
+            binding.btnChooseDate.text = LocalDate.now().toStdFormatString()
+        }
+
+        binding.chipTomorrow.setOnClickListener {
+            binding.btnChooseDate.text = LocalDate.now().plusDays(1).toStdFormatString()
+        }
+
+        binding.chipDayAfterTomorrow.setOnClickListener {
+            binding.btnChooseDate.text = LocalDate.now().plusDays(2).toStdFormatString()
+        }
     }
 
     private fun observeScheduleEvent() {
@@ -84,9 +98,15 @@ class ScheduleEventFragment : Fragment() {
 
     private fun setOnClickButtonChooseDate() {
         binding.btnChooseDate.setOnClickListener {
+            val localDate = binding.btnChooseDate.text.toString().toStdLocalDate()
+            val calendar = Calendar.getInstance()
+            calendar.set(localDate.year, localDate.monthValue - 1, localDate.dayOfMonth)
+
             MaterialDatePicker.Builder
                 .datePicker()
+                .setTitleText(getString(R.string.choose_date_of_event))
                 .setTheme(R.style.PerfectDay_MaterialCalendarTheme)
+                .setSelection(calendar.timeInMillis)
                 .build()
                 .apply {
                     addOnPositiveButtonClickListener {
@@ -103,8 +123,6 @@ class ScheduleEventFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        showButtonBackHome(false)
-        showFab(true)
         _binding = null
         super.onDestroyView()
     }

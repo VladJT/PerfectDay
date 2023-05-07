@@ -69,6 +69,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_input_layout_event_description" />
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_dates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_description_date"
+        app:singleLine="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_today"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/today" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tomorrow"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tomorrow" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_day_after_tomorrow"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day_after_tomorrow" />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_choose_date"
         android:layout_width="wrap_content"
@@ -80,7 +112,7 @@
         app:iconPadding="5dp"
         app:iconTint="?attr/text_color_primary_to_primary_app"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description_date"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group_dates"
         tools:text="02.20.2023" />
 
     <com.google.android.material.button.MaterialButton

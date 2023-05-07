@@ -109,4 +109,20 @@
         <item name="cornerSizeBottomLeft">@dimen/button_corner_radius</item>
     </style>
 
+    <style name="PerfectDayTextHeader">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textColor">?attr/text_color_primary_to_primary_app</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="PerfectDayText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">?attr/text_color_fact_of_the_day</item>
+        <item name="android:textSize">@dimen/text_size_standard</item>
+    </style>
+
 </resources>

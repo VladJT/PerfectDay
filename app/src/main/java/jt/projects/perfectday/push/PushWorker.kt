@@ -12,8 +12,8 @@ class PushWorker(context: Context, param: WorkerParameters) : Worker(context, pa
 
         try {
             Log.d(PushService.TAG, "doWork: start")
-            val pushService = PushService()
-            pushService.pushBirthdayToday()
+
+            PushService.newInstance().startPush()
 
         } catch (e: IllegalAccessException) {
             return  Result.failure()
