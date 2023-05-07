@@ -24,6 +24,7 @@ class TodayViewModel(
     private val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : ViewModel() {
     private val currentDate = LocalDate.now()
+    private val datePeriod = currentDate.plusMonths(5)
 
     private val _resultRecycler = MutableStateFlow<List<TodayItem>>(listOf())
     val resultRecycler get() = _resultRecycler.asStateFlow()
@@ -49,9 +50,9 @@ class TodayViewModel(
         job = viewModelScope.launch {
             //Запускаем параллельно загрузку данных
             val loadHoliday = async { loadContent { holidayInteractor.getCalendarificHolidayByDate(currentDate) }}
-            val loadPhoneFriends = async { loadContent { birthdayFromPhoneInteractor.getContacts().take(5) }}
+            val loadPhoneFriends = async { loadContent { birthdayFromPhoneInteractor.getContactsInInterval(currentDate, datePeriod).take(5) }}
             val loadVkFriends = async {
-                loadContent { getFriendsFromVkUseCase.getAllFriends(vkToken).take(5) }
+                loadContent { getFriendsFromVkUseCase.getFriendsByPeriodDate(vkToken, currentDate, datePeriod).take(5) }
             }
             val loadFacts = async {
                 loadContent { simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT) }

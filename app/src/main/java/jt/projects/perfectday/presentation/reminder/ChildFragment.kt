@@ -1,10 +1,10 @@
 package jt.projects.perfectday.presentation.reminder
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -15,14 +15,19 @@ import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderChildBinding
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
+import org.koin.java.KoinJavaComponent
 import java.time.LocalDate
 
-class ChildFragment(
-    private val startDate: () -> LocalDate,
-    private val endDate: () -> LocalDate
-) : Fragment() {
+private const val STATE_CHILD_KEY = "state_child_key"
+
+class ChildFragment : Fragment() {
+    private val sharedPref = KoinJavaComponent.getKoin().get<SimpleSettingsPreferences>()
+    private lateinit var startDate: LocalDate
+    private lateinit var endDate: LocalDate
+
     private var _binding: FragmentReminderChildBinding? = null
     private val binding get() = _binding!!
 
@@ -46,11 +51,24 @@ class ChildFragment(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initArguments()
         initRecView()
         observeLoadingVisible()
         observeEditNote()
         setSwipeToRefreshMove()
         setIntentStart()
+    }
+
+    private fun initArguments() {
+        val stateChild = requireArguments().getInt(STATE_CHILD_KEY)
+        val currentDate = LocalDate.now()
+        if (stateChild == ReminderFragment.TOMORROW) {
+            startDate = currentDate
+            endDate = currentDate.plusDays(1)
+        } else {
+            startDate = currentDate
+            endDate = currentDate.plusDays(sharedPref.getDaysPeriodForReminderFragment())
+        }
     }
 
     private fun initRecView() {
@@ -62,7 +80,7 @@ class ChildFragment(
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel
-                    .getResultRecyclerByPeriod(startDate(), endDate())
+                    .getResultRecyclerByPeriod(startDate, endDate)
                     .collect {
                         reminderAdapter.setData(it)
                     }
@@ -107,5 +125,10 @@ class ChildFragment(
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    companion object {
+        fun newInstance(stateChild: Int): ChildFragment =
+            ChildFragment().apply { arguments = bundleOf(STATE_CHILD_KEY to stateChild) }
     }
 }
