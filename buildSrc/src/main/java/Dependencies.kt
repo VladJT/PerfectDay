@@ -11,7 +11,6 @@ object Config {
     const val target_sdk = 33
     val java_version = JavaVersion.VERSION_17
     const val jvmTarget_version = "17"
-    const val isMinifyEnabled = false
 }
 
 object Releases {
