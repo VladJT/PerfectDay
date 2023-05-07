@@ -1,8 +1,6 @@
 package jt.projects.perfectday.presentation
 
 import android.Manifest
-import android.animation.Animator
-import android.animation.Animator.AnimatorListener
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,7 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.MenuItem
-import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.TextView
@@ -22,9 +19,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
+import androidx.transition.AutoTransition
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.GlobalViewModel
+import jt.projects.perfectday.core.toStdFormatString
 import jt.projects.perfectday.core.translator.GoogleTranslator
 import jt.projects.perfectday.core.translator.TranslatorCallback
 import jt.projects.perfectday.databinding.ActivityMainBinding
@@ -43,7 +45,6 @@ import jt.projects.utils.extensions.showToast
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import jt.projects.perfectday.core.toStdFormatString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -177,26 +178,44 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showButtonBackHome(isVisible: Boolean) {
-        if (isVisible) {
-            binding.layoutToolbar.btnBack.visibility = View.VISIBLE
-            binding.layoutToolbar.btnBack.animate().alpha(1f)
-                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
-        } else {
-            binding.layoutToolbar.btnBack.visibility = View.GONE
-            binding.layoutToolbar.btnBack.alpha = 0f
+        val btnHomeTransition = TransitionSet().apply {
+            val transition = Fade()
+            transition.duration = ANIMATION_DURATION
+            addTransition(transition)
         }
+        if (isVisible) {
+            TransitionManager.beginDelayedTransition(
+                binding.layoutToolbar.toolbarLayout,
+                btnHomeTransition
+            )
+        }
+        binding.layoutToolbar.btnBack.isVisible = isVisible
     }
 
     fun showButtonSettings(isVisible: Boolean) {
+        val btnSettingsTransition = TransitionSet().apply {
+            val transition = AutoTransition()
+            transition.duration = ANIMATION_DURATION
+            addTransition(transition)
+        }
+
+        TransitionManager.beginDelayedTransition(
+            binding.layoutToolbar.toolbarLayout,
+            btnSettingsTransition
+        )
+
         if (isVisible) {
-            binding.layoutToolbar.btnSettings.visibility = View.VISIBLE
-            binding.layoutToolbar.btnSettings.animate().alpha(1f)
-                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
+            binding.layoutToolbar.btnSettings.run {
+                animate().alpha(1f)
+                isClickable = true
+            }
         } else {
-            binding.layoutToolbar.btnSettings.visibility = View.VISIBLE
-            binding.layoutToolbar.btnSettings.animate()
-                .alpha(0f)
-                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
+            binding.layoutToolbar.btnSettings.run {
+                animate()
+                    .rotationBy(180f).alpha(0.1f)
+                    .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
+                isClickable = false
+            }
         }
     }
 
@@ -209,8 +228,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnClickSettings() {
         binding.layoutToolbar.btnSettings.setOnClickListener {
-            it.animate().rotationBy(180f).setInterpolator(LinearInterpolator()).duration =
-                ANIMATION_DURATION
             navigateToFragment(SettingsFragment(), isAddToBackStack = true)
         }
     }
