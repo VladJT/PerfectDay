@@ -40,7 +40,7 @@ class GetFriendsFromVkUseCase(
             .sortedWith(sortComparatorByMonthAndDay)
 
     suspend fun getAllFriends(userToken: String?): List<DataModel.BirthdayFromVk> {
-        if (userToken == null || userToken.isEmpty()) return emptyList()
+        if (userToken.isNullOrEmpty()) return emptyList()
         val vkInfo = vkNetworkRepository.getUserFriends(userToken)
         return createBirthdayFromVkList(vkInfo.friends)
     }
