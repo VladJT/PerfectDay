@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/tv_date"
         style="@style/PerfectDayText"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/margin_small"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/tv_days_to_event"
         tools:text="17.04.2023" />
@@ -54,7 +54,7 @@
         android:id="@+id/btn_delete"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="@dimen/margin_large"
         android:backgroundTint="@color/transparent"
         android:contentDescription="@string/content_desc_settings"
         android:src="@drawable/ic_delete"

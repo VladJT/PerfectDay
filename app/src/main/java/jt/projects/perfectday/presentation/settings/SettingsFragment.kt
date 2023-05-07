@@ -14,6 +14,7 @@ import coil.load
 import com.google.android.material.slider.Slider
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
+import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.navigateToFragment
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
 import jt.projects.utils.REMINDER_PERIOD_KEY
@@ -70,9 +71,9 @@ class SettingsFragment : Fragment() {
 
         viewModel.countOfDeletedEvents.observe(viewLifecycleOwner) {
             if (it == 0)
-                showSnackbar("Нет прошедших событий для удаления")
+                showSnackbar(getString(R.string.no_data_to_delete))
             else
-                showSnackbar("Удалено $it прошедших событий")
+                showSnackbar(getString(R.string.deleted) + "$it" + getString(R.string.last_events))
         }
     }
 
@@ -98,7 +99,7 @@ class SettingsFragment : Fragment() {
         val startDate = LocalDate.now()
         val endDate = startDate.plusDays(value.toLong())
         binding.tvSliderValue.text =
-            "${value.toInt()} Дней (${startDate.toStdFormatString()} - ${endDate.toStdFormatString()})"
+            "${value.toInt()} " + getString(R.string.Days) + " (${startDate.toStdFormatString()} - ${endDate.toStdFormatString()})"
     }
 
     private fun observeError() {
@@ -111,7 +112,7 @@ class SettingsFragment : Fragment() {
 
     private fun displayError(@StringRes resource: Int) {
         val text = getString(resource)
-        requireActivity().showSnackbar(text)
+        showSnackbar(text)
     }
 
     private fun setOnButtonsListener() {

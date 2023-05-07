@@ -17,10 +17,12 @@
     <dimen name="text_size_standard">14sp</dimen>
     <dimen name="text_size_standard_header">16sp</dimen>
     <dimen name="text_size_large">16sp</dimen>
+    <dimen name="text_size_large_x">18sp</dimen>
     <dimen name="text_size_large_header">20sp</dimen>
 
     //Corner radius
     <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_corner_radius_large">16dp</dimen>
     <dimen name="card_elevation">8dp</dimen>
 
     //Button radius
