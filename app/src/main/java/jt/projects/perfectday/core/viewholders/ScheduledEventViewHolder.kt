@@ -6,9 +6,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.ItemNoteBinding
-import jt.projects.utils.getAlertStringHowManyDaysBefore
-import jt.projects.utils.getAlertStringHowManyDaysBeforeScheduledEvent
-import jt.projects.utils.toStdFormatString
+import jt.projects.perfectday.core.getAlertStringHowManyDaysBeforeScheduledEvent
+import jt.projects.perfectday.core.toStdFormatString
 
 class ScheduledEventViewHolder private constructor(
     private val binding: ItemNoteBinding

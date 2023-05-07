@@ -20,7 +20,7 @@ import jt.projects.perfectday.databinding.FragmentSettingsBinding
 import jt.projects.utils.REMINDER_PERIOD_KEY
 import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import jt.projects.utils.toStdFormatString
+import jt.projects.perfectday.core.toStdFormatString
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject

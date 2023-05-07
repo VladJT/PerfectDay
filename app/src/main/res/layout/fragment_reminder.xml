@@ -18,7 +18,7 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/reminder_tab_layout"
-            android:layout_width="190dp"
+            android:layout_width="220dp"
             android:layout_height="38dp"
             app:tabBackground="@drawable/tabs_selector"
             app:tabGravity="fill"

@@ -1,6 +1,8 @@
 package jt.projects.perfectday.presentation
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,6 +18,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
@@ -40,7 +43,7 @@ import jt.projects.utils.extensions.showToast
 import jt.projects.utils.network.OnlineStatusLiveData
 import jt.projects.utils.permissionGranted
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import jt.projects.utils.toStdFormatString
+import jt.projects.perfectday.core.toStdFormatString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -65,21 +68,26 @@ class MainActivity : AppCompatActivity() {
             when (f) {
                 is SettingsFragment -> {
                     showButtonBackHome(true)
-                    showFab(false)
+                    binding.fBtnAddReminder.isVisible = false
+                    showButtonSettings(false)
                 }
 
                 is PushSettingFragment -> {
                     showButtonBackHome(true)
-                    showFab(false)
+                    binding.fBtnAddReminder.isVisible = false
+                    showButtonSettings(false)
                 }
 
                 is ScheduleEventFragment -> {
-                    showFab(false)
+                    showButtonBackHome(true)
+                    binding.fBtnAddReminder.isVisible = false
+                    showButtonSettings(true)
                 }
 
                 else -> {
                     showButtonBackHome(false)
-                    showFab(true)
+                    binding.fBtnAddReminder.isVisible = true
+                    showButtonSettings(true)
                 }
             }
         }
@@ -168,14 +176,6 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun showFab(isShow: Boolean) {
-        if (isShow) {
-            binding.fBtnAddReminder.visibility = View.VISIBLE
-        } else {
-            binding.fBtnAddReminder.visibility = View.GONE
-        }
-    }
-
     fun showButtonBackHome(isVisible: Boolean) {
         if (isVisible) {
             binding.layoutToolbar.btnBack.visibility = View.VISIBLE
@@ -184,6 +184,19 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.layoutToolbar.btnBack.visibility = View.GONE
             binding.layoutToolbar.btnBack.alpha = 0f
+        }
+    }
+
+    fun showButtonSettings(isVisible: Boolean) {
+        if (isVisible) {
+            binding.layoutToolbar.btnSettings.visibility = View.VISIBLE
+            binding.layoutToolbar.btnSettings.animate().alpha(1f)
+                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
+        } else {
+            binding.layoutToolbar.btnSettings.visibility = View.VISIBLE
+            binding.layoutToolbar.btnSettings.animate()
+                .alpha(0f)
+                .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
         }
     }
 

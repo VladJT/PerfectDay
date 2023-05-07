@@ -1,6 +1,9 @@
-package jt.projects.utils
+package jt.projects.perfectday.core
 
 import jt.projects.model.DataModel
+import jt.projects.perfectday.App
+import jt.projects.perfectday.R
+import org.koin.java.KoinJavaComponent.getKoin
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -15,6 +18,8 @@ fun String.toStdLocalDate(): LocalDate {
 }
 
 fun getAlertStringHowManyDaysBefore(birthDate: LocalDate): String {
+    val context = getKoin().get<App>()
+
     var endDate = LocalDate.of(
         LocalDate.now().year,
         birthDate.month,
@@ -31,23 +36,25 @@ fun getAlertStringHowManyDaysBefore(birthDate: LocalDate): String {
     daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), endDate)
 
     return when (daysBeforeEventCount) {
-        0L -> "Сегодня"
-        1L -> "Завтра"
-        2L -> "Послезавтра"
-        else -> "$daysBeforeEventCount дней до события"
+        0L -> context.getString(R.string.today)
+        1L -> context.getString(R.string.tomorrow)
+        2L -> context.getString(R.string.day_after_tomorrow)
+        else -> "$daysBeforeEventCount ".plus(context.getString(R.string.days_before_event))
     }
 }
 
 fun getAlertStringHowManyDaysBeforeScheduledEvent(eventDate: LocalDate): String {
+    val context = getKoin().get<App>()
+
     var daysBeforeEventCount = ChronoUnit.DAYS.between(LocalDate.now(), eventDate)
 
-    if (daysBeforeEventCount < 0) return "Событие прошло"
+    if (daysBeforeEventCount < 0) return context.getString(R.string.event_passed)
 
     return when (daysBeforeEventCount) {
-        0L -> "Сегодня"
-        1L -> "Завтра"
-        2L -> "Послезавтра"
-        else -> "$daysBeforeEventCount дней до события"
+        0L -> context.getString(R.string.today)
+        1L -> context.getString(R.string.tomorrow)
+        2L -> context.getString(R.string.day_after_tomorrow)
+        else -> "$daysBeforeEventCount ".plus(context.getString(R.string.days_before_event))
     }
 }
 
