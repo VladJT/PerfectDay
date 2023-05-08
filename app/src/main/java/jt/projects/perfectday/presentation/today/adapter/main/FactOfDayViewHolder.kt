@@ -24,7 +24,5 @@ class FactOfDayViewHolder private constructor(
 
         val text = item.list.first().description
         binding.tvFactDescription.text = text
-
-        //    binding.tvFactDescription.translateText()
     }
 }

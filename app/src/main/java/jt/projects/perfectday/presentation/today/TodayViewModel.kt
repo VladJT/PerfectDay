@@ -1,22 +1,18 @@
 package jt.projects.perfectday.presentation.today
 
-import android.util.Log
 import androidx.lifecycle.*
 import jt.projects.model.DataModel
 import jt.projects.perfectday.core.extensions.*
 import jt.projects.perfectday.interactors.*
 import jt.projects.perfectday.presentation.today.adapter.main.TodayItem
 import jt.projects.utils.FACTS_COUNT
-import jt.projects.utils.extensions.toFriend
 import jt.projects.utils.shared_preferences.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 
-private const val TAG = "TodayViewModel"
-
 class TodayViewModel(
-    private val settingsPreferences: SimpleSettingsPreferences,
+    settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     private val holidayInteractor: HolidayInteractorImpl,
@@ -36,6 +32,7 @@ class TodayViewModel(
     val noteIdFlow get() = _noteIdFlow.asSharedFlow()
 
     private var job: Job? = null
+    private val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
 
     init {
         loadAllContent()
@@ -43,54 +40,18 @@ class TodayViewModel(
 
     private fun loadAllContent() {
         job?.cancel()
-        val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
-
         _isLoading.tryEmit(true)
-
         job = viewModelScope.launch {
             val holidays =
                 asyncOrReturnEmptyList { holidayInteractor.getCalendarificHolidayByDate(currentDate) }
             val facts =
                 asyncOrReturnEmptyList { simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT) }
-
-            //Запускаем параллельно загрузку данных
-            val loadPhoneFriends = async { loadContent { birthdayFromPhoneInteractor.getContactsInInterval(currentDate, datePeriod).take(5) }}
-            val loadVkFriends = async {
-                loadContent { getFriendsFromVkUseCase.getFriendsByPeriodDate(vkToken, currentDate, datePeriod).take(5) }
-            }
-
-            //Ждём загрузку всех данных, чтобы пришли(и приводим к нужному типу)
-            val friendsVk = loadVkFriends.await().filterIsInstance<DataModel.BirthdayFromVk>()
-                .map(DataModel.BirthdayFromVk::toFriend)
-
-            /* Нужно конвертнуть друзей из телефона в модель для вк чтобы итем принимал
-             * один список друзей. Не стал менять основные данные  DataModel т.к.
-             * на них сейчас завязаны другие люди, и могу все сломать.
-             * По хорошему нужно сделать для друзей одну модель data class, так как поля у них схожу.
-             */
-            val friends = loadPhoneFriends
-                .await()
-                .filterIsInstance<DataModel.BirthdayFromPhone>()
-                .map(DataModel.BirthdayFromPhone::toFriend)
-                .toMutableList()
-                .apply { addAll(friendsVk) }
-
-
+            val friends = getAllFriends()
             /*Подписываемся на изменения базы данных(а именно заметок на текущий день)
             * и каждый раз когда база изменяется, создаем items для RecyclerView
             * с нужными данными, после чего emit во фрагмент*/
             scheduledEventInteractorImpl.getNotesByDate(currentDate)
-                .map {
-                    val notes = it.map { note -> TodayItem.Notes(note) }
-
-                    val items = mutableListOf<TodayItem>()
-                    items.apply {
-                        add(TodayItem.Holiday(holidays))
-                        add(TodayItem.Friends(friends))
-                        add(TodayItem.FactOfDay(facts))
-                        addAll(notes)
-                    }
-                }
+                .map { mapToTodayItems(holidays, facts, friends, it) }
                 .onEach {
                     _resultRecycler.tryEmit(it)
                     _isLoading.tryEmit(false)
@@ -99,15 +60,33 @@ class TodayViewModel(
         }
     }
 
-    private suspend fun loadContent(listener: suspend () -> List<DataModel>): List<DataModel> =
-        try {
-            listener.invoke()
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            Log.e(TAG, "$e")
-            listOf()
+    private suspend fun getAllFriends(): List<DataModel.Friend> {
+        val contactsFriends = asyncOrReturnEmptyList {
+            birthdayFromPhoneInteractor.getFriendsByPeriod(currentDate, datePeriod).take(5)
         }
+        val vkFriends = asyncOrReturnEmptyList {
+            getFriendsFromVkUseCase.getFriendsByPeriodDate(vkToken, currentDate, datePeriod).take(5)
+        }
+        return contactsFriends
+            .toMutableList()
+            .apply { addAll(vkFriends) }
+    }
+
+    private fun mapToTodayItems(
+        holidays: List<DataModel.Holiday>,
+        facts: List<DataModel.SimpleNotice>,
+        friends: List<DataModel.Friend>,
+        notes: List<DataModel.ScheduledEvent>
+    ): List<TodayItem> {
+        val items = mutableListOf<TodayItem>()
+        notes.map {  }
+        return items.apply {
+            add(TodayItem.Holiday(holidays))
+            add(TodayItem.Friends(friends))
+            add(TodayItem.FactOfDay(facts))
+            addAll(notes.map { note -> TodayItem.Notes(note) })
+        }
+    }
 
     fun onDeleteNoteClicked(id: Int) {
         viewModelScope.launch {

@@ -51,7 +51,7 @@
             tools:src="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--Костыль, этоотступ, т.к. marin bottom не работает-->
+    <!--Костыль, это отступ, т.к. marin bottom не работает-->
     <View
         android:layout_width="match_parent"
         android:layout_height="25dp"/>
