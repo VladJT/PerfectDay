@@ -23,6 +23,7 @@
         <item name="text_color_not_checked_button">@color/primary_text_color</item>
         <item name="tab_layout_not_checked_background">@color/background</item>
         <item name="dialog_fragment_background">@color/background</item>
+        <item name="bottomSheetDialogTheme">@style/PerfectDay.BottomSheetDialogTheme</item>
     </style>
 
     <style name="PerfectDay.MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
