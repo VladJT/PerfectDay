@@ -1,12 +1,14 @@
 package jt.projects.perfectday.presentation.reminder
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -15,6 +17,7 @@ import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.FragmentReminderChildBinding
+import jt.projects.perfectday.presentation.congratulation_bottom_dialog.CongratulationBottomDialogFragment
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
@@ -52,10 +55,12 @@ class ChildFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initArguments()
+        initFragmentListener()
         initRecView()
         observeLoadingVisible()
         observeEditNote()
         setSwipeToRefreshMove()
+        observeOpenCongratulationDialog()
         setIntentStart()
     }
 
@@ -68,6 +73,12 @@ class ChildFragment : Fragment() {
         } else {
             startDate = currentDate
             endDate = currentDate.plusDays(sharedPref.getDaysPeriodForReminderFragment())
+        }
+    }
+
+    private fun initFragmentListener() {
+        setFragmentResultListener(CongratulationBottomDialogFragment.BUTTON_YES_CLICK) { _, _ ->
+            Log.w("TAG", "yesClick")
         }
     }
 
@@ -111,6 +122,16 @@ class ChildFragment : Fragment() {
         binding.swipeToRefresh.setOnRefreshListener {
             viewModel.onSwipeToRefreshMove()
             binding.swipeToRefresh.isRefreshing = false
+        }
+    }
+
+    private fun observeOpenCongratulationDialog() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.openCongratulationDialog.collect {
+                    CongratulationBottomDialogFragment().show(parentFragmentManager, "Congratulation")
+                }
+            }
         }
     }
 

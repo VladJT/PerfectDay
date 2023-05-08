@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="30dp"
+        android:textColor="?attr/text_color_fact_of_the_day"
         android:fontFamily="@font/roboto_bold"
         android:gravity="center"
         android:text="@string/congratulation_text"

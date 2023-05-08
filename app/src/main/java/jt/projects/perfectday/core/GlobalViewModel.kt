@@ -57,6 +57,9 @@ open class GlobalViewModel(
     private val _intentFlow = createMutableSingleEventFlow<Intent>()
     val intentFlow get() = _intentFlow.asSharedFlow()
 
+    private val _openCongratulationDialog = createMutableSingleEventFlow<Boolean>()
+    val openCongratulationDialog get() = _openCongratulationDialog.asSharedFlow()
+
     private var job: Job? = null
 
     /**
@@ -191,11 +194,13 @@ open class GlobalViewModel(
     }
 
     fun onItemClicked(data: DataModel) {
-        when(data) {
-            is DataModel.BirthdayFromPhone -> phoneBookProvider.openContact(data)
-            is DataModel.BirthdayFromVk -> createVkIntent(data.vkId)
-            else -> {}
-        }
+        _openCongratulationDialog.tryEmit(true)
+
+//        when(data) {
+//            is DataModel.BirthdayFromPhone -> phoneBookProvider.openContact(data)
+//            is DataModel.BirthdayFromVk -> createVkIntent(data.vkId)
+//            else -> {}
+//        }
     }
 
     private fun createVkIntent(vkId: Long) {
