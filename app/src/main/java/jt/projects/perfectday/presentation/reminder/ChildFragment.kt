@@ -78,7 +78,7 @@ class ChildFragment : Fragment() {
 
     private fun initFragmentListener() {
         setFragmentResultListener(CongratulationBottomDialogFragment.BUTTON_YES_CLICK) { _, _ ->
-            Log.w("TAG", "yesClick")
+            viewModel.onYesClickButton()
         }
     }
 
