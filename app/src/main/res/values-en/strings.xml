@@ -56,4 +56,9 @@
     <string name="header_birthdays_phone">Birthdays of phone contacts</string>
     <string name="header_birthdays_vk">VKontakte friends\' birthdays</string>
     <string name="header_scheduled_events">Scheduled events</string>
+    <string name="intro_1_text">Get actual information about important events for today</string>
+    <string name="intro_2_text">Schedule events, manage reminders</string>
+    <string name="intro_3_text">Get all the information in a convenient format</string>
+    <string name="skip_intro">Skip intro</string>
+    <string name="next">Next</string>
 </resources>
