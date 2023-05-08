@@ -4,7 +4,7 @@ import jt.projects.model.DataModel
 import jt.projects.model.VkFriend
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
-import jt.projects.utils.isPeriodBirthdayDate
+import jt.projects.perfectday.core.isPeriodBirthdayDate
 import java.time.*
 import java.time.format.*
 

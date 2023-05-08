@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="header_push_switch">Включить Push уведомления</string>
-    <string name="push_help_description">Включите Push уведомления, и выберите время в которое программа будет Вам отправлять уведомления о события и днях рождения текущего дня.</string>
-    <string name="head_text_button_switch_on">Выключить</string>
-    <string name="head_text_button_switch_off">Включить</string>
-</resources>

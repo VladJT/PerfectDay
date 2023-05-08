@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.databinding.ItemNoteBinding
-import jt.projects.utils.toStdFormatString
+import jt.projects.perfectday.core.toStdFormatString
 
 class NoteViewHolder private constructor(
     private val binding: ItemNoteBinding

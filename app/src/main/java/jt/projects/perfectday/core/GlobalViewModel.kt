@@ -1,5 +1,6 @@
 package jt.projects.perfectday.core
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -8,20 +9,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
+import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
 import jt.projects.perfectday.presentation.calendar.dateFragment.Event
 import jt.projects.utils.LOG_TAG
-import jt.projects.utils.NO_DATA
-import jt.projects.utils.PHONE_GROUP_LABEL
-import jt.projects.utils.SCHEDULED_EVENT_GROUP_LABEL
-import jt.projects.utils.VK_GROUP_LABEL
-import jt.projects.utils.isPeriodBirthdayDate
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
-import jt.projects.utils.sortComparatorByMonthAndDay
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -37,6 +33,7 @@ import java.time.LocalDate
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
 
 open class GlobalViewModel(
+    private val context: Context,
     protected val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
@@ -62,6 +59,14 @@ open class GlobalViewModel(
 
     private var job: Job? = null
 
+    /**
+     * GROUP LABELS in RECYCLER VIEW
+     */
+    private val PHONE_GROUP_LABEL = context.getString(R.string.header_birthdays_phone)
+    private val VK_GROUP_LABEL = context.getString(R.string.header_birthdays_vk)
+    private val SCHEDULED_EVENT_GROUP_LABEL = context.getString(R.string.header_scheduled_events)
+    private val NO_DATA = context.getString(R.string.header_no_data)
+
     init {
         loadAllContent()
     }
@@ -85,7 +90,7 @@ open class GlobalViewModel(
                 }
             }
         }
-
+    
     private fun loadAllContent() {
         job?.cancel()
         val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
