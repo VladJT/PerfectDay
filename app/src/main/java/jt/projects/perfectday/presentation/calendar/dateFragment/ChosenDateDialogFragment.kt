@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import jt.projects.perfectday.core.BaseAdapter
 import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
+import jt.projects.perfectday.presentation.congratulation_bottom_dialog.CongratulationBottomDialogFragment
 import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
 import ru.cleverpumpkin.calendar.CalendarDate
@@ -61,9 +63,11 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        initFragmentListener()
         initRecyclerView()
         observeLoadingVisible()
         observeEditNote()
+        observeOpenCongratulationDialog()
         setIntentStart()
 
         viewModel.message.observe(this, Observer {
@@ -123,6 +127,12 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalView
         return returnList
     }
 
+    private fun initFragmentListener() {
+        setFragmentResultListener(CongratulationBottomDialogFragment.BUTTON_YES_CLICK) { _, _ ->
+            viewModel.onYesClickButton()
+        }
+    }
+
     private fun initRecyclerView() {
         with(binding.chosenDateRecyclerView) {
             layoutManager = LinearLayoutManager(requireContext())
@@ -145,6 +155,16 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalView
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.noteIdFlow.collect(::editScheduledEvent)
+            }
+        }
+    }
+
+    private fun observeOpenCongratulationDialog() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.openCongratulationDialog.collect {
+                    CongratulationBottomDialogFragment().show(parentFragmentManager, "Congratulation")
+                }
             }
         }
     }
