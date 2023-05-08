@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">Perfect Day</string>
+    <string name="app_name" translatable="false">Perfect Day</string>
     <string name="fragment_today">Сегодня</string>
-    <string name="fragment_reminder">Напоминания о Днях Рождения</string>
+    <string name="fragment_reminder">Напоминания</string>
     <string name="fragment_calendar">Календарь</string>
 
     <string name="fact_of_day_text">Интересный факт:</string>
     <string name="birth_day_nearest_text">Ближайшие дни рождения</string>
     <string name="empty_birthdays_text">Дней рождения нет</string>
-    <string name="holiday_day">%d %s</string>
-    <string name="holiday_description">%s\n%s</string>
+    <string name="holiday_day" translatable="false">%d %s</string>
+    <string name="holiday_description" translatable="false">%s\n%s</string>
 
     <string name="vk_error_auth_text">Ошибка авторизации. Попробуйте позже.</string>
     <string name="age">Возраст</string>
@@ -30,13 +30,12 @@
     <string name="edit_header_note_hint">Введите заголовок заметки</string>
     <string name="edit_descr_note_hint">Введите текст заметки</string>
 
-    <string name="content_desc_logo">Logo application</string>
-    <string name="content_desc_back">Back home button</string>
-    <string name="content_desc_settings">Settings button</string>
-    <string name="content_desc_clear_cache">Clear cache button</string>
-    <string name="content_desc_floating_button">Add reminder</string>
+    <string name="content_desc_logo" translatable="false">Logo application</string>
+    <string name="content_desc_back" translatable="false">Back home button</string>
+    <string name="content_desc_settings" translatable="false">Settings button</string>
+    <string name="content_desc_clear_cache" translatable="false">Clear cache button</string>
+    <string name="content_desc_floating_button" translatable="false">Add reminder</string>
     <string name="save">Сохранить</string>
-    <string name="Tomorrow">Завтра</string>
     <string name="loading">Идет загрузка...</string>
 
 
@@ -70,5 +69,23 @@
     <string name="alert_autostart_message">Запрос на автозапуску приложения для отправки уведомлений в запланированное время. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
     <string name="alert_contacts_title">Доступ к контактам</string>
     <string name="alert_contacts_message">Запрос на доступ к контактам. В случае отказа, доступ можно будет предоставить только в настройках приложения.</string>
+
+
+    <string name="Days">Дней</string>
+    <string name="no_data_to_delete">Нет прошедших событий для удаления</string>
+    <string name="deleted">Удалено</string>
+    <string name="last_events">прошедших событий</string>
+    <string name="birthdays">Дни рождения</string>
+    <string name="no">нет</string>
+    <string name="scheduled_vents">Запланированые события</string>
+    <string name="period_for_reminders">Период для отображения напоминаний</string>
+    <string name="delete_scheduled_event">Удалить прошедшие напоминания</string>
+    <string name="days_before_event">дней до события</string>
+    <string name="event_passed">Событие прошло</string>
+
+    <string name="header_no_data">Данных не найдено</string>
+    <string name="header_birthdays_phone">Дни рождения контактов телефона</string>
+    <string name="header_birthdays_vk">Дни рождения друзей ВКонтакте</string>
+    <string name="header_scheduled_events">Запланированные события</string>
 
 </resources>

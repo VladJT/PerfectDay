@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/refresh_bar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:scaleX="0.8"
             android:scaleY="0.8"
             android:src="@drawable/baseline_sync_24"

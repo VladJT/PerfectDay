@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="header_push_switch">Enable Push Notifications</string>
+    <string name="push_help_description">Turn on Push notifications, and select the time at which the program will send you notifications about events and birthdays of the current day.</string>
+    <string name="head_text_button_switch_on">Off</string>
+    <string name="head_text_button_switch_off">On</string>
+</resources>

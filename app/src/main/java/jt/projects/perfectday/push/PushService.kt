@@ -61,9 +61,12 @@ class PushService : KoinComponent {
     }
 
     private fun sendPush(countBd: Int, countNote: Int, channel: String) {
+        val drText = context.getString(R.string.birthdays)
+        val eventsText = context.getString(R.string.scheduled_vents)
+        val no = context.getString(R.string.no)
 
         val result =
-            "Дни рождения: ${if (countBd == 0) "нет" else countBd.toString()} \nЗапланированые события: ${if (countNote == 0) "нет" else countNote.toString()}"
+            "$drText: ${if (countBd == 0) "$no" else countBd.toString()} \n$eventsText: ${if (countNote == 0) "$no" else countNote.toString()}"
         var notification_id = 1
         val notificationBuilderLow =
             NotificationCompat.Builder(context, channel).apply {

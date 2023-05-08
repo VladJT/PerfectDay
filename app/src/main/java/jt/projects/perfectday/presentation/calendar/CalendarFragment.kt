@@ -15,7 +15,7 @@ import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.databinding.FragmentCalendarBinding
 import jt.projects.perfectday.presentation.calendar.dateFragment.ChosenDateDialogFragment
 import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
-import jt.projects.utils.toStdFormatString
+import jt.projects.perfectday.core.toStdFormatString
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import ru.cleverpumpkin.calendar.CalendarDate

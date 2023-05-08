@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
 import jt.projects.perfectday.databinding.ItemGeneralBirthdayBinding
 import jt.projects.utils.extensions.loadWithPlaceHolder
-import jt.projects.utils.getAlertStringHowManyDaysBefore
-import jt.projects.utils.toStdFormatString
+import jt.projects.perfectday.core.getAlertStringHowManyDaysBefore
+import jt.projects.perfectday.core.toStdFormatString
 
 class BirthdayFromVKViewHolder private constructor(
     private val binding: ItemGeneralBirthdayBinding

@@ -100,7 +100,7 @@ class ChildFragment : Fragment() {
 
     private fun observeEditNote() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.noteIdFlow
                     .collect(::editScheduledEvent)
             }

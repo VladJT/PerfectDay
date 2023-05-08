@@ -58,7 +58,7 @@
         android:id="@+id/tv_header"
         style="@style/HeaderTextStyle"
         android:layout_marginTop="40dp"
-        android:text="Период для отображения напоминаний"
+        android:text="@string/period_for_reminders"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_pushsetting" />
 
@@ -94,7 +94,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/color_primary"
         app:strokeColor="@color/color_primary"
-        android:text="Удалить прошедшие напоминания"
+        android:text="@string/delete_scheduled_event"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_slider_value" />

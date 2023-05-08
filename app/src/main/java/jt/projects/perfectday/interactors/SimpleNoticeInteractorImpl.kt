@@ -5,6 +5,7 @@ import jt.projects.model.DataModel
 import jt.projects.perfectday.core.translator.translateText
 import jt.projects.repository.network.facts.FactsRepository
 import java.time.LocalDate
+import java.util.Locale
 
 class SimpleNoticeInteractorImpl(private val repository: FactsRepository) {
 
@@ -17,8 +18,10 @@ class SimpleNoticeInteractorImpl(private val repository: FactsRepository) {
             it.description
         }
 
-        distinctResult.forEach {
-            it.description = it.description.translateText()
+        if(Locale.getDefault().language.equals("ru")) {
+            distinctResult.forEach {
+                it.description = it.description.translateText()
+            }
         }
 
         return distinctResult
