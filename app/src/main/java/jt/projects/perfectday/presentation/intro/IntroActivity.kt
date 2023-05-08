@@ -59,7 +59,14 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun initButtons() {
-        binding.tvSkipIntro.setOnClickListener { finish() }
+        binding.btnSkip.setOnClickListener { finish() }
+
+        binding.btnNext.setOnClickListener {
+            if (binding.viewPager.currentItem == 2) {
+                finish()
+            }
+            binding.viewPager.setCurrentItem(++binding.viewPager.currentItem, true)
+        }
     }
 
 
