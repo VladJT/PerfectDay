@@ -16,6 +16,7 @@
     <string name="My_notice">Напоминание</string>
     <string name="delete">Удалить</string>
     <string name="edit">Редактировать</string>
+    <string name="congratulation_text">Желаете поздравить друга?</string>
 
     <string name="vk_auth_text">Авторизация VK</string>
     <string name="push_settings_text">Настройка push-уведомлений</string>
@@ -76,7 +77,8 @@
     <string name="deleted">Удалено</string>
     <string name="last_events">прошедших событий</string>
     <string name="birthdays">Дни рождения</string>
-    <string name="no">нет</string>
+    <string name="no">Нет</string>
+    <string name="yes_text">Да</string>
     <string name="scheduled_vents">Запланированые события</string>
     <string name="period_for_reminders">Период для отображения напоминаний</string>
     <string name="delete_scheduled_event">Удалить прошедшие напоминания</string>
