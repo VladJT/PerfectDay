@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResultListener
@@ -19,17 +20,17 @@ import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.editScheduledEvent
 import jt.projects.perfectday.databinding.ChosenDateDialogFragmentBinding
 import jt.projects.perfectday.presentation.congratulation_bottom_dialog.CongratulationBottomDialogFragment
-import jt.projects.utils.chosenCalendarDate
 import kotlinx.coroutines.launch
-import ru.cleverpumpkin.calendar.CalendarDate
+import org.koin.android.ext.android.getKoin
 import java.time.LocalDate
 
-class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalViewModel) :
-    DialogFragment() {
+private const val DATE_KEY = "date_key"
 
-    private var viewModel = calendarViewModel
-
-    private val chosenDate: LocalDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
+class ChosenDateDialogFragment : DialogFragment() {
+    private val viewModel = getKoin().get<GlobalViewModel>()
+    private val chosenDate: LocalDate by lazy {
+        arguments?.getSerializable(DATE_KEY) as? LocalDate ?: LocalDate.now()
+    }
 
     private var _binding: ChosenDateDialogFragmentBinding? = null
     private val binding get() = _binding!!
@@ -42,13 +43,8 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalView
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        chosenCalendarDate = chosenDate
-        _binding = ChosenDateDialogFragmentBinding.inflate(inflater, container, false)
+    override fun onCreateView(inflater: LayoutInflater, cont: ViewGroup?, saveState: Bundle?): View {
+        _binding = ChosenDateDialogFragmentBinding.inflate(inflater, cont, false)
         return binding.root
     }
 
@@ -180,5 +176,12 @@ class ChosenDateDialogFragment(date: CalendarDate, calendarViewModel: GlobalView
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    companion object {
+        fun newInstance(date: LocalDate): ChosenDateDialogFragment =
+            ChosenDateDialogFragment().apply {
+                arguments = bundleOf(DATE_KEY to date)
+            }
     }
 }
