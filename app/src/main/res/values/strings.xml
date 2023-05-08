@@ -90,5 +90,7 @@
     <string name="intro_1_text">Получайте актуальную информацию о важных событиях на сегодня</string>
     <string name="intro_2_text">Планируйте дела, управляйте напоминаниями</string>
     <string name="intro_3_text">Получайте всю информацию в удобном формате</string>
+    <string name="skip_intro">Пропустить</string>
+    <string name="next">Далее</string>
 
 </resources>

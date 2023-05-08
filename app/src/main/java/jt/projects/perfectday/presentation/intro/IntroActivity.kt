@@ -17,7 +17,6 @@ class IntroActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIntroBinding
     private var counterPageScroll = 0 // смахивание последнего фрагмента закроет активити
-    private var currentPage = 1 //
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,10 +62,10 @@ class IntroActivity : AppCompatActivity() {
         binding.btnSkip.setOnClickListener { finish() }
 
         binding.btnNext.setOnClickListener {
-            if (currentPage == 3) {
+            if (binding.viewPager.currentItem == 2) {
                 finish()
             }
-            binding.viewPager.setCurrentItem(currentPage++, true)
+            binding.viewPager.setCurrentItem(++binding.viewPager.currentItem, true)
         }
     }
 

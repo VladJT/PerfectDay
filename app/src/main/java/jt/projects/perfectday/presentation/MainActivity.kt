@@ -107,9 +107,9 @@ class MainActivity : AppCompatActivity() {
             val vm = getKoin().get<GlobalViewModel>()
         }
 
-     //   if (isFirstTimeStartApp()) {
+        if (isFirstTimeStartApp()) {
             startIntoActivity()
-    //    }
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -185,8 +185,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (isVisible) {
             TransitionManager.beginDelayedTransition(
-                binding.layoutToolbar.toolbarLayout,
-                btnHomeTransition
+                binding.layoutToolbar.toolbarLayout, btnHomeTransition
             )
         }
         binding.layoutToolbar.btnBack.isVisible = isVisible
@@ -200,8 +199,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         TransitionManager.beginDelayedTransition(
-            binding.layoutToolbar.toolbarLayout,
-            btnSettingsTransition
+            binding.layoutToolbar.toolbarLayout, btnSettingsTransition
         )
 
         if (isVisible) {
@@ -211,8 +209,7 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             binding.layoutToolbar.btnSettings.run {
-                animate()
-                    .rotationBy(180f).alpha(0.1f)
+                animate().rotationBy(180f).alpha(0.1f)
                     .setInterpolator(LinearInterpolator()).duration = ANIMATION_DURATION
                 isClickable = false
             }
@@ -293,8 +290,7 @@ class MainActivity : AppCompatActivity() {
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
             AlertDialog.Builder(
                 ContextThemeWrapper(
-                    this,
-                    R.style.PerfectDay_MaterialCalendarTheme
+                    this, R.style.PerfectDay_MaterialCalendarTheme
                 )
             ).setTitle(getString(R.string.alert_contacts_title))
                 .setMessage(getString(R.string.alert_contacts_message))
@@ -302,8 +298,7 @@ class MainActivity : AppCompatActivity() {
                     permissionRequest(Manifest.permission.READ_CONTACTS)
                 }
                 .setNegativeButton(getString(R.string.close_permission_settings)) { dialog, _ -> dialog.dismiss() }
-                .create()
-                .show()
+                .create().show()
         } else {
             permissionRequest(Manifest.permission.READ_CONTACTS)
         }

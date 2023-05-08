@@ -17,4 +17,5 @@
 
     <attr name="intro_card_bg" format="color" />
     <attr name="intro_card_text" format="color" />
+    <attr name="intro_card_circle_indicator" format="color" />
 </resources>

@@ -26,6 +26,7 @@
 
         <item name="intro_card_bg">#03424F</item>
         <item name="intro_card_text">@color/white</item>
+        <item name="intro_card_circle_indicator">@color/grey_text_color</item>
     </style>
 
     <style name="PerfectDay.MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
