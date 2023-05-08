@@ -14,4 +14,7 @@
     <attr name="tab_layout_not_checked_background" format="color" />
     <attr name="text_color_not_checked_button" format="color" />
     <!--endregion -->
+
+    <attr name="intro_card_bg" format="color" />
+    <attr name="intro_card_text" format="color" />
 </resources>

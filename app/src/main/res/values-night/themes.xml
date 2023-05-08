@@ -23,6 +23,9 @@
         <item name="text_color_not_checked_button">@color/grey_text_color</item>
         <item name="tab_layout_not_checked_background">@color/background_dark</item>
         <item name="dialog_fragment_background">@color/black</item>
+
+        <item name="intro_card_bg">@color/white</item>
+        <item name="intro_card_text">#03424F</item>
     </style>
 
     <style name="PerfectDay.MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">

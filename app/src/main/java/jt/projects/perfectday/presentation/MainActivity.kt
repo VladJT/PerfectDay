@@ -107,9 +107,9 @@ class MainActivity : AppCompatActivity() {
             val vm = getKoin().get<GlobalViewModel>()
         }
 
-        if (isFirstTimeStartApp()) {
+     //   if (isFirstTimeStartApp()) {
             startIntoActivity()
-        }
+    //    }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
