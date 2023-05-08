@@ -41,6 +41,7 @@ open class GlobalViewModel(
     private val phoneBookProvider: PhoneBookProvider
 ) : ViewModel() {
     private val statusMessage = MutableLiveData<Event<String>>()
+    private var dataModel: DataModel? = null
 
     val message: LiveData<Event<String>>
         get() = statusMessage
@@ -56,6 +57,9 @@ open class GlobalViewModel(
 
     private val _intentFlow = createMutableSingleEventFlow<Intent>()
     val intentFlow get() = _intentFlow.asSharedFlow()
+
+    private val _openCongratulationDialog = createMutableSingleEventFlow<Boolean>()
+    val openCongratulationDialog get() = _openCongratulationDialog.asSharedFlow()
 
     private var job: Job? = null
 
@@ -90,7 +94,7 @@ open class GlobalViewModel(
                 }
             }
         }
-    
+
     private fun loadAllContent() {
         job?.cancel()
         val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
@@ -191,9 +195,15 @@ open class GlobalViewModel(
     }
 
     fun onItemClicked(data: DataModel) {
-        when(data) {
-            is DataModel.BirthdayFromPhone -> phoneBookProvider.openContact(data)
-            is DataModel.BirthdayFromVk -> createVkIntent(data.vkId)
+        dataModel = data
+        _openCongratulationDialog.tryEmit(true)
+    }
+
+    fun onYesClickButton() {
+        if (dataModel == null) return
+        when (dataModel) {
+            is DataModel.BirthdayFromPhone -> phoneBookProvider.openContact(dataModel as DataModel.BirthdayFromPhone)
+            is DataModel.BirthdayFromVk -> createVkIntent((dataModel as DataModel.BirthdayFromVk).vkId)
             else -> {}
         }
     }

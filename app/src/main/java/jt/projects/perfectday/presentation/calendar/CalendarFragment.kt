@@ -122,9 +122,9 @@ class CalendarFragment : Fragment() {
     }
 
     private fun showChosenDateDialogFragmentDialog(date: CalendarDate) {
-        val chosenDateDialogFragment = ChosenDateDialogFragment(date, viewModel)
-        chosenDateDialogFragment.show(
-            requireActivity().supportFragmentManager,
+        val localDate = LocalDate.of(date.year, date.month + 1, date.dayOfMonth)
+        ChosenDateDialogFragment.newInstance(localDate).show(
+            parentFragmentManager,
             "CHOSEN_DATE_DIALOG_FRAGMENT"
         )
     }

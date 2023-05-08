@@ -1,5 +1,6 @@
 package jt.projects.perfectday.core.extensions
 
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
@@ -24,3 +25,15 @@ fun ViewModel.launchOrError(
         }
     }
 }
+
+suspend fun <T> ViewModel.asyncOrReturnEmptyList(action: suspend () -> List<T>): List<T> =
+    withContext(Dispatchers.IO) {
+        try {
+            action.invoke()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.e("${this@asyncOrReturnEmptyList::class.java}", "$e")
+            listOf()
+        }
+    }
