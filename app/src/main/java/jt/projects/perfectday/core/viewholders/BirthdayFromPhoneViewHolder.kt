@@ -33,7 +33,7 @@ class BirthdayFromPhoneViewHolder private constructor(
                 ivAvatar.loadWithPlaceHolder(data.photoUri ?: emptyString())
 
                 // по нажатию - вызов окна для поздравления контакта
-                btnCallContact.setOnClickListener {
+                root.setOnClickListener {
                     onItemClicked?.invoke(data)
                 }
             }
