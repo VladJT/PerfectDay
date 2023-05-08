@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="104dp"
-    android:layout_height="150dp"
+    android:layout_height="165dp"
     android:layout_marginEnd="8dp"
     android:background="@drawable/bg_setting"
     android:orientation="vertical"
@@ -35,6 +35,19 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_avatar_photo"
         tools:text="Алиса\nМорозова" />
 
+    <TextView
+        android:id="@+id/tv_date_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/grey_text_color"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
+        tools:text="14.04.1994" />
+
     <ImageView
         android:id="@+id/iv_cake"
         android:layout_width="15dp"
@@ -45,7 +58,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_age"
         app:layout_constraintEnd_toStartOf="@+id/tv_age"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/tv_full_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_date_birthday"
         app:layout_constraintTop_toTopOf="@+id/tv_age" />
 
     <TextView
@@ -55,8 +68,10 @@
         android:fontFamily="@font/roboto_regular"
         android:textColor="?attr/text_color_primary_to_white"
         android:textSize="@dimen/text_size_standard"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tv_full_name"
+        app:layout_constraintEnd_toEndOf="@+id/tv_date_birthday"
         app:layout_constraintStart_toEndOf="@+id/iv_cake"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date_birthday"
         tools:text="31" />
 </androidx.constraintlayout.widget.ConstraintLayout>

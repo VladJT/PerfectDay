@@ -3,11 +3,10 @@ package jt.projects.perfectday.presentation.today.adapter.birth
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import jt.projects.model.DataModel
-import jt.projects.perfectday.R
 import jt.projects.perfectday.databinding.ItemBirthdayBinding
 import jt.projects.utils.extensions.loadWithPlaceHolder
+import jt.projects.utils.toStdFormatString
 
 class BirthdayViewHolder private constructor(
     private val binding: ItemBirthdayBinding
@@ -20,6 +19,7 @@ class BirthdayViewHolder private constructor(
     fun bind(birthdayFriend: DataModel.Friend) {
         with(binding) {
             tvFullName.text = birthdayFriend.name
+            tvDateBirthday.text = birthdayFriend.birthDate.toStdFormatString()
             tvAge.text = birthdayFriend.age.toString()
             ivAvatarPhoto.loadWithPlaceHolder(birthdayFriend.photoUrl)
         }

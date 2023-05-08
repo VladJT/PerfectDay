@@ -20,16 +20,14 @@
             android:id="@+id/reminder_tab_layout"
             android:layout_width="220dp"
             android:layout_height="38dp"
-            app:tabBackground="@drawable/tabs_selector"
+            app:tabBackground="@color/bg_tab_layout"
             app:tabGravity="fill"
-
             app:tabIndicatorAnimationMode="elastic"
-            app:tabIndicatorColor="@color/primary_text_color"
             app:tabIndicatorFullWidth="true"
             app:tabIndicatorHeight="1dp"
-
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/text_color_in_buttons_group" />
+            app:tabTextColor="?attr/text_color_not_checked_button"
+            app:tabSelectedTextColor="@color/white" />
 
     </com.google.android.material.card.MaterialCardView>
 

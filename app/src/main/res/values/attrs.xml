@@ -10,8 +10,8 @@
     <attr name="text_color_fact_of_the_day" format="color" />
     <attr name="dialog_fragment_background" format="color" />
 
-    <!--region Аттрибуты для material group button в remind fragment-->
+    <!--region Аттрибуты для tabLayout в remind fragment-->
+    <attr name="tab_layout_not_checked_background" format="color" />
     <attr name="text_color_not_checked_button" format="color" />
-    <attr name="text_color_checked_button" format="color" />
     <!--endregion -->
 </resources>
