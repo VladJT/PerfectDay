@@ -1,6 +1,8 @@
 package jt.projects.perfectday
 
 import android.app.Application
+import android.content.Context
+import android.content.res.Resources
 import jt.projects.perfectday.di.appModule
 import jt.projects.perfectday.di.interactorsModule
 import jt.projects.perfectday.di.repoModule
@@ -13,8 +15,21 @@ import org.koin.core.context.startKoin
 
 class App : Application() {
 
+    companion object {
+        private var mContext: Context? = null
+
+        fun getResources(): Resources {
+            return mContext!!.resources
+        }
+
+        fun getContext(): Context {
+            return mContext!!
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
+        mContext = applicationContext
 
         startKoin {
             androidContext(this@App)

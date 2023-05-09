@@ -24,7 +24,6 @@ val viewModelModule = module {
 
     single {
         GlobalViewModel(
-            context = get(),
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),
             getFriendsFromVkUseCase = get(),

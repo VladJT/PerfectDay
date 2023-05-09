@@ -1,6 +1,5 @@
 package jt.projects.perfectday.core
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
@@ -9,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
+import jt.projects.perfectday.App
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
@@ -33,7 +33,6 @@ import java.time.LocalDate
 //Создадим базовую ViewModel, куда вынесем общий для всех функционал
 
 open class GlobalViewModel(
-    private val context: Context,
     protected val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
@@ -66,10 +65,11 @@ open class GlobalViewModel(
     /**
      * GROUP LABELS in RECYCLER VIEW
      */
-    private val PHONE_GROUP_LABEL = context.getString(R.string.header_birthdays_phone)
-    private val VK_GROUP_LABEL = context.getString(R.string.header_birthdays_vk)
-    private val SCHEDULED_EVENT_GROUP_LABEL = context.getString(R.string.header_scheduled_events)
-    private val NO_DATA = context.getString(R.string.header_no_data)
+    private val PHONE_GROUP_LABEL = App.getResources().getString(R.string.header_birthdays_phone)
+    private val VK_GROUP_LABEL = App.getResources().getString(R.string.header_birthdays_vk)
+    private val SCHEDULED_EVENT_GROUP_LABEL =
+        App.getResources().getString(R.string.header_scheduled_events)
+    private val NO_DATA = App.getResources().getString(R.string.header_no_data)
 
     init {
         loadAllContent()
