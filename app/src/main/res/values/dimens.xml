@@ -28,4 +28,5 @@
 
     //Button radius
     <dimen name="button_corner_radius">16dp</dimen>
+    <dimen name="calendar_refresh_bar_height">64dp</dimen>
 </resources>
