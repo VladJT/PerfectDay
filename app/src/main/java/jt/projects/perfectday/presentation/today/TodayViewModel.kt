@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.*
 import java.time.LocalDate
 
 class TodayViewModel(
-    settingsPreferences: SimpleSettingsPreferences,
+    private val settingsPreferences: SimpleSettingsPreferences,
     private val birthdayFromPhoneInteractor: BirthdayFromPhoneInteractorImpl,
     private val simpleNoticeInteractorImpl: SimpleNoticeInteractorImpl,
     private val holidayInteractor: HolidayInteractorImpl,
@@ -32,7 +32,6 @@ class TodayViewModel(
     val noteIdFlow get() = _noteIdFlow.asSharedFlow()
 
     private var job: Job? = null
-    private val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
 
     init {
         loadAllContent()
@@ -61,6 +60,7 @@ class TodayViewModel(
     }
 
     private suspend fun getAllFriends(): List<DataModel.Friend> {
+        val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
         val contactsFriends = asyncOrReturnEmptyList {
             birthdayFromPhoneInteractor.getFriendsByPeriod(currentDate, datePeriod).take(5)
         }
