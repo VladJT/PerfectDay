@@ -117,7 +117,7 @@ class SettingsFragment : Fragment() {
 
     private fun setOnButtonsListener() {
         binding.tvVkLogin.setOnClickListener {
-            launcherVk.launch(listOf(VKScope.FRIENDS))
+            launcherVk.launch(listOf(VKScope.OFFLINE, VKScope.FRIENDS))
         }
 
         binding.btnVkLogout.setOnClickListener {
