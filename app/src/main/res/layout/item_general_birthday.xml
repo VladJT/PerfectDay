@@ -5,26 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_medium"
-    android:background="@drawable/bg_setting"
-    android:paddingVertical="@dimen/padding_medium">
+    android:background="@drawable/bg_note"
+    android:paddingTop="@dimen/padding_medium"
+    android:paddingBottom="@dimen/padding_medium">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="15dp" />
 
     <TextView
         android:id="@+id/tv_days_to_event"
         style="@style/PerfectDayTextHeader"
-        android:layout_marginHorizontal="@dimen/margin_large"
         android:fontFamily="@font/roboto_bold"
         android:text="__ дней до события"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_medium"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/tv_days_to_event"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
         tools:src="@tools:sample/avatars" />
