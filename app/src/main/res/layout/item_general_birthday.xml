@@ -86,15 +86,4 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_age"
         app:layout_constraintTop_toTopOf="@+id/tv_age" />
 
-    <ImageButton
-        android:id="@+id/btn_call_contact"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="@dimen/text_size_standard"
-        android:backgroundTint="@color/transparent"
-        android:src="@drawable/baseline_call_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/grey_text_color" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

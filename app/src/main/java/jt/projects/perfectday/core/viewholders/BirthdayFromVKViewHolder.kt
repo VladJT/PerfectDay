@@ -29,8 +29,6 @@ class BirthdayFromVKViewHolder private constructor(
                 tvDaysToEvent.text = getAlertStringHowManyDaysBefore(data.birthDate)
                 ivAvatar.loadWithPlaceHolder(data.photoUrl)
 
-                btnCallContact.isVisible = false
-
                 root.setOnClickListener {
                     onItemClicked?.invoke(data)
                 }

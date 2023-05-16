@@ -73,7 +73,7 @@ class SettingsFragment : Fragment() {
             if (it == 0)
                 showSnackbar(getString(R.string.no_data_to_delete))
             else
-                showSnackbar(getString(R.string.deleted) + "$it" + getString(R.string.last_events))
+                showSnackbar(getString(R.string.deleted) + " $it " + getString(R.string.last_events))
         }
     }
 
