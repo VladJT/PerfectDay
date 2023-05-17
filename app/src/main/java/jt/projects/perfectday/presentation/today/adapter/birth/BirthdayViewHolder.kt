@@ -4,9 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.model.DataModel
+import jt.projects.perfectday.R
 import jt.projects.perfectday.core.toStdFormatString
 import jt.projects.perfectday.databinding.ItemBirthdayBinding
+import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.extensions.loadWithPlaceHolder
+
+private const val SPACE = " "
 
 class BirthdayViewHolder private constructor(
     private val binding: ItemBirthdayBinding
@@ -18,7 +22,10 @@ class BirthdayViewHolder private constructor(
 
     fun bind(birthdayFriend: DataModel.Friend) {
         with(binding) {
-            tvFullName.text = birthdayFriend.name
+            val split = birthdayFriend.name.split(SPACE)
+            val firstName = split.getOrElse(0) { emptyString() }
+            val lastName = split.getOrElse(1) { emptyString() }
+            tvFullName.text = root.resources.getString(R.string.holiday_description, firstName, lastName)
             tvDateBirthday.text = birthdayFriend.birthDate.toStdFormatString()
             tvAge.text = birthdayFriend.age.toString()
             ivAvatarPhoto.loadWithPlaceHolder(birthdayFriend.photoUrl)
