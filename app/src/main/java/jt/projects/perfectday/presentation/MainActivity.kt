@@ -24,6 +24,7 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.toStdFormatString
@@ -102,10 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        // фоновая загрузка GlobalViewModel
-        CoroutineScope(Dispatchers.IO).launch {
-            val vm = getKoin().get<GlobalViewModel>()
-        }
+        addBadgeToReminderMenuItem()
 
         if (isFirstTimeStartApp()) {
             startIntoActivity()
@@ -123,6 +121,23 @@ class MainActivity : AppCompatActivity() {
         checkPermission()
         initButtonBackHome()
         initGoogleTranslator()
+    }
+
+    private fun addBadgeToReminderMenuItem() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val vm = getKoin().get<GlobalViewModel>()
+            vm.getResultRecyclerByPeriod(LocalDate.now(), LocalDate.now().plusDays(1))
+                .collect {
+                    val notesCount = it.filterIsInstance<DataModel.ScheduledEvent>().size
+                    val birthdaysCount = it.filterIsInstance<DataModel.BirthdayFromPhone>().size +
+                            it.filterIsInstance<DataModel.BirthdayFromVk>().size
+
+                    runOnUiThread {
+                        binding.bottomNavigationView.getOrCreateBadge(R.id.menu_action_reminder).number =
+                            notesCount + birthdaysCount
+                    }
+                }
+        }
     }
 
     private fun initGoogleTranslator() {
