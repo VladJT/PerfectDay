@@ -20,7 +20,7 @@ fun parseArrayDTOtoDataModel(holidayDTO: List<HolidayDTO>): List<DataModel.Holid
 
 fun parseCalendarificDTOtoDataModel(response: Holiday): List<DataModel.Holiday> {
     if (response.response.holidays.isNullOrEmpty()) {
-        return listOf()
+        return listOf(DataModel.Holiday.EMPTY)
     }
 
     return response.response.holidays.map {

@@ -1,4 +1,4 @@
-package jt.projects.perfectday.presentation.today.adapter.main
+package jt.projects.perfectday.presentation.today.adapter.note
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,22 +14,19 @@ class NoteViewHolder private constructor(
         ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
-    fun bind(item: TodayItem.Notes, onClickDeleteNote: (Int) -> Unit, onEditClickNote: (Int) -> Unit) {
-        val data = item.data
-
+    fun bind(item: NoteItem, onClickDeleteNote: (Int) -> Unit, onEditClickNote: (Int) -> Unit) {
         with(binding) {
-            tvHeader.text = data.name
-            tvDate.text = data.date.toStdFormatString()
-            tvDescription.text = data.description
+            tvHeader.text = item.name
+            tvDate.text = item.date.toStdFormatString()
+            tvDescription.text = item.description
 
             btnDelete.setOnClickListener {
-                onClickDeleteNote.invoke(data.id)
+                onClickDeleteNote.invoke(item.id)
             }
 
             btnEdit.setOnClickListener {
-                onEditClickNote.invoke(item.data.id)
+                onEditClickNote.invoke(item.id)
             }
         }
-
     }
 }

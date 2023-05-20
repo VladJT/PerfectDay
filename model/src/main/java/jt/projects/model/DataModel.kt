@@ -26,7 +26,11 @@ sealed class DataModel {
     data class SimpleNotice(
         val name: String,
         var description: String
-    ) : DataModel()
+    ) : DataModel() {
+        companion object {
+            val EMPTY = SimpleNotice("", "")
+        }
+    }
 
     data class Holiday(
         var name: String,
@@ -34,7 +38,11 @@ sealed class DataModel {
         val type: String,
         var description: String?,
         val date: LocalDate
-    ) : DataModel()
+    ) : DataModel() {
+        companion object {
+            val EMPTY = Holiday("", "", "", "", LocalDate.now())
+        }
+    }
 
     @Parcelize
     data class ScheduledEvent(
@@ -43,13 +51,4 @@ sealed class DataModel {
         var date: LocalDate,
         var description: String,
     ) : DataModel(), Parcelable
-
-    data class Friend(
-        val id: String,
-        val type: FriendType,
-        val name: String,
-        val birthDate: LocalDate,
-        val age: Int,
-        val photoUrl: String
-    ) : DataModel()
 }

@@ -2,9 +2,8 @@ package jt.projects.perfectday.presentation.today.adapter.birth
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import jt.projects.model.DataModel
 
-class BirthdayListAdapter : ListAdapter<DataModel.Friend, BirthdayViewHolder>(BirthdayDiffUtil()) {
+class BirthdayListAdapter : ListAdapter<FriendItem, BirthdayViewHolder>(BirthdayDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder =
         BirthdayViewHolder(parent)
 

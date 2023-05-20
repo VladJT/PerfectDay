@@ -1,16 +1,11 @@
 package jt.projects.perfectday.presentation.today.adapter.birth
 
 import androidx.recyclerview.widget.DiffUtil
-import jt.projects.model.DataModel
 
-class BirthdayDiffUtil : DiffUtil.ItemCallback<DataModel.Friend>() {
-    override fun areItemsTheSame(
-        oldItem: DataModel.Friend,
-        newItem: DataModel.Friend
-    ): Boolean = oldItem == newItem
+class BirthdayDiffUtil : DiffUtil.ItemCallback<FriendItem>() {
+    override fun areItemsTheSame(oldItem: FriendItem, newItem: FriendItem): Boolean =
+        oldItem == newItem
 
-    override fun areContentsTheSame(
-        oldItem: DataModel.Friend,
-        newItem: DataModel.Friend
-    ): Boolean = oldItem.hashCode() == newItem.hashCode()
+    override fun areContentsTheSame(oldItem: FriendItem, newItem: FriendItem): Boolean =
+        oldItem.hashCode() == newItem.hashCode()
 }

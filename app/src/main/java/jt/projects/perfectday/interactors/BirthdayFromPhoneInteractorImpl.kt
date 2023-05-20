@@ -6,7 +6,6 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import jt.projects.model.DataModel
-import jt.projects.utils.extensions.toFriend
 import java.time.LocalDate
 
 class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
@@ -34,9 +33,7 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
     suspend fun getFriendsByPeriod(
         startDate: LocalDate,
         endDate: LocalDate
-    ): List<DataModel.Friend> =
-        getContactsInInterval(startDate, endDate)
-            .map(DataModel.BirthdayFromPhone::toFriend)
+    ): List<DataModel.BirthdayFromPhone> = getContactsInInterval(startDate, endDate)
 
     suspend fun getContacts(): List<DataModel.BirthdayFromPhone> {
         val contentResolver: ContentResolver = context.contentResolver
