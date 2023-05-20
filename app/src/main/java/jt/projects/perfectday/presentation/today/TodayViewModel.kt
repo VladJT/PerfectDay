@@ -51,7 +51,7 @@ class TodayViewModel(
         job?.cancel()
         asyncOrReturnEmptyList {
             val holiday = holidayInteractor.getCalendarificHolidayByDate(currentDate)
-            _holidayFlow.tryEmit(holiday.firstOrNull() ?: DataModel.Holiday.EMPTY)
+            _holidayFlow.tryEmit(holiday.firstOrNull() ?: DataModel.Holiday.CURRENT_DATE)
             holiday
         }
         asyncOrReturnEmptyList {
@@ -74,13 +74,11 @@ class TodayViewModel(
 
     private suspend fun getAllFriends(): List<FriendItem> {
         val vkToken: String? = settingsPreferences.getStringOrEmptyString(VK_AUTH_TOKEN)
-        val contactsFriends = asyncOrReturnEmptyList {
+        val phonesFriend =
             birthdayFromPhoneInteractor.getFriendsByPeriod(currentDate, datePeriod).take(5)
-        }.await()
-        val vkFriends = asyncOrReturnEmptyList {
+        val vkFriends =
             getFriendsFromVkUseCase.getFriendsByPeriodDate(vkToken, currentDate, datePeriod).take(5)
-        }.await()
-        return contactsFriends
+        return phonesFriend
             .map(::toFriendItem)
             .toMutableList()
             .apply { addAll(vkFriends.map(::toFriendItem)) }
