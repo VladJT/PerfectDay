@@ -26,8 +26,8 @@ fun ViewModel.launchOrError(
     }
 }
 
-suspend fun <T> ViewModel.asyncOrReturnEmptyList(action: suspend () -> List<T>): List<T> =
-    withContext(Dispatchers.IO) {
+fun <T> ViewModel.asyncOrReturnEmptyList(action: suspend () -> List<T>): Deferred<List<T>> =
+    viewModelScope.async {
         try {
             action.invoke()
         } catch (e: CancellationException) {

@@ -23,6 +23,7 @@
         <item name="text_color_not_checked_button">@color/primary_text_color</item>
         <item name="tab_layout_not_checked_background">@color/background</item>
         <item name="dialog_fragment_background">@color/background</item>
+        <item name="gradient_friend_color">@color/gradient_color_light</item>
 
         <item name="intro_card_bg">#03424F</item>
         <item name="intro_card_text">@color/white</item>

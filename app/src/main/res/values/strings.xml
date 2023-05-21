@@ -6,7 +6,7 @@
 
     <string name="fact_of_day_text">Интересный факт:</string>
     <string name="birth_day_nearest_text">Ближайшие дни рождения</string>
-    <string name="empty_birthdays_text">Дней рождения нет</string>
+    <string name="empty_birthdays_text">Обновите дни рождения контактов или войдите в ВК</string>
     <string name="holiday_day" translatable="false">%d %s</string>
     <string name="holiday_description" translatable="false">%s\n%s</string>
 

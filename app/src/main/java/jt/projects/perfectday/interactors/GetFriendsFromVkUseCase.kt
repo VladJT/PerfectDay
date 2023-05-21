@@ -5,7 +5,6 @@ import jt.projects.model.VkFriend
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.extensions.emptyString
 import jt.projects.perfectday.core.isPeriodBirthdayDate
-import jt.projects.utils.extensions.toFriend
 import java.time.*
 import java.time.format.*
 
@@ -35,11 +34,10 @@ class GetFriendsFromVkUseCase(
         userToken: String?,
         startDate: LocalDate,
         endDate: LocalDate
-    ): List<DataModel.Friend> =
+    ): List<DataModel.BirthdayFromVk> =
         getAllFriends(userToken)
             .filter { isPeriodBirthdayDate(startDate, endDate, it.birthDate) }
             .sortedWith(sortComparatorByMonthAndDay)
-            .map(DataModel.BirthdayFromVk::toFriend)
 
     suspend fun getAllFriends(userToken: String?): List<DataModel.BirthdayFromVk> {
         if (userToken.isNullOrEmpty()) return emptyList()
