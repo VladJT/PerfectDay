@@ -41,7 +41,7 @@ sealed class DataModel {
     ) : DataModel() {
         companion object {
             val EMPTY = Holiday("", "", "", "", LocalDate.MIN)
-            val CURRENT_DATE = Holiday("", "", "", "", LocalDate.now())
+            val CURRENT_DATE = Holiday("Сегодня праздников нет", "", "", "", LocalDate.now())
         }
     }
 

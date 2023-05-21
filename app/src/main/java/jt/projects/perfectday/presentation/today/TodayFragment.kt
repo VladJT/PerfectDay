@@ -90,11 +90,15 @@ class TodayFragment : Fragment() {
                 holiday.date.dayOfMonth,
                 holiday.date.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
             )
-            tvHolidayDescription.text = getString(
-                R.string.holiday_description,
-                holiday.name,
-                holiday.description
-            )
+            if (holiday.description.isNullOrEmpty()) {
+                tvHolidayDescription.text = holiday.name
+            } else {
+                tvHolidayDescription.text = getString(
+                    R.string.holiday_description,
+                    holiday.name,
+                    holiday.description
+                )
+            }
         }
     }
 

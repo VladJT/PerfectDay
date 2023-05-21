@@ -39,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/ic_cloud"
         android:contentDescription="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_cloud"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_holiday_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tv_holiday_date" />
 </androidx.constraintlayout.widget.ConstraintLayout>
