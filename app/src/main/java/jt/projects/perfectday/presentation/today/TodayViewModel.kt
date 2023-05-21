@@ -24,11 +24,14 @@ class TodayViewModel(
 ) : ViewModel() {
     private val currentDate = LocalDate.now()
     private val datePeriod = currentDate.plusMonths(5)
+    private var job: Job? = null
+    private var progressMotionLayout = 0f
+    private val loadingFriends = List(3) { FriendItem.LOADING }
 
     private val _holidayFlow = MutableStateFlow(DataModel.Holiday.EMPTY)
     val holidayFlow = _holidayFlow.asStateFlow()
 
-    private val _friendsFlow = MutableStateFlow<List<FriendItem>>(listOf())
+    private val _friendsFlow = MutableStateFlow(loadingFriends)
     val friendsFlow = _friendsFlow.asStateFlow()
 
     private val _factOfTheDayFlow = MutableStateFlow(DataModel.SimpleNotice.EMPTY)
@@ -39,9 +42,6 @@ class TodayViewModel(
 
     private val _noteIdFlow = createMutableSingleEventFlow<Int>()
     val noteIdFlow get() = _noteIdFlow.asSharedFlow()
-
-    private var job: Job? = null
-    private var progressMotionLayout = 0f
 
     init {
         loadAllContent()

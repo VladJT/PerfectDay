@@ -20,6 +20,8 @@
     <color name="grey_light">#2C3135</color>
     <color name="white_with_80_alpha">#CCFFFFFF</color>
     <color name="red">#BA1A1A</color>
+    <color name="gradient_color_light">#D5D5D5</color>
+    <color name="gradient_color_dark">#2A2A2A</color>
 
     <color name="seed">#34618e</color>
     <color name="md_theme_light_primary">#0062A2</color>

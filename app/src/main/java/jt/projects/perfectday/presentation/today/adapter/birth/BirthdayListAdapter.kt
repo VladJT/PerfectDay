@@ -2,11 +2,29 @@ package jt.projects.perfectday.presentation.today.adapter.birth
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 
-class BirthdayListAdapter : ListAdapter<FriendItem, BirthdayViewHolder>(BirthdayDiffUtil()) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder =
-        BirthdayViewHolder(parent)
+private const val LOADING_FRIEND = 0
+private const val FRIEND = 1
 
-    override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) =
-        holder.bind(getItem(position))
+class BirthdayListAdapter : ListAdapter<FriendItem, RecyclerView.ViewHolder>(BirthdayDiffUtil()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when(viewType) {
+            LOADING_FRIEND -> BirthdayLoadingViewHolder(parent)
+            FRIEND -> BirthdayViewHolder(parent)
+            else -> throw IllegalStateException("Unknown view type")
+        }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
+        when(holder) {
+            is BirthdayLoadingViewHolder -> holder.bind()
+            is BirthdayViewHolder -> holder.bind(getItem(position))
+            else -> throw IllegalStateException("Unknown view holder")
+        }
+
+    override fun getItemViewType(position: Int): Int =
+        when(getItem(position)) {
+            FriendItem.LOADING -> LOADING_FRIEND
+            else -> FRIEND
+        }
 }

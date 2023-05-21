@@ -10,4 +10,8 @@ data class FriendItem(
     val birthDate: LocalDate,
     val age: Int,
     val photoUrl: String
-)
+) {
+    companion object {
+        val LOADING = FriendItem("", FriendType.PHONE, "", LocalDate.MIN, 0, "")
+    }
+}
