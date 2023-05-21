@@ -178,6 +178,9 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
             if (birthDateCursor!!.count > 0) {
                 while (birthDateCursor.moveToNext()) {
                     if (!birthDateCursor.getString(0).isNullOrEmpty()) {
+                        val split = birthDateCursor.getString(0).split("-")
+                        if (split.size > 2) continue
+
                         val year =
                             (birthDateCursor.getString(0)[0].toString() + birthDateCursor.getString(
                                 0
