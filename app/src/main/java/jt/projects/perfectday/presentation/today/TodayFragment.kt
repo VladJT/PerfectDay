@@ -77,7 +77,7 @@ class TodayFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.notesFlow.collect(::setNotes)
+                viewModel.notesFlow.collect(::setNotesAndEnabledMotion)
             }
         }
     }
@@ -106,7 +106,8 @@ class TodayFragment : Fragment() {
         binding.factOfTheDayHeader.tvFactDescription.text = fact.description
     }
 
-    private fun setNotes(notes: List<NoteItem>) {
+    private fun setNotesAndEnabledMotion(notes: List<NoteItem>) {
+        binding.motionLayout.getTransition(R.id.today_transition).setEnable(notes.isNotEmpty())
         noteAdapter.submitList(notes)
     }
 
