@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="115dp"
+    android:layout_height="165dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/bg_setting"
+    android:orientation="vertical"
+    android:paddingVertical="10dp">
+
+    <ImageView
+        android:id="@+id/iv_avatar_photo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dr_place_holder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/tv_date_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/grey_text_color"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:text="@string/empty_birthdays_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_avatar_photo" />
+</androidx.constraintlayout.widget.ConstraintLayout>

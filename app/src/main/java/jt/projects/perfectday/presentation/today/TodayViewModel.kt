@@ -49,6 +49,7 @@ class TodayViewModel(
 
     private fun loadAllContent() {
         job?.cancel()
+        _friendsFlow.tryEmit(loadingFriends)
         asyncOrReturnEmptyList {
             val holiday = holidayInteractor.getCalendarificHolidayByDate(currentDate)
             _holidayFlow.tryEmit(holiday.firstOrNull() ?: DataModel.Holiday.CURRENT_DATE)
@@ -81,7 +82,10 @@ class TodayViewModel(
         return phonesFriend
             .map(::toFriendItem)
             .toMutableList()
-            .apply { addAll(vkFriends.map(::toFriendItem)) }
+            .apply {
+                addAll(vkFriends.map(::toFriendItem))
+                if (isEmpty()) add(FriendItem.EMPTY)
+            }
     }
 
     private fun toFriendItem(data: DataModel.BirthdayFromPhone): FriendItem = data.run {

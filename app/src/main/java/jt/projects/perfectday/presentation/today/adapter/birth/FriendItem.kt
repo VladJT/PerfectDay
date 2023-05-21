@@ -12,6 +12,7 @@ data class FriendItem(
     val photoUrl: String
 ) {
     companion object {
-        val LOADING = FriendItem("", FriendType.PHONE, "", LocalDate.MIN, 0, "")
+        val LOADING = FriendItem("-1", FriendType.PHONE, "loading", LocalDate.MIN, 0, "loading")
+        val EMPTY = FriendItem("", FriendType.PHONE, "", LocalDate.MIN, 0, "")
     }
 }
