@@ -94,5 +94,6 @@
     <string name="intro_3_text">Получайте всю информацию в удобном формате</string>
     <string name="skip_intro">Пропустить</string>
     <string name="next">Далее</string>
+    <string name="today_and_tomorrow"><![CDATA[Сегодня & Завтра]]></string>
 
 </resources>
