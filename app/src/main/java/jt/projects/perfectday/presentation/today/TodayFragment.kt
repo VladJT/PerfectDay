@@ -84,6 +84,11 @@ class TodayFragment : Fragment() {
 
     private fun setHoliday(holiday: DataModel.Holiday) {
         if (holiday == DataModel.Holiday.EMPTY) return
+        val nameText = if (holiday == DataModel.Holiday.CURRENT_DATE)
+            getString(R.string.today_holidays_not_has)
+        else
+            holiday.name
+
         with(binding.holidayHeader) {
             tvHolidayDate.text = getString(
                 R.string.holiday_day,
@@ -91,11 +96,11 @@ class TodayFragment : Fragment() {
                 holiday.date.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
             )
             if (holiday.description.isNullOrEmpty()) {
-                tvHolidayDescription.text = holiday.name
+                tvHolidayDescription.text = nameText
             } else {
                 tvHolidayDescription.text = getString(
                     R.string.holiday_description,
-                    holiday.name,
+                    nameText,
                     holiday.description
                 )
             }

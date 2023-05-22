@@ -4,6 +4,7 @@
     <string name="fragment_reminder">Напоминания</string>
     <string name="fragment_calendar">Календарь</string>
 
+    <string name="today_holidays_not_has">Сегодня праздников нет</string>
     <string name="fact_of_day_text">Интересный факт:</string>
     <string name="birth_day_nearest_text">Ближайшие дни рождения</string>
     <string name="empty_birthdays_text">Обновите дни рождения контактов или войдите в ВК</string>

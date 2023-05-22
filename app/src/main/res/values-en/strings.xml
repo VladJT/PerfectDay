@@ -3,6 +3,7 @@
     <string name="fragment_today">Today</string>
     <string name="fragment_reminder">Reminders</string>
     <string name="fragment_calendar">Calendar</string>
+    <string name="today_holidays_not_has">There are no holidays today</string>
     <string name="fact_of_day_text">Interesting fact:</string>
     <string name="birth_day_nearest_text">Upcoming birthdays</string>
     <string name="empty_birthdays_text">Update your contacts birthdays or log in to VK</string>
