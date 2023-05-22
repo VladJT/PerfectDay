@@ -50,7 +50,7 @@ class ReminderFragment : Fragment() {
     private fun setTabs() {
         TabLayoutMediator(binding.reminderTabLayout, binding.reminderViewPager) { tab, position ->
             tab.text = when (position) {
-                TOMORROW -> getString(R.string.tomorrow)
+                TOMORROW -> getString(R.string.today_and_tomorrow)
                 PERIOD -> "${settingsPreferences.getDaysPeriodForReminderFragment()} ".plus(getString(R.string.Days))
                 else -> getString(R.string.tomorrow)
             }

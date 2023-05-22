@@ -34,7 +34,7 @@ class NotificationWorker(private val appContext: Context, workerParameters: Work
 
             val notificationWork =
                 PeriodicWorkRequest.Builder(NotificationWorker::class.java, 1, TimeUnit.DAYS)
-                    .setInitialDelay(3, TimeUnit.SECONDS)
+                    .setInitialDelay(diff, TimeUnit.SECONDS)
                     .addTag(WORK_TAG)
                     .build()
 
