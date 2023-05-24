@@ -21,19 +21,8 @@ fun ViewModel.launchOrError(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
+            Log.e("${this@launchOrError::class.java}", "$e")
             error.invoke(e)
         }
     }
 }
-
-fun <T> ViewModel.asyncOrReturnEmptyList(action: suspend () -> List<T>): Deferred<List<T>> =
-    viewModelScope.async {
-        try {
-            action.invoke()
-        } catch (e: CancellationException) {
-            throw e
-        } catch (e: Exception) {
-            Log.e("${this@asyncOrReturnEmptyList::class.java}", "$e")
-            listOf()
-        }
-    }
