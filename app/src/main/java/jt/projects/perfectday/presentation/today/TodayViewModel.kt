@@ -1,17 +1,30 @@
 package jt.projects.perfectday.presentation.today
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import jt.projects.model.DataModel
 import jt.projects.model.FriendType
-import jt.projects.perfectday.core.extensions.*
-import jt.projects.perfectday.interactors.*
+import jt.projects.perfectday.core.extensions.asyncOrReturnEmptyList
+import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.HolidayInteractorImpl
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
+import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.perfectday.presentation.today.adapter.birth.FriendItem
 import jt.projects.perfectday.presentation.today.adapter.note.NoteItem
 import jt.projects.utils.FACTS_COUNT
 import jt.projects.utils.extensions.emptyString
-import jt.projects.utils.shared_preferences.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class TodayViewModel(
@@ -51,9 +64,14 @@ class TodayViewModel(
         job?.cancel()
         _friendsFlow.tryEmit(loadingFriends)
         asyncOrReturnEmptyList {
-            val holiday = holidayInteractor.getCalendarificHolidayByDate(currentDate)
-            _holidayFlow.tryEmit(holiday.firstOrNull() ?: DataModel.Holiday.CURRENT_DATE)
-            holiday
+            try {
+                val holiday = holidayInteractor.getCalendarificHolidayByDate(currentDate)
+                _holidayFlow.tryEmit(holiday.firstOrNull() ?: DataModel.Holiday.CURRENT_DATE)
+                holiday
+            } catch (e: Exception) {
+                _holidayFlow.tryEmit(DataModel.Holiday.CURRENT_DATE)
+                listOf()
+            }
         }
         asyncOrReturnEmptyList {
             val friends = getAllFriends()
