@@ -132,9 +132,15 @@ class MainActivity : AppCompatActivity() {
                     val birthdaysCount = it.filterIsInstance<DataModel.BirthdayFromPhone>().size +
                             it.filterIsInstance<DataModel.BirthdayFromVk>().size
 
+                    val countBadges = notesCount + birthdaysCount
+
                     runOnUiThread {
-                        binding.bottomNavigationView.getOrCreateBadge(R.id.menu_action_reminder).number =
-                            notesCount + birthdaysCount
+                        if (countBadges > 0) {
+                            binding.bottomNavigationView.getOrCreateBadge(R.id.menu_action_reminder).number =
+                                countBadges
+                        } else {
+                            binding.bottomNavigationView.removeBadge(R.id.menu_action_reminder)
+                        }
                     }
                 }
         }

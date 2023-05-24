@@ -4,43 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_to_refresh"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reminder_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="@dimen/padding_medium"
+        android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Не встречал такого. В общем я обернул recyler
-             во framelayout т.к., если recycler будет лежать под
-             swipelayout, то когда элемент header допустим holiday скрывается
-             то swipe to regfresh не работает. Поэтому пришлось обернуть в еще один
-             контейнер -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/loading_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reminder_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="16dp"
-                android:paddingBottom="@dimen/padding_medium"
-                android:scrollbars="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <FrameLayout
-                android:id="@+id/loading_frame_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <include layout="@layout/loading_layout" />
-            </FrameLayout>
-
-        </FrameLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <include layout="@layout/loading_layout" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.databinding.FragmentReminderBinding
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 
 class ReminderFragment : Fragment() {
@@ -17,6 +19,7 @@ class ReminderFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val settingsPreferences by inject<SimpleSettingsPreferences>()
+    private val viewModel = getKoin().get<GlobalViewModel>()
 
     companion object {
         fun newInstance() = ReminderFragment()
@@ -39,8 +42,15 @@ class ReminderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewPager()
         setTabs()
-
+        setSwipeToRefreshMove()
         binding.reminderViewPager.setCurrentItem(currentFragment, false)
+    }
+
+    private fun setSwipeToRefreshMove() {
+        binding.swipeToRefresh.setOnRefreshListener {
+            viewModel.onSwipeToRefreshMove()
+            binding.swipeToRefresh.isRefreshing = false
+        }
     }
 
     private fun initViewPager() {
@@ -51,7 +61,10 @@ class ReminderFragment : Fragment() {
         TabLayoutMediator(binding.reminderTabLayout, binding.reminderViewPager) { tab, position ->
             tab.text = when (position) {
                 TOMORROW -> getString(R.string.today_and_tomorrow)
-                PERIOD -> "${settingsPreferences.getDaysPeriodForReminderFragment()} ".plus(getString(R.string.Days))
+                PERIOD -> "${settingsPreferences.getDaysPeriodForReminderFragment()} ".plus(
+                    getString(R.string.Days)
+                )
+
                 else -> getString(R.string.tomorrow)
             }
         }.attach()
