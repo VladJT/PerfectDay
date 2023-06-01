@@ -85,9 +85,9 @@ dependencies {
     // firebase CM
     implementation("com.google.firebase:firebase-messaging-ktx:23.1.2")
     // firebase perfomance monitoring
-    implementation("com.google.firebase:firebase-perf-ktx:20.3.1")
+    implementation("com.google.firebase:firebase-perf-ktx:20.3.2")
     // firebase in-app messaging
-    implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.3.1")
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.3.2")
 
     // ML-KIT translation
     implementation("com.google.mlkit:translate:17.0.1")
