@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="115dp"
-    android:layout_height="165dp"
+    android:layout_height="170dp"
     android:layout_marginEnd="8dp"
     android:background="@drawable/bg_setting"
-    android:orientation="vertical"
-    android:paddingVertical="10dp">
+    android:orientation="vertical">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_avatar_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,13 +65,24 @@
         android:id="@+id/tv_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto_regular"
         android:textColor="?attr/text_color_primary_to_white"
         android:textSize="@dimen/text_size_standard"
-        android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_date_birthday"
         app:layout_constraintStart_toEndOf="@+id/iv_cake"
         app:layout_constraintTop_toBottomOf="@+id/tv_date_birthday"
         tools:text="31" />
+
+    <View
+        android:id="@+id/border_today_birth"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_border_bithday_today"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

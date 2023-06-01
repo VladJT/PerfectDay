@@ -9,10 +9,11 @@ data class FriendItem(
     val name: String,
     val birthDate: LocalDate,
     val age: Int,
-    val photoUrl: String
+    val photoUrl: String,
+    val isTodayBirth: Boolean
 ) {
     companion object {
-        val LOADING = FriendItem("-1", FriendType.PHONE, "loading", LocalDate.MIN, 0, "loading")
-        val EMPTY = FriendItem("", FriendType.PHONE, "", LocalDate.MIN, 0, "")
+        val LOADING = FriendItem("-1", FriendType.PHONE, "loading", LocalDate.MIN, 0, "loading", false)
+        val EMPTY = FriendItem("", FriendType.PHONE, "", LocalDate.MIN, 0, "", false)
     }
 }

@@ -2,6 +2,7 @@ package jt.projects.perfectday.presentation.today.adapter.birth
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.toStdFormatString
@@ -28,6 +29,7 @@ class BirthdayViewHolder private constructor(
             tvDateBirthday.text = friend.birthDate.toStdFormatString()
             tvAge.text = friend.age.toString()
             ivAvatarPhoto.loadWithPlaceHolder(friend.photoUrl)
+            borderTodayBirth.isVisible = friend.isTodayBirth
         }
     }
 }

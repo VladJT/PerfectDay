@@ -98,7 +98,8 @@ class TodayViewModel(
             name = name,
             birthDate = birthDate,
             age = age ?: 0,
-            photoUrl = photoUri ?: emptyString()
+            photoUrl = photoUri ?: emptyString(),
+            isTodayBirth = isTodayBirthday(birthDate)
         )
     }
 
@@ -109,9 +110,13 @@ class TodayViewModel(
             name = name,
             birthDate = birthDate,
             age = age,
-            photoUrl = photoUrl
+            photoUrl = photoUrl,
+            isTodayBirth = isTodayBirthday(birthDate)
         )
     }
+
+    private fun isTodayBirthday(birthday: LocalDate): Boolean =
+        currentDate.dayOfMonth == birthday.dayOfMonth && currentDate.monthValue == birthday.monthValue
 
     private fun mapToNoteItem(data: DataModel.ScheduledEvent): NoteItem = data.run {
         NoteItem(
