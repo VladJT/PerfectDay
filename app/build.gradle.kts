@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -10,6 +12,17 @@ plugins {
 android {
     compileSdk = Config.compile_sdk
     namespace = Config.namespaceApp
+
+    signingConfigs {
+        val properties = gradleLocalProperties(rootDir)
+        val releaseKeyPassword = properties["releaseKeyPassword"].toString()
+        create("release") {
+            keyAlias = properties["releaseKeyAlias"].toString()
+            keyPassword = releaseKeyPassword
+            storeFile = file("$rootDir/keystore/perfect-day.jks")
+            storePassword = releaseKeyPassword
+        }
+    }
 
     buildToolsVersion = "30.0.3"
 
@@ -38,6 +51,7 @@ android {
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
