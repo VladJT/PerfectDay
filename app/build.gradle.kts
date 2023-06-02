@@ -24,6 +24,10 @@ android {
         }
     }
 
+    lint {
+        disable += "Instantiatable"
+    }
+
     buildFeatures {
         viewBinding = true
     }
