@@ -24,15 +24,8 @@ android {
         }
     }
 
-    buildToolsVersion = "30.0.3"
-
     buildFeatures {
         viewBinding = true
-    }
-
-    lint {
-        // Turns off checks for the issue IDs you specify.
-        disable += "Instantiatable"
     }
 
     defaultConfig {
