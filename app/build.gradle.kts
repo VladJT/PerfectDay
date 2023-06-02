@@ -130,3 +130,16 @@ dependencies {
     implementation(WorkManager.livecycle)
     implementation(WorkManager.ktx)
 }
+
+android.applicationVariants.all {
+    val buildTypeName = buildType.name
+    outputs.all {
+        (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
+            outputFileName
+                .replace("app", "perfect-day")
+                .replace(
+                    "-$buildTypeName",
+                    "-$buildTypeName-v$versionName-$versionCode"
+                )
+    }
+}
