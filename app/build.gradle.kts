@@ -24,15 +24,12 @@ android {
         }
     }
 
-    buildToolsVersion = "30.0.3"
+    lint {
+        disable += "Instantiatable"
+    }
 
     buildFeatures {
         viewBinding = true
-    }
-
-    lint {
-        // Turns off checks for the issue IDs you specify.
-        disable += "Instantiatable"
     }
 
     defaultConfig {
@@ -136,4 +133,17 @@ dependencies {
     implementation(WorkManager.workmanager)
     implementation(WorkManager.livecycle)
     implementation(WorkManager.ktx)
+}
+
+android.applicationVariants.all {
+    val buildTypeName = buildType.name
+    outputs.all {
+        (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
+            outputFileName
+                .replace("app", "perfect-day")
+                .replace(
+                    "-$buildTypeName",
+                    "-$buildTypeName-v$versionName-$versionCode"
+                )
+    }
 }
