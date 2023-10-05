@@ -1,16 +1,32 @@
 package jt.projects.perfectday.presentation.today
 
-import androidx.lifecycle.*
-import jt.projects.model.*
-import jt.projects.perfectday.core.extensions.*
-import jt.projects.perfectday.interactors.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import jt.projects.model.DataModel
+import jt.projects.model.FriendType
+import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
+import jt.projects.perfectday.core.extensions.launchOrError
+import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
+import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
+import jt.projects.perfectday.interactors.HolidayInteractorImpl
+import jt.projects.perfectday.interactors.ScheduledEventInteractorImpl
+import jt.projects.perfectday.interactors.SimpleNoticeInteractorImpl
 import jt.projects.perfectday.presentation.today.adapter.birth.FriendItem
 import jt.projects.perfectday.presentation.today.adapter.note.NoteItem
 import jt.projects.utils.FACTS_COUNT
 import jt.projects.utils.extensions.emptyString
-import jt.projects.utils.shared_preferences.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
+import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class TodayViewModel(
@@ -21,6 +37,11 @@ class TodayViewModel(
     private val getFriendsFromVkUseCase: GetFriendsFromVkUseCase,
     private val scheduledEventInteractorImpl: ScheduledEventInteractorImpl
 ) : ViewModel() {
+
+    companion object {
+        const val TOTAL_CONTENT_COUNT = 4
+    }
+
     private val currentDate = LocalDate.now()
     private val datePeriod = currentDate.plusMonths(5)
     private var job: Job? = null
@@ -42,34 +63,51 @@ class TodayViewModel(
     private val _noteIdFlow = createMutableSingleEventFlow<Int>()
     val noteIdFlow get() = _noteIdFlow.asSharedFlow()
 
+    private val _liveDataContentLoaded: MutableLiveData<Int> = MutableLiveData<Int>()
+    fun livedataContentLoaded() = _liveDataContentLoaded
+
     init {
         loadAllContent()
     }
 
     private fun loadAllContent() {
+        _liveDataContentLoaded.value = 0
         job?.cancel()
         _friendsFlow.tryEmit(loadingFriends)
         launchOrError(
             action = {
                 val holiday = holidayInteractor.getCalendarificHolidayByDate(currentDate)
                 _holidayFlow.tryEmit(holiday.firstOrNull() ?: DataModel.Holiday.CURRENT_DATE)
+                _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             },
-            error = { _holidayFlow.tryEmit(DataModel.Holiday.CURRENT_DATE) }
+            error = {
+                _holidayFlow.tryEmit(DataModel.Holiday.CURRENT_DATE)
+                _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
+            }
         )
         launchOrError(
             action = {
                 val friends = getAllFriends()
+                // !!!!!!!!!!!!!!!!!!!!!!!!!
                 delay(2000)
                 _friendsFlow.tryEmit(friends)
+                _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             },
-            error = { _friendsFlow.tryEmit(listOf(FriendItem.EMPTY)) }
+            error = {
+                _friendsFlow.tryEmit(listOf(FriendItem.EMPTY))
+                _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
+            }
         )
         launchOrError(
             action = {
                 val fact = simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
                 _factOfTheDayFlow.tryEmit(fact.firstOrNull() ?: DataModel.SimpleNotice.EMPTY)
-            }) {}
+                _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
+            }, error = {
+                _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
+            })
         job = viewModelScope.launch {
+            _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             scheduledEventInteractorImpl.getNotesByDate(currentDate)
                 .map { it.map(::mapToNoteItem) }
                 .onEach(_notesFlow::tryEmit)

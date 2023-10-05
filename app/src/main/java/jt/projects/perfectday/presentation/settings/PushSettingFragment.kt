@@ -13,14 +13,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.notifications.NotificationWorker
 import jt.projects.perfectday.databinding.FragmentPushSettingBinding
-import jt.projects.perfectday.push.PushManager
 import jt.projects.utils.DEBUG
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.REQUEST_CODE_POST_NOTIFICATIONS
 import jt.projects.utils.REQUEST_CODE_RECEIVE_BOOT_COMPLETED
+import jt.projects.utils.extensions.showSnackbar
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PushSettingFragment : Fragment() {
@@ -33,7 +33,6 @@ class PushSettingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PushSettingViewModel by viewModel()
-    private val pushManager by inject<PushManager>()
     private var statusPush = false
 
     override fun onCreateView(
@@ -209,11 +208,16 @@ class PushSettingFragment : Fragment() {
 
     private fun checkWorkManager() {
         try {
+            val context = requireContext()
             if (statusPush && checkPermissionPostNotification()) {
-                pushManager.stopWork()
-                pushManager.startWork()
+                NotificationWorker.cancelEverydayNotificationJob(context)
+                NotificationWorker.scheduleEverydayNotificationJob(
+                    context,
+                    viewModel.hourTime.value,
+                    viewModel.minuteTime.value
+                )
             } else {
-                pushManager.stopWork()
+                NotificationWorker.cancelEverydayNotificationJob(context)
             }
 
         } catch (e: Exception) {

@@ -1,9 +1,15 @@
 package jt.projects.perfectday.presentation.today
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
+import androidx.lifecycle.repeatOnLifecycle
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.extensions.editScheduledEvent
@@ -40,11 +46,18 @@ class TodayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initProgressBar()
         initRecyclerView()
         setSwipeToRefreshMove()
         observeData()
         observeEditNote()
         setMotionProgress()
+    }
+
+    private fun initProgressBar() {
+        viewModel.livedataContentLoaded().observe(viewLifecycleOwner) { contentLoaded ->
+            binding.progressBarLoadingAllContent.isVisible = (contentLoaded != TodayViewModel.TOTAL_CONTENT_COUNT)
+        }
     }
 
     private fun initRecyclerView() {
