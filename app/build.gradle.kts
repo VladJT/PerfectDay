@@ -46,7 +46,7 @@ android {
             isMinifyEnabled = false
         }
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
@@ -55,7 +55,6 @@ android {
     compileOptions {
         sourceCompatibility = Config.java_version
         targetCompatibility = Config.java_version
-
     }
 
     kotlinOptions {

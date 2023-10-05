@@ -65,7 +65,7 @@ class NotificationProvider(
 
                 send(
                     "Сегодня",
-                    "Дней рождения: $birthdaysCount, запланировано дел: ${notesCount}"
+                    "Дней рождения: $birthdaysCount, дел: ${notesCount}"
                 )
             }
         }
