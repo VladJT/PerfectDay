@@ -27,6 +27,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import jt.projects.model.DataModel
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.GlobalViewModel
+import jt.projects.perfectday.core.extensions.reloadAllContent
 import jt.projects.perfectday.core.toStdFormatString
 import jt.projects.perfectday.core.translator.GoogleTranslator
 import jt.projects.perfectday.core.translator.TranslatorCallback
@@ -38,6 +39,7 @@ import jt.projects.perfectday.presentation.schedule_event.ScheduleEventFragment
 import jt.projects.perfectday.presentation.settings.PushSettingFragment
 import jt.projects.perfectday.presentation.settings.SettingsFragment
 import jt.projects.perfectday.presentation.today.TodayFragment
+import jt.projects.utils.ACTIVITY_REQUEST_CODE
 import jt.projects.utils.IS_FIRST_TIME_START_APP_KEY
 import jt.projects.utils.LOG_TAG
 import jt.projects.utils.REQUEST_CODE_READ_CONTACTS
@@ -106,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         addBadgeToReminderMenuItem()
 
         if (isFirstTimeStartApp()) {
-            startIntoActivity()
+            startIntroActivity()
         }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -163,8 +165,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun startIntoActivity() {
-        startActivity(Intent(this, IntroActivity::class.java))
+    private fun startIntroActivity() {
+        startActivityForResult(Intent(this, IntroActivity::class.java), ACTIVITY_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ACTIVITY_REQUEST_CODE) {
+            reloadAllContent()
+        }
     }
 
     private fun isFirstTimeStartApp(): Boolean {

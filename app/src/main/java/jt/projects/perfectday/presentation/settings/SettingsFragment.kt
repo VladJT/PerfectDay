@@ -17,6 +17,7 @@ import com.vk.api.sdk.auth.VKScope
 import jt.projects.perfectday.R
 import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.navigateToFragment
+import jt.projects.perfectday.core.extensions.reloadAllContent
 import jt.projects.perfectday.core.toStdFormatString
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
 import jt.projects.perfectday.presentation.today.TodayViewModel
@@ -141,11 +142,6 @@ class SettingsFragment : Fragment() {
                     }
             }
         }
-    }
-
-    private fun reloadAllContent() {
-        getKoin().get<GlobalViewModel>().onSwipeToRefreshMove()
-        getKoin().get<TodayViewModel>().onSwipeToRefreshMove()
     }
 
     private fun setVisibleLoading(isLoading: Boolean) {

@@ -3,18 +3,23 @@ package jt.projects.perfectday.core
 import jt.projects.model.DataModel
 import jt.projects.perfectday.App
 import jt.projects.perfectday.R
+import jt.projects.perfectday.presentation.today.adapter.birth.FriendItem
+import jt.projects.utils.DATE_FORMAT_DAY_MONTH_YEAR
+import jt.projects.utils.DATE_FORMAT_DAY_MONTH_YEAR_RUS
 import org.koin.java.KoinJavaComponent.getKoin
 import java.time.LocalDate
+import java.time.Period
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 
 
 fun LocalDate.toStdFormatString(): String {
-    return this.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+    return this.format(DateTimeFormatter.ofPattern(DATE_FORMAT_DAY_MONTH_YEAR_RUS))
 }
 
 fun String.toStdLocalDate(): LocalDate {
-    return LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+    return LocalDate.parse(this, DateTimeFormatter.ofPattern(DATE_FORMAT_DAY_MONTH_YEAR_RUS))
 }
 
 fun getAlertStringHowManyDaysBefore(birthDate: LocalDate): String {
@@ -92,5 +97,97 @@ val sortComparatorByMonthAndDay = Comparator<DataModel> { o1, o2 ->
 
         if (month1 == month2) return@Comparator date1.dayOfMonth.compareTo(date2.dayOfMonth)
         return@Comparator month1.compareTo(month2)
+    }
+}
+
+// сортировка ДР по возрастанию от текущей даты
+fun List<FriendItem>.sortedByBirthDay(): List<FriendItem> {
+    val thisYearList = mutableListOf<FriendItem>()
+    val nextYearList = mutableListOf<FriendItem>()
+    val startIntervalDate = LocalDate.now()
+
+    this.forEach {
+        if (startIntervalDate <= LocalDate.of(
+                startIntervalDate.year,
+                it.birthDate.monthValue,
+                it.birthDate.dayOfMonth
+            )
+        ) {
+            thisYearList.add(it)
+        } else {
+            nextYearList.add(it)
+        }
+    }
+
+    thisYearList.sortBy {
+        LocalDate.of(
+            LocalDate.now().year,
+            it.birthDate.monthValue,
+            it.birthDate.dayOfMonth
+        )
+    }
+    nextYearList.sortBy {
+        LocalDate.of(
+            LocalDate.now().year + 1,
+            it.birthDate.monthValue,
+            it.birthDate.dayOfMonth
+        )
+    }
+
+    return thisYearList + nextYearList
+}
+
+
+fun sortListByDateDifferentYear(
+    returnList: MutableList<DataModel.BirthdayFromPhone>,
+    startIntervalDate: LocalDate
+): List<DataModel.BirthdayFromPhone> {
+
+    val thisYearList = mutableListOf<DataModel.BirthdayFromPhone>()
+    val nextYearList = mutableListOf<DataModel.BirthdayFromPhone>()
+
+    returnList.forEach {
+        if (startIntervalDate <= LocalDate.of(
+                startIntervalDate.year,
+                it.birthDate.monthValue,
+                it.birthDate.dayOfMonth
+            )
+        ) {
+            thisYearList.add(it)
+        } else {
+            nextYearList.add(it)
+        }
+    }
+
+    thisYearList.toList().sortedBy {
+        LocalDate.of(
+            LocalDate.now().year,
+            it.birthDate.monthValue,
+            it.birthDate.dayOfMonth
+        )
+    }
+    nextYearList.toList().sortedBy {
+        LocalDate.of(
+            LocalDate.now().year + 1,
+            it.birthDate.monthValue,
+            it.birthDate.dayOfMonth
+        )
+    }
+
+    return thisYearList + nextYearList
+}
+
+// определить возраст
+fun getAge(birthDate: LocalDate): Int =
+    Period.between(birthDate, LocalDate.now()).years.plus(1)
+
+
+fun tryParseDate(date: String?): LocalDate {
+    if (date == null) return LocalDate.MIN
+
+    return try {
+        LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FORMAT_DAY_MONTH_YEAR))
+    } catch (e: DateTimeParseException) {
+        LocalDate.MIN
     }
 }

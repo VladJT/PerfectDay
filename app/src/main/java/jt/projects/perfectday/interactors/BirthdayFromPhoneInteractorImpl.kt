@@ -6,8 +6,8 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import jt.projects.model.DataModel
-import jt.projects.perfectday.core.extensions.getAge
-import jt.projects.perfectday.core.extensions.sortListByDateDifferentYear
+import jt.projects.perfectday.core.getAge
+import jt.projects.perfectday.core.sortListByDateDifferentYear
 import java.time.LocalDate
 
 class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {

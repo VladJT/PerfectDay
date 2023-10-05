@@ -1,14 +1,9 @@
 package jt.projects.perfectday.core.extensions
 
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import jt.projects.perfectday.core.translator.GoogleTranslator
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.presentation.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import jt.projects.perfectday.presentation.today.TodayViewModel
 import org.koin.java.KoinJavaComponent.getKoin
 
 
@@ -22,4 +17,9 @@ fun Fragment.navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = 
 
 fun Fragment.editScheduledEvent(id: Int) {
     (requireActivity() as? MainActivity)?.showScheduledEvent(id)
+}
+
+fun reloadAllContent() {
+    getKoin().get<GlobalViewModel>().onSwipeToRefreshMove()
+    getKoin().get<TodayViewModel>().onSwipeToRefreshMove()
 }

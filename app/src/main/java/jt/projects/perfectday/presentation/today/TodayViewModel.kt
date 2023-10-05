@@ -7,7 +7,7 @@ import jt.projects.model.DataModel
 import jt.projects.model.FriendType
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.core.extensions.launchOrError
-import jt.projects.perfectday.core.extensions.sortedByBirthDay
+import jt.projects.perfectday.core.sortedByBirthDay
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.HolidayInteractorImpl

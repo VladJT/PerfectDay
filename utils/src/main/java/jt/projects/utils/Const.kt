@@ -2,6 +2,7 @@ package jt.projects.utils
 
 import java.time.LocalDate
 
+const val ACTIVITY_REQUEST_CODE = 999
 /**
  * URLS
  */
@@ -84,4 +85,5 @@ var chosenCalendarDate: LocalDate = LocalDate.now()
  * DATE_FORMATS
  */
 const val DATE_FORMAT_DAY_MONTH_YEAR = "d.M.yyyy"
+const val DATE_FORMAT_DAY_MONTH_YEAR_RUS = "dd.MM.yyyy"
 const val DATE_FORMAT_DAY_MONTH_ONLY = "dd.MM"

@@ -2,9 +2,9 @@ package jt.projects.perfectday.interactors
 
 import jt.projects.model.DataModel
 import jt.projects.model.VkFriend
-import jt.projects.perfectday.core.extensions.getAge
-import jt.projects.perfectday.core.extensions.tryParseDate
+import jt.projects.perfectday.core.getAge
 import jt.projects.perfectday.core.isPeriodBirthdayDate
+import jt.projects.perfectday.core.tryParseDate
 import jt.projects.repository.network.vk.VkNetworkRepository
 import jt.projects.utils.DATE_FORMAT_DAY_MONTH_ONLY
 import jt.projects.utils.extensions.emptyString

@@ -56,7 +56,8 @@ class TodayFragment : Fragment() {
 
     private fun initProgressBar() {
         viewModel.livedataContentLoaded().observe(viewLifecycleOwner) { contentLoaded ->
-            binding.progressBarLoadingAllContent.isVisible = (contentLoaded != TodayViewModel.TOTAL_CONTENT_COUNT)
+            binding.progressBarLoadingAllContent.isVisible =
+                (contentLoaded != TodayViewModel.TOTAL_CONTENT_COUNT)
         }
     }
 
