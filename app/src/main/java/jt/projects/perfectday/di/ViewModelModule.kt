@@ -11,7 +11,7 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
 
-    viewModel {
+    single {
         TodayViewModel(
             settingsPreferences = get(),
             birthdayFromPhoneInteractor = get(),

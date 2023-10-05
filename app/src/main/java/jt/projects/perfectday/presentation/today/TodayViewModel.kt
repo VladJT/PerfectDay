@@ -59,6 +59,7 @@ class TodayViewModel(
         launchOrError(
             action = {
                 val friends = getAllFriends()
+                delay(2000)
                 _friendsFlow.tryEmit(friends)
             },
             error = { _friendsFlow.tryEmit(listOf(FriendItem.EMPTY)) }

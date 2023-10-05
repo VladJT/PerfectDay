@@ -15,14 +15,17 @@ import com.google.android.material.slider.Slider
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
 import jt.projects.perfectday.R
+import jt.projects.perfectday.core.GlobalViewModel
 import jt.projects.perfectday.core.extensions.navigateToFragment
+import jt.projects.perfectday.core.toStdFormatString
 import jt.projects.perfectday.databinding.FragmentSettingsBinding
+import jt.projects.perfectday.presentation.today.TodayViewModel
 import jt.projects.utils.REMINDER_PERIOD_KEY
 import jt.projects.utils.extensions.showSnackbar
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
-import jt.projects.perfectday.core.toStdFormatString
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
@@ -133,9 +136,16 @@ class SettingsFragment : Fragment() {
                     .collect { (isLoading, isAuthorized) ->
                         setVisibleLoading(isLoading)
                         setVisibleAuthorized(isAuthorized)
+                        // после авторизации или выхода из аккаунта ВК - перезагружаем данные
+                        reloadAllContent()
                     }
             }
         }
+    }
+
+    private fun reloadAllContent() {
+        getKoin().get<GlobalViewModel>().onSwipeToRefreshMove()
+        getKoin().get<TodayViewModel>().onSwipeToRefreshMove()
     }
 
     private fun setVisibleLoading(isLoading: Boolean) {
