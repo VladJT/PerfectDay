@@ -33,11 +33,8 @@ class ScheduledEventInteractorImpl(
             .map { it -> it.sortedBy { it.date } }
     }
 
-    fun getNotesByDate(date: LocalDate): Flow<List<DataModel.ScheduledEvent>> {
-        //  val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-        //  val dateFormat = date.format(formatter)
-        return repository.getNotesByDate(date.toEpochDay())
-    }
+    fun getNotesByDate(date: LocalDate): Flow<List<DataModel.ScheduledEvent>> =
+        repository.getNotesByDate(date.toEpochDay())
 
     suspend fun getNoteById(id: Int): DataModel.ScheduledEvent =
         repository.getNoteById(id)

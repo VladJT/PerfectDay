@@ -6,6 +6,8 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import jt.projects.model.DataModel
+import jt.projects.perfectday.core.extensions.getAge
+import jt.projects.perfectday.core.extensions.sortListByDateDifferentYear
 import java.time.LocalDate
 
 class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
@@ -102,45 +104,6 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
         }
     }
 
-    private fun sortListByDateDifferentYear(
-        returnList: MutableList<DataModel.BirthdayFromPhone>,
-        startIntervalDate: LocalDate
-    ): List<DataModel.BirthdayFromPhone> {
-
-        val thisYearList = mutableListOf<DataModel.BirthdayFromPhone>()
-        val nextYearList = mutableListOf<DataModel.BirthdayFromPhone>()
-
-        returnList.forEach {
-            if (startIntervalDate <= LocalDate.of(
-                    startIntervalDate.year,
-                    it.birthDate.monthValue,
-                    it.birthDate.dayOfMonth
-                )
-            ) {
-                thisYearList.add(it)
-            } else {
-                nextYearList.add(it)
-            }
-        }
-
-        thisYearList.toList().sortedBy {
-            LocalDate.of(
-                LocalDate.now().year,
-                it.birthDate.monthValue,
-                it.birthDate.dayOfMonth
-            )
-        }
-        nextYearList.toList().sortedBy {
-            LocalDate.of(
-                LocalDate.now().year + 1,
-                it.birthDate.monthValue,
-                it.birthDate.dayOfMonth
-            )
-        }
-
-        return thisYearList + nextYearList
-    }
-
     private fun makeBirthdayListByDay(
         prefilteredList: List<DataModel.BirthdayFromPhone>,
         localDate: LocalDate
@@ -218,13 +181,4 @@ class BirthdayFromPhoneInteractorImpl(applicationContext: Context) {
         return returnList
     }
 
-    private fun getAge(localDate: LocalDate): Int {
-        var age = LocalDate.now().year - localDate.year
-        if (localDate.monthValue < LocalDate.now().monthValue ||
-            (localDate.monthValue == LocalDate.now().monthValue && (localDate.dayOfMonth < LocalDate.now().dayOfMonth))
-        ) {
-            age++
-        }
-        return age
-    }
 }

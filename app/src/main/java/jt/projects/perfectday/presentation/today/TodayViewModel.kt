@@ -7,6 +7,7 @@ import jt.projects.model.DataModel
 import jt.projects.model.FriendType
 import jt.projects.perfectday.core.extensions.createMutableSingleEventFlow
 import jt.projects.perfectday.core.extensions.launchOrError
+import jt.projects.perfectday.core.extensions.sortedByBirthDay
 import jt.projects.perfectday.interactors.BirthdayFromPhoneInteractorImpl
 import jt.projects.perfectday.interactors.GetFriendsFromVkUseCase
 import jt.projects.perfectday.interactors.HolidayInteractorImpl
@@ -19,7 +20,6 @@ import jt.projects.utils.extensions.emptyString
 import jt.projects.utils.shared_preferences.SimpleSettingsPreferences
 import jt.projects.utils.shared_preferences.VK_AUTH_TOKEN
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -74,6 +74,13 @@ class TodayViewModel(
         _liveDataContentLoaded.value = 0
         job?.cancel()
         _friendsFlow.tryEmit(loadingFriends)
+        loadHolidays()
+        loadAllFriends()
+        loadFactOfTheDay()
+        loadScheduledEvents()
+    }
+
+    private fun loadHolidays() {
         launchOrError(
             action = {
                 val holiday = holidayInteractor.getCalendarificHolidayByDate(currentDate)
@@ -85,11 +92,12 @@ class TodayViewModel(
                 _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             }
         )
+    }
+
+    private fun loadAllFriends() {
         launchOrError(
             action = {
                 val friends = getAllFriends()
-                // !!!!!!!!!!!!!!!!!!!!!!!!!
-                delay(2000)
                 _friendsFlow.tryEmit(friends)
                 _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             },
@@ -98,6 +106,9 @@ class TodayViewModel(
                 _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             }
         )
+    }
+
+    private fun loadFactOfTheDay() {
         launchOrError(
             action = {
                 val fact = simpleNoticeInteractorImpl.getFactsByDate(currentDate, FACTS_COUNT)
@@ -106,6 +117,9 @@ class TodayViewModel(
             }, error = {
                 _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             })
+    }
+
+    private fun loadScheduledEvents() {
         job = viewModelScope.launch {
             _liveDataContentLoaded.value = _liveDataContentLoaded.value?.plus(1)
             scheduledEventInteractorImpl.getNotesByDate(currentDate)
@@ -128,6 +142,7 @@ class TodayViewModel(
                 addAll(vkFriends.map(::toFriendItem))
                 if (isEmpty()) add(FriendItem.EMPTY)
             }
+            .sortedByBirthDay()
     }
 
     private fun toFriendItem(data: DataModel.BirthdayFromPhone): FriendItem = data.run {

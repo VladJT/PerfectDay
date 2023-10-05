@@ -2,11 +2,14 @@ package jt.projects.perfectday.interactors
 
 import jt.projects.model.DataModel
 import jt.projects.model.VkFriend
-import jt.projects.repository.network.vk.VkNetworkRepository
-import jt.projects.utils.extensions.emptyString
+import jt.projects.perfectday.core.extensions.getAge
+import jt.projects.perfectday.core.extensions.tryParseDate
 import jt.projects.perfectday.core.isPeriodBirthdayDate
-import java.time.*
-import java.time.format.*
+import jt.projects.repository.network.vk.VkNetworkRepository
+import jt.projects.utils.DATE_FORMAT_DAY_MONTH_ONLY
+import jt.projects.utils.extensions.emptyString
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class GetFriendsFromVkUseCase(
     private val vkNetworkRepository: VkNetworkRepository
@@ -25,7 +28,7 @@ class GetFriendsFromVkUseCase(
         userToken: String?,
         date: LocalDate
     ): List<DataModel.BirthdayFromVk> {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM")
+        val formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_DAY_MONTH_ONLY)
         return getAllFriends(userToken)
             .filter { it.birthDate.format(formatter) == date.format(formatter) }
     }
@@ -57,16 +60,6 @@ class GetFriendsFromVkUseCase(
         return result
     }
 
-    private fun tryParseDate(date: String?): LocalDate {
-        if (date == null) return LocalDate.MIN
-
-        return try {
-            LocalDate.parse(date, DateTimeFormatter.ofPattern("d.M.yyyy"))
-        } catch (e: DateTimeParseException) {
-            LocalDate.MIN
-        }
-    }
-
     private fun toBirthdayFromVk(
         friend: VkFriend,
         birthDate: LocalDate
@@ -79,7 +72,4 @@ class GetFriendsFromVkUseCase(
             photoUrl = photoUrl ?: emptyString()
         )
     }
-
-    private fun getAge(birthDate: LocalDate): Int =
-        Period.between(birthDate, LocalDate.now()).years.plus(1)
 }

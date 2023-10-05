@@ -79,3 +79,9 @@ val DEBUG: Boolean = BuildConfig.DEBUG && true
 * CHOSEN DATE VARIABLE
  */
 var chosenCalendarDate: LocalDate = LocalDate.now()
+
+/**
+ * DATE_FORMATS
+ */
+const val DATE_FORMAT_DAY_MONTH_YEAR = "d.M.yyyy"
+const val DATE_FORMAT_DAY_MONTH_ONLY = "dd.MM"
